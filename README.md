@@ -30,7 +30,7 @@ Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a workspace contract for multi-repo setup
 - a CI or release pattern built around `ota`
-- a container-backed execution boundary when host drift is the problem
+- an `ota-execution-mode` boundary when host drift or remote execution is the problem
 
 ## Layout
 
@@ -41,7 +41,7 @@ Use these as starting points when you want:
 
 - `advanced/canonical-team-repo`
 - `advanced/ci`
-- `advanced/container`
+- `advanced/ota-execution-mode`
 - `templates/node-service`
 - `templates/python-service`
 - `advanced/workspace-monorepo`
