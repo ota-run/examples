@@ -65,4 +65,3 @@ agent:
     Start with `ota doctor`, then `ota validate`, then `ota run test`.
     Use `ota tasks` to see available tasks and their descriptions.
     Use `ota run dev` when you are iterating on the service.
-    Use `ota tasks` to see available tasks and their descriptions.
