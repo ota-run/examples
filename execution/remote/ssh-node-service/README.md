@@ -24,7 +24,7 @@
 
 # Node service in Ota remote execution mode
 
-A copyable starting point for a Node service that runs setup and tests on a remote host through Ota.
+A copyable starting point for a Node service that runs setup and tests on a remote host through Ota. It is useful when you want one shared execution target instead of every developer rebuilding the same environment by hand.
 
 ## Why this exists
 
@@ -32,6 +32,8 @@ A copyable starting point for a Node service that runs setup and tests on a remo
 - lets teams run the same repo contract on a remote host without changing task intent
 - gives humans and agents a realistic remote pattern to copy
 - makes shared-host development feel deliberate instead of fragile
+- reduces environment drift by making the remote host part of the contract
+- gives agents a predictable place to run without guessing which machine is safe
 
 ## Use when
 
@@ -39,6 +41,7 @@ A copyable starting point for a Node service that runs setup and tests on a remo
 - the local machine should not own the execution environment
 - you want remote execution to stay reviewable and predictable
 - you want the team to know exactly which host is responsible for execution
+- you want setup and verification to behave the same way for every contributor
 
 ## Try this
 

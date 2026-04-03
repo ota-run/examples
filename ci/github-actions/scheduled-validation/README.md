@@ -24,18 +24,20 @@
 
 # Scheduled validation example
 
-A GitHub Actions example where a scheduled job checks contract health and repo readiness with Ota.
+A GitHub Actions example where a scheduled job checks contract health and repo readiness with Ota. It is the pattern for catching drift before people hit it during the day.
 
 ## Why this exists
 
 - shows how to keep scheduled checks thin
 - makes drift and readiness visible on a timer
 - teaches that Ota can be the same contract path in scheduled CI
+- gives teams a lightweight warning system for repos that quietly get stale
 
 ## Use when
 
 - you want nightly contract validation
 - you want a lightweight recurring health check
+- you want Ota to surface readiness problems before they become release blockers
 
 ## Copy these files
 

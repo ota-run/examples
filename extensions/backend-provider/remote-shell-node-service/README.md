@@ -24,7 +24,7 @@
 
 # Custom remote backend example
 
-Use this example when a repo needs a backend provider that is not one of the built-in remote providers and you still want the execution boundary to stay visible.
+Use this example when a repo needs a backend provider that is not one of the built-in remote providers and you still want the execution boundary to stay visible. It is the right fit when the team needs a custom remote mechanism but does not want to lose the clarity that Ota gives to the rest of the contract.
 
 ## Why this exists
 
@@ -32,6 +32,8 @@ Use this example when a repo needs a backend provider that is not one of the bui
 - shows how a custom backend can stay discoverable without hiding in shell glue
 - gives teams a reference for remote execution under an extension contract
 - makes the execution path understandable to humans and agents instead of requiring tribal knowledge
+- keeps remote behavior reviewable even when the backend itself is custom
+- gives the repo a stable label for a remote backend that would otherwise be hard to explain
 
 ## Use when
 
@@ -39,6 +41,7 @@ Use this example when a repo needs a backend provider that is not one of the bui
 - you want the repo to name its own remote backend
 - you need remote execution behavior to stay visible to humans and agents
 - you want the backend choice to be part of the contract review
+- you want a custom backend without creating a custom story for every contributor
 
 ## Try this
 
