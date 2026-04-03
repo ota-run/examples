@@ -48,6 +48,5 @@ A Jenkins pipeline where Jenkins schedules the job and Ota owns the repo contrac
 ota validate .
 ota run setup
 ota run ci
-ota run version:bump --version patch
 ota run release
 ```

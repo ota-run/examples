@@ -42,6 +42,5 @@ Use this when you want a shared Ota contract pattern for a CI system.
 ```bash
 ota validate .
 ota run ci
-ota run version:bump --version patch
 ota run release
 ```

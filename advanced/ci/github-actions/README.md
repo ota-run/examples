@@ -49,6 +49,5 @@ A release flow example where GitHub Actions stays thin and Ota owns the repo wor
 ota validate .
 ota run setup
 ota run ci
-ota run version:bump --version patch
 ota run release
 ```

@@ -48,6 +48,5 @@ A CircleCI pipeline where the config stays thin and Ota owns repo behavior.
 ota validate .
 ota run setup
 ota run ci
-ota run version:bump --version patch
 ota run release
 ```
