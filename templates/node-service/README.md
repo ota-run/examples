@@ -22,30 +22,26 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# `ota-run/examples`
+# Node service template
 
-Collections of solid, real-world examples you can copy and adapt.
+A copyable starting point for a real Node service repo.
 
-Use these as starting points when you want:
-- a repo contract you can adapt quickly
-- a workspace contract for multi-repo setup
-- a CI or release pattern built around `ota`
+## Why this exists
 
-## Layout
+- gives the repo a clear readiness contract
+- keeps setup, dev, and test behavior explicit
+- makes agent-safe paths and verification visible up front
 
-- `templates/` - starter contracts you can copy into a new repo
-- `advanced/` - production-oriented patterns and workflows
+## Use when
 
-## Current seeds
+- your service uses Node and pnpm
+- you want one contract for humans and agents
+- you want `ota doctor` to explain missing runtime or tool issues clearly
 
-- `templates/node-service`
-- `templates/python-service`
-- `advanced/workspace-monorepo`
-- `advanced/github-actions-release`
+## Try this
 
-## How to use
-
-1. Copy the folder that matches your stack or workflow.
-2. Adjust the contract to your repo.
-3. Run `ota validate .` or `ota doctor`.
-4. Keep the contract and the repo in sync as the project evolves.
+```bash
+ota validate .
+ota doctor
+ota run test
+```

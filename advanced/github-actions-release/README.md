@@ -22,30 +22,26 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# `ota-run/examples`
+# GitHub Actions release example
 
-Collections of solid, real-world examples you can copy and adapt.
+A production-oriented release pattern that uses `ota` as the orchestration entrypoint.
 
-Use these as starting points when you want:
-- a repo contract you can adapt quickly
-- a workspace contract for multi-repo setup
-- a CI or release pattern built around `ota`
+## Why this exists
 
-## Layout
+- keeps CI and release orchestration explicit
+- makes the release path reproducible
+- gives a real example of `ota` driving the workflow
 
-- `templates/` - starter contracts you can copy into a new repo
-- `advanced/` - production-oriented patterns and workflows
+## Use when
 
-## Current seeds
+- you want release automation in GitHub Actions
+- you want a single repo-level orchestration command
+- you want the release path to be visible and auditable
 
-- `templates/node-service`
-- `templates/python-service`
-- `advanced/workspace-monorepo`
-- `advanced/github-actions-release`
+## Try this
 
-## How to use
-
-1. Copy the folder that matches your stack or workflow.
-2. Adjust the contract to your repo.
-3. Run `ota validate .` or `ota doctor`.
-4. Keep the contract and the repo in sync as the project evolves.
+```bash
+ota validate .
+ota run ci
+ota run version:bump --version patch
+```

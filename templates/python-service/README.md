@@ -22,30 +22,26 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# `ota-run/examples`
+# Python service template
 
-Collections of solid, real-world examples you can copy and adapt.
+A copyable starting point for a Python service repo.
 
-Use these as starting points when you want:
-- a repo contract you can adapt quickly
-- a workspace contract for multi-repo setup
-- a CI or release pattern built around `ota`
+## Why this exists
 
-## Layout
+- keeps interpreter and tool expectations explicit
+- gives `ota doctor` enough signal to guide setup
+- makes test and lint entrypoints predictable
 
-- `templates/` - starter contracts you can copy into a new repo
-- `advanced/` - production-oriented patterns and workflows
+## Use when
 
-## Current seeds
+- your repo uses Python and uv
+- you want a clear setup/test loop
+- you want agents to know what is safe to change and verify
 
-- `templates/node-service`
-- `templates/python-service`
-- `advanced/workspace-monorepo`
-- `advanced/github-actions-release`
+## Try this
 
-## How to use
-
-1. Copy the folder that matches your stack or workflow.
-2. Adjust the contract to your repo.
-3. Run `ota validate .` or `ota doctor`.
-4. Keep the contract and the repo in sync as the project evolves.
+```bash
+ota validate .
+ota doctor
+ota run test
+```

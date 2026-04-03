@@ -22,30 +22,28 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# `ota-run/examples`
+# Workspace monorepo example
 
-Collections of solid, real-world examples you can copy and adapt.
+A real workspace blueprint for multi-repo bootstrap and dependency ordering.
 
-Use these as starting points when you want:
-- a repo contract you can adapt quickly
-- a workspace contract for multi-repo setup
-- a CI or release pattern built around `ota`
+## Why this exists
 
-## Layout
+- makes repo acquisition explicit
+- keeps dependent repos from bootstrapping out of order
+- gives you one contract for a multi-repo workspace
 
-- `templates/` - starter contracts you can copy into a new repo
-- `advanced/` - production-oriented patterns and workflows
+## Use when
 
-## Current seeds
+- multiple repos need to be cloned into a workspace
+- one repo depends on another being acquired first
+- you want `ota workspace up` to be the canonical bootstrap path
 
-- `templates/node-service`
-- `templates/python-service`
-- `advanced/workspace-monorepo`
-- `advanced/github-actions-release`
+## Try this
 
-## How to use
-
-1. Copy the folder that matches your stack or workflow.
-2. Adjust the contract to your repo.
-3. Run `ota validate .` or `ota doctor`.
-4. Keep the contract and the repo in sync as the project evolves.
+```bash
+ota workspace validate .
+ota workspace up
+ota workspace status
+ota workspace diff
+ota workspace receipt
+```
