@@ -1,0 +1,112 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: ota-run-examples
+  description: Public examples repo for copyable, real-world Ota adoption patterns
+tasks:
+  validate:
+    run: |
+      python3 - "$PWD" <<'PY'
+      import subprocess
+      import re
+      import sys
+      from pathlib import Path
+
+      root = Path(sys.argv[1])
+      link_re = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
+      skip_prefixes = ('http://', 'https://', 'mailto:', 'tel:', '#', 'file://')
+      errors = []
+
+      subprocess.run(['ota', 'validate', '.'], cwd=root, check=True)
+
+      for file in sorted(root.rglob('ota.yaml')):
+          if file.resolve() == (root / 'ota.yaml').resolve():
+              continue
+          subprocess.run(['ota', 'validate', str(file.parent)], cwd=root, check=True)
+
+      for file in sorted(root.rglob('ota.workspace.yaml')):
+          subprocess.run(['ota', 'workspace', 'validate', str(file.parent)], cwd=root, check=True)
+
+      for md in sorted(root.rglob('*.md')):
+          if '.git' in md.parts or '.idea' in md.parts:
+              continue
+          text = md.read_text(encoding='utf-8')
+          for match in link_re.finditer(text):
+              target = match.group(1).strip()
+              if target.startswith('<') and target.endswith('>'):
+                  target = target[1:-1].strip()
+              if not target or target.startswith(skip_prefixes):
+                  continue
+              target = target.split('#', 1)[0].split('?', 1)[0]
+              if not target:
+                  continue
+              resolved = (md.parent / target).resolve()
+              if not resolved.exists():
+                  errors.append(f'{md.relative_to(root)}: broken local link -> {target}')
+
+      if errors:
+          print('Broken local markdown links:')
+          for error in errors:
+              print(f'- {error}')
+          sys.exit(1)
+      PY
+    notes: |
+      Example: `ota run validate`
+      Use this before opening a pull request.
+      It validates all example contracts, workspace contracts, and local markdown links.
+checks:
+  - name: ota-installed
+    kind: precondition
+    severity: error
+    run: ota --version
+  - name: python-installed
+    kind: precondition
+    severity: error
+    run: python3 --version
+agent:
+  entrypoint: validate
+  default_task: validate
+  safe_tasks:
+    - validate
+  verify_after_changes:
+    - validate
+  writable_paths:
+    - README.md
+    - ci
+    - execution
+    - extensions
+    - reference
+    - templates
+    - workspace
+    - .github/workflows
+    - scripts
+  protected_paths:
+    - ota.yaml
+    - LICENSE
+  notes: |
+    Use Ota first for validation and task execution.
+    Treat the README files as the adoption surface and ota.yaml as the contract.
+    Start with `ota doctor`, then `ota validate`, then `ota tasks`.
+    Use `ota run validate` before opening a pull request.

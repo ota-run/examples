@@ -40,4 +40,4 @@ jobs:
         run: curl -fsSL https://dist.ota.run/install.sh | sh
 
       - name: Validate examples repo
-        run: ./scripts/validate.sh
+        run: ota run validate

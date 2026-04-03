@@ -63,7 +63,7 @@ Use these as starting points when you want:
 
 ## Validate this repo
 
-Run `./scripts/validate.sh` before opening a pull request.
+Run `ota run validate` before opening a pull request.
 
 ## What these examples are teaching
 
