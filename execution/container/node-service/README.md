@@ -31,12 +31,14 @@ A copyable starting point for a Node service that runs setup and tests in Ota co
 - keeps local and CI runtime behavior aligned
 - makes the execution boundary obvious
 - gives `ota doctor` and `ota run` a stable path
+- helps a team standardize Node setup without turning the README into a shell-script graveyard
 
 ## Use when
 
 - host setup drifts from CI
 - you want everyone to run the same container image
 - you want Ota to orchestrate container-backed setup and verification
+- you want the first commands to work the same way on every machine
 
 ## Try this
 

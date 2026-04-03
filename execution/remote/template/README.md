@@ -31,16 +31,17 @@ Use this template when a repo should keep its contract local, but run setup and 
 - keeps execution location explicit instead of hidden in shell scripts
 - lets teams use a shared dev box, sandbox, or remote host without changing task intent
 - keeps humans and agents on the same repo contract
+- makes remote execution something Ota can describe and validate, not just tolerate
 
 ## When to use it
 
 - the local machine is not the right execution location
 - you want remote execution to be part of the contract review
 - the repo needs repeatable setup and verification on a remote target
+- you need the environment to be shared but still want the repo to stay the source of truth
 
 ## What this teaches
 
 - how to keep `execution.preferred: remote` explicit
 - how to keep the remote provider, target, and working directory in the contract
 - how to keep task guidance close to the task itself
-

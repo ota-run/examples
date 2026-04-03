@@ -31,12 +31,14 @@ Use this when the repo should run setup and verification through Ota container m
 - avoids host-specific drift
 - keeps dependency install and test behavior reproducible
 - gives agents one explicit execution path
+- makes the environment part of the contract so contributors do not have to guess what “ready” means
 
 ## Use when
 
 - local and CI environments should match
 - the toolchain is easier to standardize inside a container
 - you want the container to be the execution boundary, not the source of truth
+- you want every new contributor to start from the same runtime instead of recreating one
 
 ## Try this
 

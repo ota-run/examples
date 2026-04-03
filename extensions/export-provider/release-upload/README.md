@@ -24,25 +24,31 @@
 
 # Release upload extension example
 
-Use this example when a repo needs a named export adapter for release artifacts.
+Use this example when a repo needs to move release artifacts to another system and you want the publish path to stay explicit, reviewable, and repeatable. It is the pattern for teams that want release uploads to feel deliberate instead of improvised.
 
 ## Why this exists
 
-- keeps release publishing explicit and contract-backed
-- gives teams one adapter name to review and run
-- lets humans and agents see where release data leaves the repo
+- keeps artifact publication explicit and contract-backed
+- gives teams one adapter name to review, run, and gate
+- lets humans and agents see exactly where release data leaves the repo
+- keeps Ota in the release path so publish steps stay repeatable after `ota validate`
+- makes release handoff visible instead of burying it in shell glue or one-off upload scripts
+- gives teams one place to decide when artifacts are allowed to leave the repo
+- makes it obvious what is being uploaded, where it goes, and which task is responsible
 
 ## Use when
 
-- the repo publishes build artifacts through a standard adapter
+- the repo publishes build artifacts to object storage, an internal API, or another release system
 - you want export behavior to stay discoverable through `ota extensions`
-- you want release handoff to remain explicit
+- you want release handoff to remain explicit and reviewable
+- you want Ota to control when release export is allowed
+- you need a clean audit trail for what was published and why
 
 ## Try this
 
 ```bash
 ota doctor
 ota validate .
+ota run test
 ota extensions --publish release-upload
 ```
-

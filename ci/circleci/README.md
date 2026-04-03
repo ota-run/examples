@@ -24,18 +24,20 @@
 
 # CircleCI example
 
-A CircleCI pipeline where the config stays thin and Ota owns repo behavior.
+Use this when CircleCI is the runner but you do not want CI behavior to live in pipeline glue.
 
 ## Why this exists
 
 - keeps the CircleCI config small
 - shows how Ota fits into a different runner
 - teaches the same contract-driven workflow across providers
+- makes validation and release behavior repeatable across teams
 
 ## Use when
 
 - you run CI in CircleCI
 - you want a provider-specific example with the same Ota contract
+- you want to avoid duplicating repo logic across pipeline files
 
 ## Copy these files
 

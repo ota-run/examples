@@ -24,13 +24,14 @@
 
 # Ota execution mode examples
 
-Use this theme when Ota should run repo tasks through a backend boundary instead of only on the local host.
+Use this theme when Ota should run repo tasks through a backend boundary instead of only on the local host. It is the right fit when local setup drifts, shared infrastructure is already available, or you want the execution environment to be part of the contract instead of an assumption.
 
 ## Why this exists
 
 - shows when execution boundaries matter more than local convenience
 - keeps task intent stable while the runner changes
 - gives humans and agents one place to learn backend-backed execution patterns
+- makes the same repo feel predictable whether it runs in a container or on a remote host
 
 ## What this teaches
 

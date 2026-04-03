@@ -24,7 +24,7 @@
 
 # `ota-run/examples`
 
-Collections of solid, real-world examples you can copy, adapt, and read as workflow guides.
+Collections of solid, real-world examples you can copy, adapt, and use to see how Ota removes hidden setup, repeated explanations, and brittle workflow glue.
 
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
@@ -56,7 +56,7 @@ Use these as starting points when you want:
 ## How to use
 
 1. Pick the folder that matches the problem you are solving.
-2. Read that folder's `README.md` first.
+2. Read that folder's `README.md` first to understand why the pattern exists.
 3. Open its `ota.yaml` for the exact contract and task notes.
 4. Copy only the files you need.
 5. Run `ota validate .` or `ota workspace validate .` before you ship the pattern.

@@ -24,18 +24,20 @@
 
 # GitHub Actions CI example
 
-A release flow example where GitHub Actions stays thin and Ota owns the repo work.
+Use this when your team already trusts GitHub Actions for scheduling and secrets, but you want Ota to own the repo work, validation, and release intent.
 
 ## Why this exists
 
 - keeps CI orchestration explicit
 - makes setup and release behavior reproducible
 - shows the clean boundary between the runner and the contract
+- prevents workflow drift from turning into repo drift
 
 ## Use when
 
 - you want GitHub Actions as the runner
 - you want Ota to own validation, setup, and release intent
+- you want the workflow file to stay small and readable while the contract stays authoritative
 
 ## Copy these files
 

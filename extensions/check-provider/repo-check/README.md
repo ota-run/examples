@@ -24,19 +24,21 @@
 
 # Repo check extension example
 
-Use this example when a repo needs a named validation adapter that belongs in the contract.
+Use this example when a repo has a repeatable validation step that should be named, reviewed, and run through Ota instead of hiding in shell scripts.
 
 ## Why this exists
 
 - keeps repo-specific validation explicit and reviewable
 - gives teams one adapter name to inspect and run
 - lets humans and agents see that extra checks are part of the repo contract
+- makes the check easy to trust because the adapter is named and the purpose is clear
 
 ## Use when
 
 - the repo has a repeatable check that is not just a shell script
 - you want the check to be discoverable through `ota extensions`
 - you want the adapter boundary to be obvious to contributors
+- you want a validation step that feels part of the contract, not a hidden convention
 
 ## Try this
 
@@ -45,4 +47,3 @@ ota doctor
 ota validate .
 ota extensions --run repo-check
 ```
-

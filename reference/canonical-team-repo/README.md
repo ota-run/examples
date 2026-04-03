@@ -24,7 +24,7 @@
 
 # Canonical advanced repo
 
-This is the advanced example you fork when you want Ota to be part of the repo operating model, not a side note.
+This is the advanced example you fork when you want Ota to be part of the repo operating model, not a side note, and you want that operating model to be easy to hand to another team or an agent. It is the strongest “this is how a serious repo works” example in the set.
 
 ## What this teaches
 
@@ -32,6 +32,8 @@ This is the advanced example you fork when you want Ota to be part of the repo o
 - how to give humans and agents the same operational context
 - how to keep setup, validation, release, and handoff close to execution
 - how to reduce repeated explanations with structured docs
+- how to turn repo conventions into something people can trust and reuse
+- how to make the repo itself explain the operating model
 
 ## Read this first
 
@@ -52,3 +54,4 @@ This is the advanced example you fork when you want Ota to be part of the repo o
 - you want a serious starting point, not a toy example
 - you need a shared language for humans and AI agents
 - you want to teach good Ota usage through the repo shape itself
+- you want a repo that feels production-adjacent from the first read

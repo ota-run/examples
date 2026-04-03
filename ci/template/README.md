@@ -24,18 +24,20 @@
 
 # CI template
 
-Use this when you want a shared Ota contract pattern for a CI system.
+Use this when you want a shared Ota contract pattern for a CI system that you can copy into GitHub Actions, Jenkins, or CircleCI without rewriting the contract.
 
 ## Why this exists
 
 - keeps `ota.yaml` consistent across providers
 - shows the same repo flow regardless of CI runner
 - makes the contract easy to copy into a real repo
+- gives teams one place to review validation, setup, and release intent
 
 ## Use when
 
 - you want a provider-neutral baseline
 - you want to teach the Ota contract before the workflow wrapper
+- you want the same release shape even if the CI runner changes later
 
 ## Try this
 

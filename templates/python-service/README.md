@@ -24,19 +24,22 @@
 
 # Python service template
 
-A copyable starting point for a Python service repo.
+A copyable starting point for a Python service repo that needs explicit runtime expectations and a clean setup loop.
 
 ## Why this exists
 
 - keeps interpreter and tool expectations explicit
 - gives `ota doctor` enough signal to guide setup
 - makes test and lint entrypoints predictable
+- helps a Python team avoid “works on my machine” setup drift
+- makes the environment explain itself before the first command runs
 
 ## Use when
 
 - your repo uses Python and uv
 - you want a clear setup/test loop
 - you want agents to know what is safe to change and verify
+- you want the repo to explain its own environment instead of relying on a README paragraph somewhere else
 
 ## Try this
 

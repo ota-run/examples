@@ -24,19 +24,22 @@
 
 # Node service template
 
-A copyable starting point for a real Node service repo.
+A copyable starting point for a real Node service repo that needs a clear contract, predictable setup, and a trustworthy `ota doctor` experience.
 
 ## Why this exists
 
 - gives the repo a clear readiness contract
 - keeps setup, dev, and test behavior explicit
 - makes agent-safe paths and verification visible up front
+- helps a Node team standardize the first repo experience instead of rediscovering it in every project
+- makes the first repo setup feel repeatable instead of tribal
 
 ## Use when
 
 - your service uses Node and pnpm
 - you want one contract for humans and agents
 - you want `ota doctor` to explain missing runtime or tool issues clearly
+- you want setup and verification to feel repeatable across machines
 
 ## Try this
 

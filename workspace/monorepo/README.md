@@ -24,13 +24,16 @@
 
 # Workspace monorepo example
 
-A real workspace blueprint for multi-repo bootstrap and dependency ordering.
+A real workspace blueprint for multi-repo bootstrap and dependency ordering when several repos need to become ready together. Use it when you want Ota to remove the guessing around which repo comes first and which repos are safe to prepare together.
 
 ## Why this exists
 
 - makes repo acquisition explicit
 - keeps dependent repos from bootstrapping out of order
 - gives you one contract for a multi-repo workspace
+- helps teams stop guessing which repo should be cloned first
+- keeps workspace setup repeatable for humans and agents
+- makes workspace bootstrap feel like a planned system instead of a manual checklist
 
 ## What this teaches
 
@@ -38,13 +41,14 @@ A real workspace blueprint for multi-repo bootstrap and dependency ordering.
 - `depends_on` keeps workspace bootstrap order explicit
 - `ota workspace up` acquires and prepares repos
 - `ota workspace tasks` shows workspace tasks and dependency order
-- after bootstrap, `ota workspace status`, `ota workspace diff`, and `ota workspace receipt` show readiness and drift
+- after bootstrap, `ota workspace status`, `ota workspace diff`, and `ota workspace receipt` help inspect readiness and drift without changing anything
 
 ## Use when
 
 - multiple repos need to be cloned into a workspace
 - one repo depends on another being acquired first
 - you want `ota workspace up` to be the canonical bootstrap path
+- you want workspace bootstrap to be explicit enough that new contributors do not need tribal knowledge
 
 ## Try this
 

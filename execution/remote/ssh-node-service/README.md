@@ -31,12 +31,14 @@ A copyable starting point for a Node service that runs setup and tests on a remo
 - keeps the execution boundary explicit instead of hiding it in ad hoc scripts
 - lets teams run the same repo contract on a remote host without changing task intent
 - gives humans and agents a realistic remote pattern to copy
+- makes shared-host development feel deliberate instead of fragile
 
 ## Use when
 
 - the repo should run on a team host or sandbox
 - the local machine should not own the execution environment
 - you want remote execution to stay reviewable and predictable
+- you want the team to know exactly which host is responsible for execution
 
 ## Try this
 
@@ -46,4 +48,3 @@ ota validate .
 ota run setup
 ota run test
 ```
-

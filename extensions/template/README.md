@@ -24,23 +24,24 @@
 
 # Ota extension template
 
-Use this template when a repo needs adapter descriptors but should keep the explanation short and local.
+Use this template when a repo needs adapter descriptors but should keep the explanation short, local, and easy to trust.
 
 ## Why this exists
 
 - keeps extension intent explicit in the contract
 - gives teams a copyable pattern for check, export, and backend adapters
 - keeps the README focused on why the repo needs the extension surface
+- makes adapter behavior reviewable without forcing readers through framework noise
 
 ## Use when
 
 - you want to introduce adapter contracts without extra framework noise
 - you need a clean starting point for repo-specific extension metadata
 - you want humans and agents to see the adapter boundary quickly
+- you want the repo to explain the adapter's job before the task runs
 
 ## What this teaches
 
 - how to declare `extensions` with a clear kind
 - how to keep task guidance on the task itself
 - how to keep adapter names and commands obvious
-

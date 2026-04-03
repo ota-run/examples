@@ -24,19 +24,22 @@
 
 # Ota extension examples
 
-Use this theme when a repo needs explicit adapters for checks, exports, or custom remote execution.
+Use this theme when a repo needs explicit adapters for checks, exports, or custom remote execution and you want those boundaries to stay visible in the contract. This is the right fit when ad hoc scripts are no longer enough because the team needs a named, reviewable adapter with a clear job.
 
 ## Why this exists
 
 - keeps adapter intent in the contract instead of hiding it in scripts
 - gives humans a clear place to review repo-specific integration points
 - gives agents structured context for the extra behavior around the core contract
+- makes custom behavior part of the repo story instead of a side channel
+- turns special-case behavior into something the whole team can inspect, run, and trust
 
 ## When to use it
 
 - a repo needs a custom check or export adapter
 - a repo wants a custom remote execution backend
 - you want adapter boundaries to stay reviewable and explicit
+- you want the repo to explain why the adapter exists, not just that it exists
 
 ## What this teaches
 
@@ -61,4 +64,3 @@ Use this theme when a repo needs explicit adapters for checks, exports, or custo
 ## Rule
 
 Keep adapter metadata in `ota.yaml` and keep the README at the use-case level.
-

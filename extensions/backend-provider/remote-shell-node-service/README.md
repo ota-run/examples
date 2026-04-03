@@ -24,19 +24,21 @@
 
 # Custom remote backend example
 
-Use this example when a repo needs a backend provider that is not one of the built-in remote providers.
+Use this example when a repo needs a backend provider that is not one of the built-in remote providers and you still want the execution boundary to stay visible.
 
 ## Why this exists
 
 - keeps the remote execution seam explicit in the contract
 - shows how a custom backend can stay discoverable without hiding in shell glue
 - gives teams a reference for remote execution under an extension contract
+- makes the execution path understandable to humans and agents instead of requiring tribal knowledge
 
 ## Use when
 
 - the built-in remote providers are not enough
 - you want the repo to name its own remote backend
 - you need remote execution behavior to stay visible to humans and agents
+- you want the backend choice to be part of the contract review
 
 ## Try this
 
@@ -46,4 +48,3 @@ ota validate .
 ota run setup
 ota run test
 ```
-

@@ -24,18 +24,20 @@
 
 # Jenkins CI example
 
-A Jenkins pipeline where Jenkins schedules the job and Ota owns the repo contract.
+Use this when Jenkins is already your execution layer, but the repo contract should still live in Ota.
 
 ## Why this exists
 
 - keeps the pipeline explicit
 - shows how Jenkins can stay thin
 - teaches a reusable release pattern with Ota in the middle
+- makes setup and release behavior visible instead of buried in Jenkinsfile logic
 
 ## Use when
 
 - you run CI or release jobs in Jenkins
 - you want the repo contract to remain the source of truth
+- you want a pipeline that is easy to review and hard to misread
 
 ## Copy these files
 

@@ -24,7 +24,9 @@
 
 # CI examples
 
-This theme shows how serious teams keep CI thin while Ota owns repo truth, setup, and release logic.
+Use this theme when you want CI to stay thin while Ota owns repo truth, setup, and release logic. It is the clean choice when workflows keep drifting, release steps are getting copied between providers, or you want one contract that survives runner changes.
+
+This matters when pipeline steps drift across providers, release behavior gets copied into shell scripts, or different runners need the same repo contract without extra explanation.
 
 ## What this teaches
 
@@ -32,6 +34,8 @@ This theme shows how serious teams keep CI thin while Ota owns repo truth, setup
 - Ota decides what the repo needs
 - the contract stays close to execution
 - provider-specific YAML stays thin and explicit
+- release intent stays reviewable instead of hiding in ad hoc glue
+- teams can keep the same release shape across GitHub Actions, Jenkins, and CircleCI
 
 ## Folders
 
