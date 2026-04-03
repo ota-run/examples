@@ -38,7 +38,7 @@ A real workspace blueprint for multi-repo bootstrap and dependency ordering.
 - `depends_on` keeps workspace bootstrap order explicit
 - `ota workspace up` acquires and prepares repos
 - `ota workspace tasks` shows workspace tasks and dependency order
-- `ota workspace status`, `diff`, and `receipt` tell you what changed and what is ready
+- after bootstrap, `ota workspace status`, `ota workspace diff`, and `ota workspace receipt` show readiness and drift
 
 ## Use when
 
@@ -50,6 +50,8 @@ A real workspace blueprint for multi-repo bootstrap and dependency ordering.
 
 ```bash
 ota workspace validate .
+ota workspace doctor .
+ota workspace tasks .
 ota workspace up
 ota workspace status
 ota workspace diff

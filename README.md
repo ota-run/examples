@@ -42,22 +42,22 @@ Use these as starting points when you want:
 - `workspace/` - multi-repo workspace patterns
 - `reference/` - canonical, production-adjacent repo examples
 
-## Example folders
+## Choose by problem
 
-- `reference/canonical-team-repo`
-- `ci`
-- `extensions`
-- `execution`
-- `templates/node-service`
-- `templates/python-service`
-- `workspace/monorepo`
+- First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
+- CI and release flow: [`ci`](ci)
+- Container or remote execution: [`execution`](execution)
+- Custom adapters and backend providers: [`extensions`](extensions)
+- Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
+- Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo)
 
 ## How to use
 
-1. Copy the folder that matches your stack or workflow.
-2. Adjust the contract to your repo.
-3. Run `ota validate .` or `ota doctor`.
-4. Keep the contract and the repo in sync as the project evolves.
+1. Pick the folder that matches the problem you are solving.
+2. Read that folder's `README.md` first.
+3. Open its `ota.yaml` for the exact contract and task notes.
+4. Copy only the files you need.
+5. Run `ota validate .` or `ota workspace validate .` before you ship the pattern.
 
 ## Validate this repo
 
