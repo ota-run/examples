@@ -36,10 +36,14 @@ tasks:
     run: pnpm dev
     depends_on:
       - setup
+    notes: |
+      Use this when you are iterating locally.
   test:
     run: pnpm test
     depends_on:
       - setup
+    notes: |
+      Run this after code changes.
 checks:
   - name: node-installed
     kind: precondition
@@ -64,4 +68,3 @@ agent:
     Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.
     Start with `ota doctor`, then `ota validate`, then `ota run test`.
     Use `ota tasks` to see available tasks and their descriptions.
-    Use `ota run dev` when you are iterating on the service.

@@ -32,16 +32,24 @@ tools:
 tasks:
   setup:
     run: pnpm install
+    notes: |
+      Run this before either matrix target.
   test:web:
     run: pnpm run test:web
     depends_on:
       - setup
+    notes: |
+      Use this for the web split.
   test:api:
     run: pnpm run test:api
     depends_on:
       - setup
+    notes: |
+      Use this for the API split.
   ci:
     run: pnpm run ci
+    notes: |
+      Use this after both matrix targets pass.
 checks:
   - name: node-installed
     kind: precondition
@@ -67,5 +75,3 @@ agent:
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way GitHub Actions is the default runner for CI fan-out.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
-    Use `ota run setup` before running either matrix target.
-    Use `ota run test:web` and `ota run test:api` as the explicit split test paths.

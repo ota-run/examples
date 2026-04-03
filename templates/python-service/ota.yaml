@@ -36,10 +36,14 @@ tasks:
     run: uv run pytest
     depends_on:
       - setup
+    notes: |
+      Run this after code changes.
   lint:
     run: uv run ruff check .
     depends_on:
       - setup
+    notes: |
+      Use this when you touch application code.
 checks:
   - name: python-installed
     kind: precondition
@@ -65,4 +69,3 @@ agent:
     Treat Ota as the default workflow for this repo, the way uv is the default package workflow in a Python service.
     Start with `ota doctor`, then `ota validate`, then `ota run test`.
     Use `ota tasks` to see available tasks and their descriptions.
-    Use `ota run lint` when you touch application code.

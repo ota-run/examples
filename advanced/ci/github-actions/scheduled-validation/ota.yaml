@@ -32,12 +32,18 @@ tools:
 tasks:
   setup:
     run: pnpm install
+    notes: |
+      Run this before the scheduled checks.
   ci:
     run: pnpm run ci
+    notes: |
+      Use this for the scheduled validation job.
   docs:check:
     run: pnpm run docs:check
     depends_on:
       - setup
+    notes: |
+      Use this when the scheduled job is meant to catch docs drift.
 checks:
   - name: node-installed
     kind: precondition
@@ -64,4 +70,3 @@ agent:
     Treat Ota as the default workflow for this repo, the way GitHub Actions is the default runner for scheduled validation.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
     Use `ota run setup` before `ota run ci`.
-    Use `ota run docs:check` when the scheduled job is meant to catch docs drift.
