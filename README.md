@@ -59,6 +59,10 @@ Use these as starting points when you want:
 3. Run `ota validate .` or `ota doctor`.
 4. Keep the contract and the repo in sync as the project evolves.
 
+## Validate this repo
+
+Run `./scripts/validate.sh` before opening a pull request.
+
 ## What these examples are teaching
 
 - the repo shape and use-case for each example
