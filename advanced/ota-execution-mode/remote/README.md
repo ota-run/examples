@@ -43,3 +43,8 @@ Use this theme when Ota should run repo tasks on a remote target instead of the 
 - how to keep execution intent explicit
 - how to keep remote targets understandable to humans and agents
 - how to preserve one repo contract across multiple execution locations
+
+## Folders
+
+- `template/` - remote execution template
+- `node-service/` - Node service remote execution example
