@@ -24,7 +24,7 @@
 
 # GitHub Actions CI example
 
-Use this when your team already trusts GitHub Actions for scheduling and secrets, but you want Ota to own the repo work, validation, and release intent.
+Use this when your team already trusts GitHub Actions for scheduling and secrets, but you want ota to own the repo work, validation, and release intent.
 
 ## Why this exists
 
@@ -36,7 +36,7 @@ Use this when your team already trusts GitHub Actions for scheduling and secrets
 ## Use when
 
 - you want GitHub Actions as the runner
-- you want Ota to own validation, setup, and release intent
+- you want ota to own validation, setup, and release intent
 - you want the workflow file to stay small and readable while the contract stays authoritative
 
 ## Copy these files

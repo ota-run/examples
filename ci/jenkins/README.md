@@ -24,13 +24,13 @@
 
 # Jenkins CI example
 
-Use this when Jenkins is already your execution layer, but the repo contract should still live in Ota.
+Use this when Jenkins is already your execution layer, but the repo contract should still live in ota.
 
 ## Why this exists
 
 - keeps the pipeline explicit
 - shows how Jenkins can stay thin
-- teaches a reusable release pattern with Ota in the middle
+- teaches a reusable release pattern with ota in the middle
 - makes setup and release behavior visible instead of buried in Jenkinsfile logic
 
 ## Use when

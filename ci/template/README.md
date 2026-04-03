@@ -24,7 +24,7 @@
 
 # CI template
 
-Use this when you want a shared Ota contract pattern for a CI system that you can copy into GitHub Actions, Jenkins, or CircleCI without rewriting the contract.
+Use this when you want a shared ota contract pattern for a CI system that you can copy into GitHub Actions, Jenkins, or CircleCI without rewriting the contract.
 
 ## Why this exists
 
@@ -36,7 +36,7 @@ Use this when you want a shared Ota contract pattern for a CI system that you ca
 ## Use when
 
 - you want a provider-neutral baseline
-- you want to teach the Ota contract before the workflow wrapper
+- you want to teach the ota contract before the workflow wrapper
 - you want the same release shape even if the CI runner changes later
 
 ## Try this

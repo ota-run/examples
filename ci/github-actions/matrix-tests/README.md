@@ -24,13 +24,13 @@
 
 # GitHub Actions matrix tests
 
-A GitHub Actions example where Ota owns the repo contract and the workflow fans out the test targets.
+A GitHub Actions example where ota owns the repo contract and the workflow fans out the test targets.
 
 ## Why this exists
 
 - shows a real matrix pattern without losing contract clarity
 - keeps each job explicit and repeatable
-- teaches how to split tests by target while keeping Ota in control
+- teaches how to split tests by target while keeping ota in control
 
 ## Use when
 

@@ -24,7 +24,7 @@
 
 # Repo check extension example
 
-Use this example when a repo has a repeatable validation step that should be named, reviewed, and run through Ota instead of hiding in shell scripts.
+Use this example when a repo has a repeatable validation step that should be named, reviewed, and run through ota instead of hiding in shell scripts.
 
 ## Why this exists
 

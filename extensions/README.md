@@ -22,7 +22,7 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota extension examples
+# ota extension examples
 
 Use this theme when a repo needs explicit adapters for checks, exports, or custom remote execution and you want those boundaries to stay visible in the contract. This is the right fit when ad hoc scripts are no longer enough because the team needs a named, reviewable adapter with a clear job.
 

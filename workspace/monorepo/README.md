@@ -24,7 +24,7 @@
 
 # Workspace monorepo example
 
-A real workspace blueprint for multi-repo bootstrap and dependency ordering when several repos need to become ready together. Use it when you want Ota to remove the guessing around which repo comes first and which repos are safe to prepare together.
+A real workspace blueprint for multi-repo bootstrap and dependency ordering when several repos need to become ready together. Use it when you want ota to remove the guessing around which repo comes first and which repos are safe to prepare together.
 
 ## Why this exists
 

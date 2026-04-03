@@ -24,14 +24,14 @@
 
 # CI examples
 
-Use this theme when you want CI to stay thin while Ota owns repo truth, setup, and release logic. It is the clean choice when workflows keep drifting, release steps are getting copied between providers, or you want one contract that survives runner changes.
+Use this theme when you want CI to stay thin while ota owns repo truth, setup, and release logic. It is the clean choice when workflows keep drifting, release steps are getting copied between providers, or you want one contract that survives runner changes.
 
 This matters when pipeline steps drift across providers, release behavior gets copied into shell scripts, or different runners need the same repo contract without extra explanation.
 
 ## What this teaches
 
 - the CI system decides when to run
-- Ota decides what the repo needs
+- ota decides what the repo needs
 - the contract stays close to execution
 - provider-specific YAML stays thin and explicit
 - release intent stays reviewable instead of hiding in ad hoc glue
@@ -55,4 +55,4 @@ This matters when pipeline steps drift across providers, release behavior gets c
 ## Rule
 
 Keep CI orchestration in the provider file and repo truth in `ota.yaml`.
-Install Ota explicitly in each workflow run; do not conditionally skip the install step based on a preinstalled binary.
+Install ota explicitly in each workflow run; do not conditionally skip the install step based on a preinstalled binary.

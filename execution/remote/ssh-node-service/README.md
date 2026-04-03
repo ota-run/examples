@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Node service in Ota remote execution mode
+# Node service in ota remote execution mode
 
-A copyable starting point for a Node service that runs setup and tests on a remote host through Ota. It is useful when you want one shared execution target instead of every developer rebuilding the same environment by hand.
+A copyable starting point for a Node service that runs setup and tests on a remote host through ota. It is useful when you want one shared execution target instead of every developer rebuilding the same environment by hand.
 
 ## Why this exists
 

@@ -21,13 +21,13 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-# Ota OS-aware execution examples
+# ota OS-aware execution examples
 
 Use this theme when the repo means the same thing everywhere, but the launcher, shell, or platform-specific command syntax does not. It keeps OS decisions explicit in the contract instead of burying them in ad hoc scripts.
 
 ## Why this exists
 
-- shows how Ota handles real cross-platform differences without changing task meaning
+- shows how ota handles real cross-platform differences without changing task meaning
 - keeps Windows and Unix launcher choices visible to humans and agents
 - reduces the chance that platform-specific shell assumptions leak into repo logic
 - makes the execution path more predictable when teams or CI run on different operating systems

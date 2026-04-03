@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota container template
+# ota container template
 
-Use this when the repo should run setup and verification through Ota container mode.
+Use this when the repo should run setup and verification through ota container mode.
 
 ## Why this exists
 

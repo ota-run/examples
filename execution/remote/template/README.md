@@ -22,7 +22,7 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota remote execution template
+# ota remote execution template
 
 Use this template when a repo should keep its contract local, but run setup and verification on a remote target. It is useful when the environment is shared, the local machine is not the right place to execute, or you want the remote boundary to stay visible in the repo itself.
 
@@ -31,7 +31,7 @@ Use this template when a repo should keep its contract local, but run setup and 
 - keeps execution location explicit instead of hidden in shell scripts
 - lets teams use a shared dev box, sandbox, or remote host without changing task intent
 - keeps humans and agents on the same repo contract
-- makes remote execution something Ota can describe and validate, not just tolerate
+- makes remote execution something ota can describe and validate, not just tolerate
 - reduces “works on my machine” problems by making the execution site part of the contract
 - gives teams a reusable pattern for predictable remote automation
 

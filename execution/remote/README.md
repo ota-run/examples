@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota remote execution mode examples
+# ota remote execution mode examples
 
-Use this theme when Ota should run repo tasks on a remote target instead of the local machine.
+Use this theme when ota should run repo tasks on a remote target instead of the local machine.
 
 ## Why this exists
 
@@ -36,7 +36,7 @@ Use this theme when Ota should run repo tasks on a remote target instead of the 
 
 - the work should run on a team dev box, sandbox, or remote host
 - the local machine is not the right execution location
-- you want the remote boundary to be part of the Ota contract
+- you want the remote boundary to be part of the ota contract
 
 ## What this teaches
 

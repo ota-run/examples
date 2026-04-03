@@ -24,7 +24,7 @@
 
 # Custom remote backend example
 
-Use this example when a repo needs a backend provider that is not one of the built-in remote providers and you still want the execution boundary to stay visible. It is the right fit when the team needs a custom remote mechanism but does not want to lose the clarity that Ota gives to the rest of the contract.
+Use this example when a repo needs a backend provider that is not one of the built-in remote providers and you still want the execution boundary to stay visible. It is the right fit when the team needs a custom remote mechanism but does not want to lose the clarity that ota gives to the rest of the contract.
 
 ## Why this exists
 

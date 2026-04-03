@@ -22,7 +22,7 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota extension template
+# ota extension template
 
 Use this template when a repo needs adapter descriptors but should keep the explanation short, local, and easy to trust.
 

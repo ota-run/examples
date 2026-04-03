@@ -22,14 +22,14 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Node service in Ota remote execution mode
+# Node service in ota remote execution mode
 
 Use this example when a Node service should run on a remote host, but the repo still needs a clear, local contract.
 
 ## Why this exists
 
 - keeps the service workflow explicit when the execution location is not local
-- shows how a remote dev box or sandbox can stay under the same Ota contract
+- shows how a remote dev box or sandbox can stay under the same ota contract
 - gives teams a realistic pattern for remote setup and verification
 
 ## When to use it

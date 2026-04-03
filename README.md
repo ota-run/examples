@@ -24,7 +24,7 @@
 
 # `ota-run/examples`
 
-Collections of solid, real-world examples you can copy, adapt, and use to see how Ota removes hidden setup, repeated explanations, and brittle workflow glue.
+Collections of solid, real-world examples you can copy, adapt, and use to see how ota removes hidden setup, repeated explanations, and brittle workflow glue.
 
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
@@ -42,6 +42,7 @@ Use these as starting points when you want:
 - `execution/os-aware/` - OS-specific launcher examples
 - `extensions/` - check, export, and backend adapter patterns
 - `workspace/` - multi-repo workspace patterns
+- `workspace/adoption-flow/` - workspace onboarding and first-week adoption pattern
 - `reference/` - canonical, production-adjacent repo examples
 
 ## Choose by problem
@@ -53,6 +54,7 @@ Use these as starting points when you want:
 - OS-specific launchers or platform branching: [`execution/os-aware`](execution/os-aware)
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
+- Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo)
 
 ## How to use

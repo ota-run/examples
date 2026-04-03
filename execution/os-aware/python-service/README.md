@@ -23,7 +23,7 @@
 
 # Python service with OS-specific task variants
 
-This example shows how Ota keeps one repo contract stable while selecting the right launcher for each operating system. Use it when the task meaning is the same everywhere, but the command you must run is not.
+This example shows how ota keeps one repo contract stable while selecting the right launcher for each operating system. Use it when the task meaning is the same everywhere, but the command you must run is not.
 
 ## Why this matters
 
@@ -56,7 +56,7 @@ This example shows how Ota keeps one repo contract stable while selecting the ri
 
 ## What to expect
 
-- Ota keeps the task names stable
+- ota keeps the task names stable
 - Windows uses `py -3`
 - Unix-like systems use `python3`
 - the contract stays readable even when the launcher changes

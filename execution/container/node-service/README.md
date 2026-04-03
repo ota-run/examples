@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Node service in Ota container mode
+# Node service in ota container mode
 
-A copyable starting point for a Node service that runs setup and tests in Ota container mode.
+A copyable starting point for a Node service that runs setup and tests in ota container mode.
 
 ## Why this exists
 
@@ -37,7 +37,7 @@ A copyable starting point for a Node service that runs setup and tests in Ota co
 
 - host setup drifts from CI
 - you want everyone to run the same container image
-- you want Ota to orchestrate container-backed setup and verification
+- you want ota to orchestrate container-backed setup and verification
 - you want the first commands to work the same way on every machine
 
 ## Try this

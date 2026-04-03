@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota execution mode examples
+# ota execution mode examples
 
-Use this theme when Ota should run repo tasks through a backend boundary instead of only on the local host. It is the right fit when local setup drifts, shared infrastructure is already available, or you want the execution environment to be part of the contract instead of an assumption.
+Use this theme when ota should run repo tasks through a backend boundary instead of only on the local host. It is the right fit when local setup drifts, shared infrastructure is already available, or you want the execution environment to be part of the contract instead of an assumption.
 
 ## Why this exists
 
