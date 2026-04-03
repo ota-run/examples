@@ -43,6 +43,7 @@ Use this theme when Ota should run repo tasks through a backend boundary instead
 
 - `container/` - container execution mode examples
 - `remote/` - remote execution mode examples
+- `os-aware/` - OS-specific launcher examples
 
 ## Read first
 
@@ -52,6 +53,8 @@ Use this theme when Ota should run repo tasks through a backend boundary instead
 4. `remote/README.md`
 5. `remote/template/README.md`
 6. `remote/ssh-node-service/README.md`
+7. `os-aware/README.md`
+8. `os-aware/python-service/README.md`
 
 ## Rule
 

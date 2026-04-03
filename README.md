@@ -39,6 +39,7 @@ Use these as starting points when you want:
 - `templates/` - starter contracts you can copy into a new repo
 - `ci/` - provider-specific CI patterns
 - `execution/` - container and remote execution patterns
+- `execution/os-aware/` - OS-specific launcher examples
 - `extensions/` - check, export, and backend adapter patterns
 - `workspace/` - multi-repo workspace patterns
 - `reference/` - canonical, production-adjacent repo examples
@@ -49,6 +50,7 @@ Use these as starting points when you want:
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
+- OS-specific launchers or platform branching: [`execution/os-aware`](execution/os-aware)
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
 - Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo)

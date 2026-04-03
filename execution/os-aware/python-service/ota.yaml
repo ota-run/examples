@@ -1,0 +1,75 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: os-aware-python-service
+  description: Python service example that keeps task meaning stable while launcher choice changes by OS
+runtimes:
+  python: "3.12"
+tasks:
+  setup:
+    run: python3 -m pip install -r requirements.txt
+    variants:
+      - when:
+          os: windows
+        run: py -3 -m pip install -r requirements.txt
+    notes: |
+      Example: `ota run setup`
+      Use this when the same Python workflow needs a different launcher on Windows.
+      Keep the task name stable and let Ota choose the launcher per operating system.
+  test:
+    run: python3 -m pytest
+    variants:
+      - when:
+          os: windows
+        run: py -3 -m pytest
+    depends_on:
+      - setup
+    notes: |
+      Example: `ota run test`
+      Use this after changes when the repo must validate on both Windows and Unix-like systems.
+      The task stays the same; only the launcher changes.
+checks:
+  - name: python-installed
+    kind: precondition
+    severity: error
+    run: python --version
+agent:
+  entrypoint: setup
+  default_task: test
+  safe_tasks:
+    - setup
+    - test
+  verify_after_changes:
+    - test
+  writable_paths:
+    - requirements.txt
+    - tests
+  protected_paths:
+    - ota.yaml
+  notes: |
+    Use Ota first for setup, validation, and task execution.
+    Treat OS differences as part of the contract instead of a shell-script detail.
+    Start with `ota doctor`, then `ota validate`, then `ota tasks`.
+    Use `ota run setup` before `ota run test`.
