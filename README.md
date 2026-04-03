@@ -30,6 +30,7 @@ Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a workspace contract for multi-repo setup
 - a CI or release pattern built around `ota`
+- a container-backed execution boundary when host drift is the problem
 
 ## Layout
 
@@ -40,6 +41,7 @@ Use these as starting points when you want:
 
 - `advanced/canonical-team-repo`
 - `advanced/ci`
+- `advanced/container`
 - `templates/node-service`
 - `templates/python-service`
 - `advanced/workspace-monorepo`
@@ -51,22 +53,12 @@ Use these as starting points when you want:
 3. Run `ota validate .` or `ota doctor`.
 4. Keep the contract and the repo in sync as the project evolves.
 
-## Read this first
-
-- `description` - what this example is for
-- `tasks` - the real commands to run
-- `agent.notes` - the default workflow guidance
-- `agent.safe_tasks` - what is safe to run
-- `agent.verify_after_changes` - what should follow edits
-- `agent.writable_paths` / `agent.protected_paths` - what can and cannot be changed
-
 ## What these examples are teaching
 
-- how to start with `ota doctor`
-- how to validate before you write
-- how to use `ota tasks` to discover runnable tasks and descriptions
-- how to keep setup, test, and release steps explicit
-- how to make agent boundaries obvious without reading prose first
+- the repo shape and use-case for each example
+- when to use the example
+- what problem the example solves
+- where to open the example's `ota.yaml` for task-level instructions
 
 ## Contributing
 
