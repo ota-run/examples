@@ -22,26 +22,18 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# GitHub Actions release example
+# Instruction examples
 
-A production-oriented release pattern that uses `ota` as the orchestration entrypoint.
+## Good instruction
 
-## Why this exists
+- read `ota.yaml`
+- use `ota doctor`
+- update the contract and docs together
+- verify with the repo's normal test path
 
-- keeps CI and release orchestration explicit
-- makes the release path reproducible
-- gives a real example of `ota` driving the workflow
+## Bad instruction
 
-## Use when
-
-- you want release automation in GitHub Actions
-- you want a single repo-level orchestration command
-- you want the release path to be visible and auditable
-
-## Try this
-
-```bash
-ota validate .
-ota run ci
-ota run version:bump --version patch
-```
+- "fix it"
+- "make it better"
+- "just update the docs"
+- "do whatever you think is right"

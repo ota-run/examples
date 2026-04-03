@@ -23,13 +23,15 @@
 
 version: 1
 project:
-  name: github-actions-release
-  description: Release workflow example driven by ota orchestration
+  name: circleci-ci
+  description: CircleCI pipeline example with Ota as the repo contract owner
 runtimes:
   node: "22"
 tools:
   pnpm: "10"
 tasks:
+  setup:
+    run: pnpm install
   ci:
     run: pnpm run ci
   version:bump:
@@ -48,9 +50,10 @@ checks:
     severity: error
     run: node --version
 agent:
-  entrypoint: ci
+  entrypoint: setup
   default_task: release
   safe_tasks:
+    - setup
     - ci
     - version:bump
   verify_after_changes:
@@ -58,13 +61,12 @@ agent:
   writable_paths:
     - src
     - scripts
-    - .github/workflows
+    - .circleci
   protected_paths:
     - ota.yaml
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
-    Treat Ota as the default workflow for this release repo, the way GitHub Actions is the default runner for CI.
-    Start with `ota validate`, then `ota run ci`.
-    Use `ota tasks` to see available tasks and their descriptions.
+    Treat Ota as the default workflow for this repo, the way CircleCI is the default runner for the pipeline.
+    Start with `ota doctor`, then `ota validate`, then `ota tasks`.
+    Use `ota run setup` before `ota run ci`.
     Use `ota run version:bump --version patch`, `minor`, or `major` before release.
-    Use `ota run release` only after CI is green.

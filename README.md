@@ -38,10 +38,11 @@ Use these as starting points when you want:
 
 ## Example folders
 
+- `advanced/canonical-team-repo`
+- `advanced/ci`
 - `templates/node-service`
 - `templates/python-service`
 - `advanced/workspace-monorepo`
-- `advanced/github-actions-release`
 
 ## How to use
 
