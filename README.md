@@ -24,7 +24,7 @@
 
 # `ota-run/examples`
 
-Collections of solid, real-world examples you can copy and adapt.
+Collections of solid, real-world examples you can copy, adapt, and read as workflow guides.
 
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
@@ -36,7 +36,7 @@ Use these as starting points when you want:
 - `templates/` - starter contracts you can copy into a new repo
 - `advanced/` - production-oriented patterns and workflows
 
-## Current seeds
+## Example folders
 
 - `templates/node-service`
 - `templates/python-service`
@@ -49,3 +49,28 @@ Use these as starting points when you want:
 2. Adjust the contract to your repo.
 3. Run `ota validate .` or `ota doctor`.
 4. Keep the contract and the repo in sync as the project evolves.
+
+## Read this first
+
+- `description` - what this example is for
+- `tasks` - the real commands to run
+- `agent.notes` - the default workflow guidance
+- `agent.safe_tasks` - what is safe to run
+- `agent.verify_after_changes` - what should follow edits
+- `agent.writable_paths` / `agent.protected_paths` - what can and cannot be changed
+
+## What these examples are teaching
+
+- how to start with `ota doctor`
+- how to validate before you write
+- how to use `ota tasks` to discover runnable tasks and descriptions
+- how to keep setup, test, and release steps explicit
+- how to make agent boundaries obvious without reading prose first
+
+## Contributing
+
+- Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request.
+- Use the pull request and issue templates under [`.github/`](.github/).
+- Follow [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+- See [`SECURITY.md`](SECURITY.md) for security disclosures.
+- See [`SUPPORT.md`](SUPPORT.md) for help and response expectations.

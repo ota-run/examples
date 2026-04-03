@@ -22,36 +22,23 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Workspace monorepo example
+---
+name: Example request
+about: Request a new example or template pattern
+title: "[example]"
+labels: enhancement
+---
 
-A real workspace blueprint for multi-repo bootstrap and dependency ordering.
+## What example would help
 
-## Why this exists
+## Why it matters
 
-- makes repo acquisition explicit
-- keeps dependent repos from bootstrapping out of order
-- gives you one contract for a multi-repo workspace
+## Proposed shape
 
-## What this teaches
+- stack:
+- template or advanced:
+- workflow:
 
-- `source.repo` and `source.git` are both valid acquisition styles
-- `depends_on` keeps workspace bootstrap order explicit
-- `ota workspace up` acquires and prepares repos
-- `ota workspace tasks` shows workspace tasks and dependency order
-- `ota workspace status`, `diff`, and `receipt` tell you what changed and what is ready
+## Notes
 
-## Use when
-
-- multiple repos need to be cloned into a workspace
-- one repo depends on another being acquired first
-- you want `ota workspace up` to be the canonical bootstrap path
-
-## Try this
-
-```bash
-ota workspace validate .
-ota workspace up
-ota workspace status
-ota workspace diff
-ota workspace receipt
-```
+Include any assumptions about the real repo shape or release flow.

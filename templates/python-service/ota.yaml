@@ -24,6 +24,7 @@
 version: 1
 project:
   name: python-service
+  description: Real Python service template with explicit setup, test, and lint boundaries
 runtimes:
   python: "3.12"
 tools:
@@ -60,5 +61,8 @@ agent:
   protected_paths:
     - ota.yaml
   notes: |
-    Use `ota doctor` first to confirm Python and uv are present.
-    Use `ota run test` after changes, then `ota run lint` if you touched application code.
+    Use the Ota workflow first for setup, validation, and task execution.
+    Treat Ota as the default workflow for this repo, the way uv is the default package workflow in a Python service.
+    Start with `ota doctor`, then `ota validate`, then `ota run test`.
+    Use `ota tasks` to see available tasks and their descriptions.
+    Use `ota run lint` when you touch application code.

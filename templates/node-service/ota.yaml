@@ -24,6 +24,7 @@
 version: 1
 project:
   name: node-service
+  description: Real Node service template with explicit setup, test, and agent boundaries
 runtimes:
   node: "22"
 tools:
@@ -59,5 +60,9 @@ agent:
   protected_paths:
     - ota.yaml
   notes: |
-    Start with `ota doctor` to confirm the runtime and tools are ready.
-    Use `ota run test` as the default verification path after changes.
+    Use the Ota workflow first for setup, validation, and task execution.
+    Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.
+    Start with `ota doctor`, then `ota validate`, then `ota run test`.
+    Use `ota tasks` to see available tasks and their descriptions.
+    Use `ota run dev` when you are iterating on the service.
+    Use `ota tasks` to see available tasks and their descriptions.

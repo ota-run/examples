@@ -22,36 +22,37 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Workspace monorepo example
+# Contributing
 
-A real workspace blueprint for multi-repo bootstrap and dependency ordering.
+This repository is a curated collection of copyable Ota examples.
 
-## Why this exists
+## What to submit
 
-- makes repo acquisition explicit
-- keeps dependent repos from bootstrapping out of order
-- gives you one contract for a multi-repo workspace
+- real examples that can be copied and adapted
+- templates that reflect a real repo shape
+- workspace, CI, and release patterns that match shipped Ota behavior
+- docs updates when the example changes the recommended flow
 
-## What this teaches
+## What to avoid
 
-- `source.repo` and `source.git` are both valid acquisition styles
-- `depends_on` keeps workspace bootstrap order explicit
-- `ota workspace up` acquires and prepares repos
-- `ota workspace tasks` shows workspace tasks and dependency order
-- `ota workspace status`, `diff`, and `receipt` tell you what changed and what is ready
+- toy examples that do not map to a real workflow
+- duplicate patterns that do not add new value
+- examples that drift from the current CLI contract
 
-## Use when
+## Pull requests
 
-- multiple repos need to be cloned into a workspace
-- one repo depends on another being acquired first
-- you want `ota workspace up` to be the canonical bootstrap path
+- Keep changes narrow and example-focused.
+- Update the example README and contract together.
+- Add a short note explaining why the example matters.
+- Prefer one example per pull request unless the change is purely editorial.
 
-## Try this
+## Issues
 
-```bash
-ota workspace validate .
-ota workspace up
-ota workspace status
-ota workspace diff
-ota workspace receipt
-```
+- Use the issue templates under [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE) for bugs and example requests.
+- Include the repo or workflow you want documented if the request is specific.
+
+## Review bar
+
+- The example should be real enough to copy.
+- The example should be explicit enough to modify safely.
+- The example should stay aligned with current `ota` behavior.

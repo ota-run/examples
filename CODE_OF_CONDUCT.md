@@ -22,36 +22,21 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Workspace monorepo example
+# Code of Conduct
 
-A real workspace blueprint for multi-repo bootstrap and dependency ordering.
+This repository is for open, technical collaboration.
 
-## Why this exists
+## Expectations
 
-- makes repo acquisition explicit
-- keeps dependent repos from bootstrapping out of order
-- gives you one contract for a multi-repo workspace
+- Be respectful and direct.
+- Focus on the work, not the person.
+- Keep feedback specific and actionable.
+- Avoid harassment, discrimination, and personal attacks.
 
-## What this teaches
+## Scope
 
-- `source.repo` and `source.git` are both valid acquisition styles
-- `depends_on` keeps workspace bootstrap order explicit
-- `ota workspace up` acquires and prepares repos
-- `ota workspace tasks` shows workspace tasks and dependency order
-- `ota workspace status`, `diff`, and `receipt` tell you what changed and what is ready
+These expectations apply to issues, pull requests, and any other repository discussion.
 
-## Use when
+## Enforcement
 
-- multiple repos need to be cloned into a workspace
-- one repo depends on another being acquired first
-- you want `ota workspace up` to be the canonical bootstrap path
-
-## Try this
-
-```bash
-ota workspace validate .
-ota workspace up
-ota workspace status
-ota workspace diff
-ota workspace receipt
-```
+Maintainers may close, moderate, or remove contributions that violate this policy.
