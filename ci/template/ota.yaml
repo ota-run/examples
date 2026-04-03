@@ -23,8 +23,8 @@
 
 version: 1
 project:
-  name: github-actions-ci
-  description: GitHub Actions release example driven by ota orchestration
+  name: ci-template
+  description: Shared CI contract pattern that keeps Ota in control of repo truth
 runtimes:
   node: "22"
 tools:
@@ -35,9 +35,9 @@ tasks:
   ci:
     run: pnpm run ci
   version:bump:
-    input:
+    inputs:
       version:
-        type: string
+        description: Release bump target
         default: patch
     run: node scripts/bump-version.mjs
     notes: |
@@ -57,7 +57,7 @@ checks:
     run: node --version
 agent:
   entrypoint: setup
-  default_task: release
+  default_task: ci
   safe_tasks:
     - setup
     - ci
@@ -72,7 +72,6 @@ agent:
     - ota.yaml
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
-    Treat Ota as the default workflow for this repo, the way GitHub Actions is the default runner for CI.
+    Treat Ota as the default workflow for this repo, the way CI is the default runner for provider workflows.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
     Use `ota run setup` before `ota run ci`.
-    Use `ota run release` only after CI is green.

@@ -23,8 +23,8 @@
 
 version: 1
 project:
-  name: circleci-ci
-  description: CircleCI pipeline example with Ota as the repo contract owner
+  name: jenkins-ci
+  description: Jenkins pipeline example with Ota owning the repo contract
 runtimes:
   node: "22"
 tools:
@@ -35,9 +35,9 @@ tasks:
   ci:
     run: pnpm run ci
   version:bump:
-    input:
+    inputs:
       version:
-        type: string
+        description: Release bump target
         default: patch
     run: node scripts/bump-version.mjs
     notes: |
@@ -67,11 +67,11 @@ agent:
   writable_paths:
     - src
     - scripts
-    - .circleci
+    - Jenkinsfile
   protected_paths:
     - ota.yaml
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
-    Treat Ota as the default workflow for this repo, the way CircleCI is the default runner for the pipeline.
+    Treat Ota as the default workflow for this repo, the way Jenkins is the default runner for the pipeline.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
     Use `ota run setup` before `ota run ci`.

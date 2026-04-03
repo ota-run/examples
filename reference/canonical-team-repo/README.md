@@ -36,10 +36,10 @@ This is the advanced example you fork when you want Ota to be part of the repo o
 ## Read this first
 
 1. [`ota.yaml`](ota.yaml)
-2. [`docs/repo-map.md`](docs/repo-map.md)
-3. [`docs/architecture.md`](docs/architecture.md)
-4. [`docs/workflows.md`](docs/workflows.md)
-5. [`docs/agent-brief.md`](docs/agent-brief.md)
+2. [`docs/architecture.md`](docs/architecture.md)
+3. [`docs/workflows.md`](docs/workflows.md)
+4. [`docs/instruction-examples.md`](docs/instruction-examples.md)
+5. [`docs/templates/agent-brief.md`](docs/templates/agent-brief.md)
 
 ## Structure
 
