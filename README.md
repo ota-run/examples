@@ -30,21 +30,27 @@ Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a workspace contract for multi-repo setup
 - a CI or release pattern built around `ota`
-- an `ota-execution-mode` boundary when host drift or remote execution is the problem
+- an `execution` boundary when host drift or remote execution is the problem
+- an `extensions` boundary when the repo needs custom check, export, or backend adapters
 
 ## Layout
 
 - `templates/` - starter contracts you can copy into a new repo
-- `advanced/` - production-oriented patterns and workflows
+- `ci/` - provider-specific CI patterns
+- `execution/` - container and remote execution patterns
+- `extensions/` - check, export, and backend adapter patterns
+- `workspace/` - multi-repo workspace patterns
+- `reference/` - canonical, production-adjacent repo examples
 
 ## Example folders
 
-- `advanced/canonical-team-repo`
-- `advanced/ci`
-- `advanced/ota-execution-mode`
+- `reference/canonical-team-repo`
+- `ci`
+- `extensions`
+- `execution`
 - `templates/node-service`
 - `templates/python-service`
-- `advanced/workspace-monorepo`
+- `workspace/monorepo`
 
 ## How to use
 

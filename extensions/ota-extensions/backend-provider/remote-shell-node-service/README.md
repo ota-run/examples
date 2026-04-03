@@ -22,36 +22,28 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota execution mode examples
+# Custom remote backend example
 
-Use this theme when Ota should run repo tasks through a backend boundary instead of only on the local host.
+Use this example when a repo needs a backend provider that is not one of the built-in remote providers.
 
 ## Why this exists
 
-- shows when execution boundaries matter more than local convenience
-- keeps task intent stable while the runner changes
-- gives humans and agents one place to learn backend-backed execution patterns
+- keeps the remote execution seam explicit in the contract
+- shows how a custom backend can stay discoverable without hiding in shell glue
+- gives teams a reference for remote execution under an extension contract
 
-## What this teaches
+## Use when
 
-- how to keep container execution explicit
-- how to keep remote execution explicit
-- how to preserve one repo contract across multiple execution locations
+- the built-in remote providers are not enough
+- you want the repo to name its own remote backend
+- you need remote execution behavior to stay visible to humans and agents
 
-## Folders
+## Try this
 
-- `container/` - container execution mode examples
-- `remote/` - remote execution mode examples
+```bash
+ota doctor
+ota validate .
+ota run setup
+ota run test
+```
 
-## Read first
-
-1. `container/README.md`
-2. `container/template/README.md`
-3. `container/node-service/README.md`
-4. `remote/README.md`
-5. `remote/template/README.md`
-6. `remote/node-service/README.md`
-
-## Rule
-
-Keep the backend thin and put repo truth in `ota.yaml`.

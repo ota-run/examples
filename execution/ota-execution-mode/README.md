@@ -22,29 +22,36 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Ota remote execution mode examples
+# Ota execution mode examples
 
-Use this theme when Ota should run repo tasks on a remote target instead of the local machine.
+Use this theme when Ota should run repo tasks through a backend boundary instead of only on the local host.
 
 ## Why this exists
 
-- keeps the contract stable while execution moves elsewhere
-- makes remote execution explicit and reviewable
-- helps teams use a shared host, sandbox, or cluster without losing repo truth
-
-## Use when
-
-- the work should run on a team dev box, sandbox, or remote host
-- the local machine is not the right execution location
-- you want the remote boundary to be part of the Ota contract
+- shows when execution boundaries matter more than local convenience
+- keeps task intent stable while the runner changes
+- gives humans and agents one place to learn backend-backed execution patterns
 
 ## What this teaches
 
-- how to keep execution intent explicit
-- how to keep remote targets understandable to humans and agents
+- how to keep container execution explicit
+- how to keep remote execution explicit
 - how to preserve one repo contract across multiple execution locations
 
 ## Folders
 
-- `template/` - remote execution template
-- `node-service/` - Node service remote execution example
+- `container/` - container execution mode examples
+- `remote/` - remote execution mode examples
+
+## Read first
+
+1. `container/README.md`
+2. `container/template/README.md`
+3. `container/node-service/README.md`
+4. `remote/README.md`
+5. `remote/template/README.md`
+6. `remote/ssh-node-service/README.md`
+
+## Rule
+
+Keep the backend thin and put repo truth in `ota.yaml`.
