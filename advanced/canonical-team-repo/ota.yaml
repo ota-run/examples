@@ -44,6 +44,9 @@ tasks:
     run: pnpm run release
     depends_on:
       - test
+    notes: |
+      Run this only after `test` and `docs:check` are green.
+      Keep release notes and operating guidance in sync with the repo docs.
 checks:
   - name: node-installed
     kind: precondition

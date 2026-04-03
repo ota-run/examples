@@ -40,10 +40,16 @@ tasks:
         type: string
         default: patch
     run: node scripts/bump-version.mjs
+    notes: |
+      Example: `ota run version:bump --version patch`
+      Use `patch` for routine releases.
+      Use `minor`, `major`, `prerelease`, or an explicit semver when needed.
   release:
     run: pnpm run release
     depends_on:
       - ci
+    notes: |
+      Run this after CI is green and the version bump task has been applied.
 checks:
   - name: node-installed
     kind: precondition
@@ -69,4 +75,3 @@ agent:
     Treat Ota as the default workflow for this repo, the way CI is the default runner for provider workflows.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
     Use `ota run setup` before `ota run ci`.
-    Use `ota run version:bump --version patch`, `minor`, or `major` before release.
