@@ -20,28 +20,21 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-name: release
+name: matrix-tests
 
 on:
-  workflow_dispatch:
-    inputs:
-      bump:
-        description: Version bump selector
-        required: false
-        default: minor
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
-          - prerelease
+  push:
+  pull_request:
 
 jobs:
-  release:
+  test:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - web
+          - api
 
     steps:
       - uses: actions/checkout@v4
@@ -49,11 +42,7 @@ jobs:
         run: curl -fsSL https://dist.ota.run/install.sh | sh
       - name: Validate contract
         run: ota validate .
-      - name: Prepare repo
+      - name: Setup
         run: ota run setup
-      - name: Run CI workflow
-        run: ota run ci
-      - name: Bump version
-        run: ota run version:bump --version "${{ inputs.bump }}"
-      - name: Run release workflow
-        run: ota run release
+      - name: Run matrix target
+        run: ota run "test:${{ matrix.target }}"

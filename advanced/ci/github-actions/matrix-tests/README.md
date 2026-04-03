@@ -22,32 +22,31 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Release-only CI example
+# GitHub Actions matrix tests
 
-A CI pattern where the workflow is only responsible for release dispatch, while Ota owns the repo truth and release steps.
+A GitHub Actions example where Ota owns the repo contract and the workflow fans out the test targets.
 
 ## Why this exists
 
-- separates validation CI from release dispatch
-- keeps manual or scheduled release paths explicit
-- makes release intent easy to audit
+- shows a real matrix pattern without losing contract clarity
+- keeps each job explicit and repeatable
+- teaches how to split tests by target while keeping Ota in control
 
 ## Use when
 
-- you want a release workflow without a full CI matrix
-- you want the release step to stay narrow and intentional
+- you have multiple test targets in one repo
+- you want CI fan-out without duplicating the contract
 
 ## Copy these files
 
 - [ota.yaml](ota.yaml)
-- [.github/workflows/release.yml](.github/workflows/release.yml)
+- [.github/workflows/matrix.yml](.github/workflows/matrix.yml)
 
 ## Try this
 
 ```bash
 ota validate .
 ota run setup
-ota run ci
-ota run version:bump --version minor
-ota run release
+ota run test:web
+ota run test:api
 ```

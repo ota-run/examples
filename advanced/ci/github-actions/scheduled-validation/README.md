@@ -22,33 +22,31 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# CI examples
+# Scheduled validation example
 
-This theme shows how serious teams keep CI thin while Ota owns repo truth, setup, and release logic.
+A GitHub Actions example where a scheduled job checks contract health and repo readiness with Ota.
 
-## What this teaches
+## Why this exists
 
-- the CI system decides when to run
-- Ota decides what the repo needs
-- the contract stays close to execution
-- provider-specific YAML stays thin and explicit
+- shows how to keep scheduled checks thin
+- makes drift and readiness visible on a timer
+- teaches that Ota can be the same contract path in scheduled CI
 
-## Folders
+## Use when
 
-- `template/` - shared CI contract pattern
-- `github-actions/` - GitHub Actions workflow example
-- `github-actions/matrix-tests/` - GitHub Actions matrix example
-- `github-actions/scheduled-validation/` - GitHub Actions schedule example
-- `jenkins/` - Jenkins pipeline example
-- `circleci/` - CircleCI pipeline example
+- you want nightly contract validation
+- you want a lightweight recurring health check
 
-## Read first
+## Copy these files
 
-1. `template/README.md`
-2. `template/ota.yaml`
-3. one provider-specific folder
+- [ota.yaml](ota.yaml)
+- [.github/workflows/scheduled.yml](.github/workflows/scheduled.yml)
 
-## Rule
+## Try this
 
-Keep CI orchestration in the provider file and repo truth in `ota.yaml`.
-Install Ota explicitly in each workflow run; do not conditionally skip the install step based on a preinstalled binary.
+```bash
+ota validate .
+ota doctor
+ota run setup
+ota run ci
+```

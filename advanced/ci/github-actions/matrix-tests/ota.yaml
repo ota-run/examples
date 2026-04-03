@@ -23,8 +23,8 @@
 
 version: 1
 project:
-  name: release-only-ci
-  description: Release-only CI contract where Ota owns the repo behavior
+  name: github-actions-matrix-tests
+  description: GitHub Actions matrix example with Ota-owned repo truth
 runtimes:
   node: "22"
 tools:
@@ -32,18 +32,16 @@ tools:
 tasks:
   setup:
     run: pnpm install
+  test:web:
+    run: pnpm run test:web
+    depends_on:
+      - setup
+  test:api:
+    run: pnpm run test:api
+    depends_on:
+      - setup
   ci:
     run: pnpm run ci
-  version:bump:
-    input:
-      version:
-        type: string
-        default: minor
-    run: node scripts/bump-version.mjs
-  release:
-    run: pnpm run release
-    depends_on:
-      - ci
 checks:
   - name: node-installed
     kind: precondition
@@ -51,22 +49,23 @@ checks:
     run: node --version
 agent:
   entrypoint: setup
-  default_task: release
+  default_task: ci
   safe_tasks:
     - setup
-    - ci
-    - version:bump
+    - test:web
+    - test:api
   verify_after_changes:
-    - ci
+    - test:web
+    - test:api
   writable_paths:
     - src
-    - scripts
+    - tests
     - .github/workflows
   protected_paths:
     - ota.yaml
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
-    Treat Ota as the default workflow for this repo, the way CI is the default runner for release handling.
+    Treat Ota as the default workflow for this repo, the way GitHub Actions is the default runner for CI fan-out.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
-    Use `ota run setup` before `ota run ci`.
-    Use `ota run version:bump --version minor` when you want a release-only bump path.
+    Use `ota run setup` before running either matrix target.
+    Use `ota run test:web` and `ota run test:api` as the explicit split test paths.
