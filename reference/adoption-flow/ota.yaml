@@ -1,0 +1,90 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: adoption-flow
+  description: Flagship Ota adoption example for turning an existing Java repo into an explicit contract
+runtimes:
+  java: "21"
+tools:
+  maven: "*"
+tasks:
+  setup:
+    run: mvn -q -DskipTests dependency:go-offline
+    notes: |
+      Example: `ota run setup` after the contract has been written.
+  build:
+    run: mvn -q -DskipTests package
+    depends_on:
+      - setup
+    notes: |
+      Example: `ota run build` to compile and package the Java repo.
+  test:
+    run: mvn test
+    depends_on:
+      - setup
+    notes: |
+      Example: `ota run test` before merging contract changes.
+  docs:check:
+    run: mvn -q -DskipTests javadoc:javadoc
+    depends_on:
+      - setup
+    notes: |
+      Example: `ota run docs:check` when repo guidance changes.
+  release:
+    run: mvn -q -DskipTests deploy
+    depends_on:
+      - build
+      - test
+      - docs:check
+    notes: |
+      Example: `ota run release` after validation and docs checks are green.
+checks:
+  - name: java-installed
+    kind: precondition
+    severity: error
+    run: java --version
+agent:
+  entrypoint: setup
+  default_task: build
+  safe_tasks:
+    - setup
+    - build
+    - test
+    - docs:check
+  verify_after_changes:
+    - build
+    - test
+    - docs:check
+  writable_paths:
+    - src
+    - docs
+    - tests
+  protected_paths:
+    - ota.yaml
+  notes: |
+    Use Ota first for setup, validation, and task execution.
+    Treat Ota as the default workflow when introducing it to an existing Java repo.
+    Start with `ota doctor`, then `ota explain`, then `ota init --dry-run` or `ota detect --dry-run`.
+    Write the contract only after the dry run is clear.

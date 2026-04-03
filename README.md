@@ -28,6 +28,7 @@ Collections of solid, real-world examples you can copy, adapt, and read as workf
 
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
+- a first-week adoption flow for an existing repo
 - a workspace contract for multi-repo setup
 - a CI or release pattern built around `ota`
 - an `execution` boundary when host drift or remote execution is the problem
@@ -45,6 +46,7 @@ Use these as starting points when you want:
 ## Choose by problem
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
+- Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
 - Custom adapters and backend providers: [`extensions`](extensions)
