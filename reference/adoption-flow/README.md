@@ -44,6 +44,7 @@ Use this example when you are introducing ota to an existing Java repo that alre
 ## What this teaches
 
 - how `ota doctor` surfaces readiness gaps first
+- how `checks` make `ota doctor` fail fast when the Java toolchain is missing
 - how `ota explain` turns findings into concrete next steps
 - how `ota init --dry-run` and `ota detect --dry-run` show the contract before writing
 - how `ota detect --write` or `ota init` makes the contract explicit

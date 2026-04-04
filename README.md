@@ -26,6 +26,8 @@
 
 Collections of solid, real-world examples you can copy, adapt, and use to see how ota removes hidden setup, repeated explanations, and brittle workflow glue.
 
+If you are introducing ota to a team, start with the adoption flows first. They show how ota earns trust before you move into CI, execution boundaries, or adapter patterns.
+
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a first-week adoption flow for an existing repo
@@ -49,13 +51,13 @@ Use these as starting points when you want:
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
+- Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
 - OS-specific launchers or platform branching: [`execution/os-aware`](execution/os-aware)
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
-- Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
-- Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo)
+- Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo) or [`reference/swift-service`](reference/swift-service)
 
 ## How to use
 
