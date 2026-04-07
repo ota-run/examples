@@ -45,6 +45,8 @@ This repository is a curated collection of copyable Ota examples.
 - Update the example README and contract together.
 - Add a short note explaining why the example matters.
 - Prefer one example per pull request unless the change is purely editorial.
+- Run `ota run validate` before opening the pull request.
+- Run `ota run dogfood` when the change touches Ota UX, flagship examples, or adoption-facing copy.
 
 ## Issues
 
@@ -56,3 +58,4 @@ This repository is a curated collection of copyable Ota examples.
 - The example should be real enough to copy.
 - The example should be explicit enough to modify safely.
 - The example should stay aligned with current `ota` behavior.
+- Flagship examples should still demonstrate obvious value on the current CLI, not only stay schema-valid.

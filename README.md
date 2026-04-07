@@ -52,6 +52,8 @@ Use these as starting points when you want:
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
   This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, docs, and release-script companions so users can copy more than just `ota.yaml`.
+- Windows-first repo adoption: [`reference/windows-adoption-flow`](reference/windows-adoption-flow)
+  This is the Windows-oriented flagship starter. It shows how ota keeps `.NET`, PowerShell release flow, and cross-platform task variants explicit without hiding the repo behind shell glue.
 - Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
@@ -64,8 +66,17 @@ Use these as starting points when you want:
 
 - Starter contract: minimal copyable `ota.yaml` with a short README
 - Flagship adoption starter: contract plus repo signals, docs, and companion files that show obvious `doctor -> explain -> detect -> up -> agents` value
+- Windows-first flagship starter: a reference example that keeps `.NET`, PowerShell, and cross-platform variants explicit
 - Canonical advanced reference: production-adjacent repo shape that teaches a full operating model
 - Workspace reference: multi-repo bootstrap and adoption ordering
+
+## Terminal previews
+
+These are small terminal previews of the flagship examples. They are not mock marketing copy; they are meant to look like the real value users should expect from Ota.
+
+![Flagship adoption doctor preview](assets/reference-adoption-doctor.svg)
+
+![Windows-first adoption doctor preview](assets/windows-adoption-doctor.svg)
 
 ## How to use
 
@@ -78,6 +89,10 @@ Use these as starting points when you want:
 ## Validate this repo
 
 Run `ota run validate` before opening a pull request.
+
+## Dogfood this repo
+
+Run `ota run dogfood` when Ota UX changes and you want to re-check the flagship examples against the current local CLI behavior.
 
 ## What these examples are teaching
 

@@ -35,7 +35,7 @@ This example shows the adoption path for a Java repo that already exists but doe
 Expected result:
 - Ota tells you whether Java, Maven, Docker, or the local service stack is missing.
 - The repo contract is no longer a guess; it is reviewed against `pom.xml`, `.sdkmanrc`, and `docker-compose.yml`.
-- Detect should infer the base repo shape, while the authored contract can still carry richer repo-specific tasks like docs checks and release flow.
+- Detect should infer the base repo shape plus starter setup and release flow, while the authored contract can still carry richer repo-specific tasks like docs checks.
 
 ## Day 2
 

@@ -27,104 +27,26 @@ project:
   description: Public examples repo for copyable, real-world Ota adoption patterns
 tasks:
   validate:
-    run: |
-      python3 - "$PWD" <<'PY'
-      import subprocess
-      import re
-      import sys
-      from pathlib import Path
-
-      root = Path(sys.argv[1])
-      link_re = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
-      skip_prefixes = ('http://', 'https://', 'mailto:', 'tel:', '#', 'file://')
-      errors = []
-
-      subprocess.run(['ota', 'validate', '.'], cwd=root, check=True)
-
-      for file in sorted(root.rglob('ota.yaml')):
-          if file.resolve() == (root / 'ota.yaml').resolve():
-              continue
-          subprocess.run(['ota', 'validate', str(file.parent)], cwd=root, check=True)
-
-      for file in sorted(root.rglob('ota.workspace.yaml')):
-          subprocess.run(['ota', 'workspace', 'validate', str(file.parent)], cwd=root, check=True)
-
-      for md in sorted(root.rglob('*.md')):
-          if '.git' in md.parts or '.idea' in md.parts:
-              continue
-          text = md.read_text(encoding='utf-8')
-          for match in link_re.finditer(text):
-              target = match.group(1).strip()
-              if target.startswith('<') and target.endswith('>'):
-                  target = target[1:-1].strip()
-              if not target or target.startswith(skip_prefixes):
-                  continue
-              target = target.split('#', 1)[0].split('?', 1)[0]
-              if not target:
-                  continue
-              resolved = (md.parent / target).resolve()
-              if not resolved.exists():
-                  errors.append(f'{md.relative_to(root)}: broken local link -> {target}')
-
-      if errors:
-          print('Broken local markdown links:')
-          for error in errors:
-              print(f'- {error}')
-          sys.exit(1)
-      PY
+    run: python3 scripts/validate_examples.py "$PWD"
     variants:
       - when:
           os: windows
-        run: |
-          py -3 - "$PWD" <<'PY'
-          import subprocess
-          import re
-          import sys
-          from pathlib import Path
-
-          root = Path(sys.argv[1])
-          link_re = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
-          skip_prefixes = ('http://', 'https://', 'mailto:', 'tel:', '#', 'file://')
-          errors = []
-
-          subprocess.run(['ota', 'validate', '.'], cwd=root, check=True)
-
-          for file in sorted(root.rglob('ota.yaml')):
-              if file.resolve() == (root / 'ota.yaml').resolve():
-                  continue
-              subprocess.run(['ota', 'validate', str(file.parent)], cwd=root, check=True)
-
-          for file in sorted(root.rglob('ota.workspace.yaml')):
-              subprocess.run(['ota', 'workspace', 'validate', str(file.parent)], cwd=root, check=True)
-
-          for md in sorted(root.rglob('*.md')):
-              if '.git' in md.parts or '.idea' in md.parts:
-                  continue
-              text = md.read_text(encoding='utf-8')
-              for match in link_re.finditer(text):
-                  target = match.group(1).strip()
-                  if target.startswith('<') and target.endswith('>'):
-                      target = target[1:-1].strip()
-                  if not target or target.startswith(skip_prefixes):
-                      continue
-                  target = target.split('#', 1)[0].split('?', 1)[0]
-                  if not target:
-                      continue
-                  resolved = (md.parent / target).resolve()
-                  if not resolved.exists():
-                      errors.append(f'{md.relative_to(root)}: broken local link -> {target}')
-
-          if errors:
-              print('Broken local markdown links:')
-              for error in errors:
-                  print(f'- {error}')
-              sys.exit(1)
-          PY
+        run: py -3 scripts/validate_examples.py "$PWD"
     notes: |
       Example: `ota run validate`
       Use this before opening a pull request.
-      It validates all example contracts, workspace contracts, and local markdown links.
+      It validates all example contracts, workspace contracts, and local markdown links with a concise summary.
       On Unix-like systems, Ota uses `python3`; on Windows, it uses `py -3`.
+  dogfood:
+    run: python3 scripts/dogfood_examples.py "$PWD"
+    variants:
+      - when:
+          os: windows
+        run: py -3 scripts/dogfood_examples.py "$PWD"
+    notes: |
+      Example: `ota run dogfood`
+      Use this when Ota UX, output wording, or flagship examples change.
+      It re-checks the flagship adoption examples against the current local Ota CLI.
 checks:
   - name: ota-installed
     kind: precondition
@@ -139,10 +61,12 @@ agent:
   default_task: validate
   safe_tasks:
     - validate
+    - dogfood
   verify_after_changes:
     - validate
   writable_paths:
     - README.md
+    - assets
     - ci
     - execution
     - extensions
@@ -164,3 +88,4 @@ agent:
     Treat the README files as the adoption surface and ota.yaml as the contract.
     Start with `ota doctor`, then `ota validate`, then `ota tasks`.
     Use `ota run validate` before opening a pull request.
+    Use `ota run dogfood` whenever Ota UX changes and the flagship examples need a fresh pass.

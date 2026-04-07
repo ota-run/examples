@@ -41,6 +41,7 @@ Use this theme when the repo means the same thing everywhere, but the launcher, 
 ## Folders
 
 - `python-service/` - Python repo with OS-specific launcher variants
+- `../../reference/windows-adoption-flow/` - Windows-first `.NET` adoption starter with explicit PowerShell release flow and cross-platform task variants
 
 ## Read first
 

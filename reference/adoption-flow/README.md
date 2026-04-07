@@ -95,11 +95,41 @@ ota agents --write .
 - `ota up` should make setup and local service readiness feel like one repeatable flow
 - `ota agents --write` should give the repo an explicit agent-facing contract derived from `ota.yaml`
 
+## What Ota will tell you
+
+Exact Java remediation:
+
+```text
+Primary Blocker
+Version mismatch for runtime: java
+Why: java resolved to `23.0.2` but the contract requires `21-tem`
+Next: run `sdk install java 21-tem` and rerun `ota doctor ./reference/adoption-flow/ota.yaml`
+```
+
+Local service readiness:
+
+```text
+ERROR  Service healthcheck failed: postgres
+Why: service `postgres` did not pass its configured healthcheck
+Next: run `docker compose up -d postgres` and re-run `ota doctor ./reference/adoption-flow/ota.yaml`
+```
+
+Derived agent guidance:
+
+```text
+AGENTS ./reference/adoption-flow/ota.yaml
+Target:
+./reference/adoption-flow/AGENTS.md
+Next:
+▸  run `ota agents --write ./reference/adoption-flow/ota.yaml` to write `./reference/adoption-flow/AGENTS.md`
+```
+
 ## Important note about detect
 
 - `ota detect` should infer the base repo shape from files like `pom.xml`, `.sdkmanrc`, and `docker-compose.yml`
-- richer human-authored tasks like `setup`, `docs:check`, and `release` are intentionally part of the contract even when detect would not infer them on its own
-- use this example to teach that Ota detection is deterministic repo inference, while the contract can still carry repo-specific operating knowledge
+- `ota detect` should also recover the starter `setup` and `release` edges from repo-local signals instead of leaving them hidden
+- the remaining drift here is intentional: `docs:check` is a higher-order repo guardrail that stays authored in the contract
+- use this example to teach that Ota detection is deterministic repo inference, while the contract can still carry repo-specific operating knowledge like documentation guardrails
 
 ## Edit first
 
