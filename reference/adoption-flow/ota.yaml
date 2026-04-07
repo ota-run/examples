@@ -24,16 +24,25 @@
 version: 1
 project:
   name: adoption-flow
-  description: Flagship Ota adoption example for turning an existing Java repo into an explicit contract
+  description: Flagship Ota adoption starter for turning an existing Java repo into an explicit contract
 runtimes:
-  java: "21"
+  java: 21-tem
 tools:
   maven: "*"
+  docker: "*"
+services:
+  postgres:
+    required: true
+    provider: docker-compose
+    start: docker compose up -d postgres
+    stop: docker compose stop postgres
+    healthcheck: docker compose exec -T postgres pg_isready -U adoption -d adoption_flow
+    timeout: 5000
 tasks:
   setup:
     run: mvn -q -DskipTests dependency:go-offline
     notes: |
-      Example: `ota run setup` after the contract has been written.
+      Example: `ota up` or `ota run setup` after the contract has been written.
   build:
     run: mvn -q -DskipTests package
     depends_on:
@@ -44,30 +53,35 @@ tasks:
     run: mvn test
     depends_on:
       - setup
+    safe_for_agent: true
     notes: |
       Example: `ota run test` before merging contract changes.
   docs:check:
-    run: mvn -q -DskipTests javadoc:javadoc
+    run: test -f docs/first-week.md && test -f docs/release-checklist.md
     depends_on:
-      - setup
+      - build
     notes: |
-      Example: `ota run docs:check` when repo guidance changes.
+      Example: `ota run docs:check` when repo guidance or release steps change.
   release:
-    run: mvn -q -DskipTests deploy
+    run: ./scripts/release.sh
     depends_on:
       - build
       - test
       - docs:check
     notes: |
-      Example: `ota run release` after validation and docs checks are green.
+      Example: `ota run release` after validation, docs checks, and repository-specific publish configuration are ready.
 checks:
   - name: java-installed
     kind: precondition
     severity: error
     run: java --version
+  - name: maven-installed
+    kind: precondition
+    severity: error
+    run: mvn -v
 agent:
   entrypoint: setup
-  default_task: build
+  default_task: test
   safe_tasks:
     - setup
     - build
@@ -80,11 +94,18 @@ agent:
   writable_paths:
     - src
     - docs
+    - scripts
     - tests
   protected_paths:
     - ota.yaml
+    - pom.xml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use Ota first for setup, validation, and task execution.
     Treat Ota as the default workflow when introducing it to an existing Java repo.
-    Start with `ota doctor`, then `ota explain`, then `ota init --dry-run` or `ota detect --dry-run`.
-    Write the contract only after the dry run is clear.
+    Start with `ota doctor`, then `ota explain`, then `ota detect --dry-run`.
+    Use `ota agents --write` after the contract is in place so agent guidance stays derived instead of hand-written.

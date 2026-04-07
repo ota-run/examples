@@ -51,6 +51,7 @@ Use these as starting points when you want:
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
+  This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, docs, and release-script companions so users can copy more than just `ota.yaml`.
 - Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
@@ -58,6 +59,13 @@ Use these as starting points when you want:
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
 - Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo) or [`reference/swift-service`](reference/swift-service)
+
+## Example types
+
+- Starter contract: minimal copyable `ota.yaml` with a short README
+- Flagship adoption starter: contract plus repo signals, docs, and companion files that show obvious `doctor -> explain -> detect -> up -> agents` value
+- Canonical advanced reference: production-adjacent repo shape that teaches a full operating model
+- Workspace reference: multi-repo bootstrap and adoption ordering
 
 ## How to use
 
