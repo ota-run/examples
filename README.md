@@ -73,6 +73,7 @@ Use these as starting points when you want:
 ## Terminal previews
 
 These are small terminal previews of the flagship examples. They are not mock marketing copy; they are meant to look like the real value users should expect from Ota.
+They are illustrative, not byte-for-byte transcripts. Wording can shift as the CLI evolves.
 
 ![Flagship adoption doctor preview](assets/reference-adoption-doctor.svg)
 
