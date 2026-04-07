@@ -45,8 +45,12 @@ agent:
     - check
   verify_after_changes:
     - check
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use Ota first for setup, validation, and task execution.
     Treat Ota as the default workflow for repo-specific validation adapters.
     Start with `ota doctor`, then `ota validate`, then `ota extensions`.
-

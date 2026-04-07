@@ -70,6 +70,11 @@ agent:
     - .github/workflows
   protected_paths:
     - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way CI is the default runner for provider workflows.

@@ -59,6 +59,11 @@ agent:
     - docs
   protected_paths:
     - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use Ota first for setup, validation, and task execution.
     Treat Ota as the default workflow when the repo runs inside a container.
