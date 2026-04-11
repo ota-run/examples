@@ -20,25 +20,18 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-name: ci
-
-on:
-  push:
-  pull_request:
-
-jobs:
-  ci:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v5
-      - name: Install Ota
-        run: |
-          curl -fsSL https://dist.ota.run/install.sh | sh
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - name: Validate contract
-        run: ota validate .
-      - name: Prepare repo
-        run: ota run setup
-      - name: Run CI workflow
-        run: ota run ci
+policies:
+  required_sections:
+    - runtimes
+    - tools
+    - tasks
+    - checks
+    - agent
+  required_files:
+    - AGENTS.md
+  strict_versions: true
+  agent:
+    require_safe_tasks: true
+    require_writable_paths: true
+  exports:
+    require_agents_md: true

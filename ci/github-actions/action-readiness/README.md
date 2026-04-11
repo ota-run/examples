@@ -22,39 +22,39 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# GitHub Actions CI example
+# GitHub Action readiness example
 
-Use this when your team already trusts GitHub Actions for scheduling and secrets, but you want ota to own the repo work, validation, and release intent.
+Use this when you want GitHub Actions to show ota summaries, annotations, sticky PR comments, and
+receipt artifacts, but you still want a separate execution job for real setup and CI work.
 
 ## Why this exists
 
-- keeps CI orchestration explicit
-- makes setup and release behavior reproducible
-- shows the clean boundary between the runner and the contract
-- prevents workflow drift from turning into repo drift
+- shows the clean split between read-only readiness gating and later execution
+- demonstrates the official `ota-run/action@v1` wrapper instead of hand-written JSON glue
+- keeps the PR surface compact while preserving direct ota control where the repo actually changes
 
 ## Use when
 
-- you want GitHub Actions as the runner
-- you want ota to own validation, setup, and release intent
-- you want the workflow file to stay small and readable while the contract stays authoritative
-- you want the direct CLI shape instead of the official GitHub Action wrapper
-
-If you want GitHub-native summaries, annotations, sticky PR comments, and archived receipts, use
-[action-readiness/](action-readiness) instead.
+- pull requests need a read-only readiness receipt and human-friendly summary
+- the repo wants annotations and an archived receipt artifact by default
+- a later CI job still needs direct `ota validate`, `ota run setup`, or `ota run ci`
 
 ## Copy these files
 
 - [ota.yaml](ota.yaml)
-- [.github/workflows/ci.yml](.github/workflows/ci.yml)
-- [.github/workflows/release.yml](.github/workflows/release.yml)
+- [.github/workflows/readiness.yml](.github/workflows/readiness.yml)
+
+## What this teaches
+
+- `ota-run/action@v1` is the right surface for GitHub-native reporting
+- direct `ota` commands still belong in the job that actually prepares or executes repo work
+- job-local install state does not cross into a separate job
 
 ## Try this
 
 ```bash
 ota validate .
+ota doctor
 ota run setup
 ota run ci
-ota run version:bump . --version patch
-ota run release
 ```

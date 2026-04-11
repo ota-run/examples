@@ -22,39 +22,27 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# GitHub Actions CI example
+# AGENTS.md
 
-Use this when your team already trusts GitHub Actions for scheduling and secrets, but you want ota to own the repo work, validation, and release intent.
+## Purpose
 
-## Why this exists
+This repo is the advanced example for a serious Ota operating model. Keep agent work explicit,
+safe, and aligned with the contract and the shared org policy.
 
-- keeps CI orchestration explicit
-- makes setup and release behavior reproducible
-- shows the clean boundary between the runner and the contract
-- prevents workflow drift from turning into repo drift
+## Working rules
 
-## Use when
+- Use `ota doctor` first when the repo feels out of sync.
+- Use `ota validate` after contract edits.
+- Keep agent work inside the declared writable paths.
+- Treat `setup`, `test`, and `docs:check` as the safe task surface.
+- Use `release` only after the contract, docs, and validation steps are green.
 
-- you want GitHub Actions as the runner
-- you want ota to own validation, setup, and release intent
-- you want the workflow file to stay small and readable while the contract stays authoritative
-- you want the direct CLI shape instead of the official GitHub Action wrapper
+## Repo boundaries
 
-If you want GitHub-native summaries, annotations, sticky PR comments, and archived receipts, use
-[action-readiness/](action-readiness) instead.
+- Writable paths: `docs`, `src`, `tests`, `scripts`
+- Protected paths: `ota.yaml`, `docs/decision-log.md`
 
-## Copy these files
+## Review loop
 
-- [ota.yaml](ota.yaml)
-- [.github/workflows/ci.yml](.github/workflows/ci.yml)
-- [.github/workflows/release.yml](.github/workflows/release.yml)
-
-## Try this
-
-```bash
-ota validate .
-ota run setup
-ota run ci
-ota run version:bump . --version patch
-ota run release
-```
+- After changes, run the repo's declared verification tasks before handing work back.
+- Keep repo knowledge in `docs/` instead of in ad hoc shell scripts or chat history.

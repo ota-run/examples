@@ -44,9 +44,11 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install Ota
-        run: curl -fsSL https://dist.ota.run/install.sh | sh
+        run: |
+          curl -fsSL https://dist.ota.run/install.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Validate contract
         run: ota validate .
       - name: Prepare repo
@@ -54,6 +56,6 @@ jobs:
       - name: Run CI workflow
         run: ota run ci
       - name: Bump version
-        run: ota run version:bump --version "${{ inputs.bump }}"
+        run: ota run version:bump . --version "${{ inputs.bump }}"
       - name: Run release workflow
         run: ota run release

@@ -20,14 +20,38 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-name: ci
+name: readiness
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
+  readiness:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Publish ota readiness
+        uses: ota-run/action@v1
+        with:
+          command: receipt
+          path: .
+          archive: true
+          annotate: true
+          comment-pr: true
+          comment-pr-only: true
+          artifact-name: ota-readiness
+          artifact-retention-days: 14
+          github-token: ${{ github.token }}
+
   ci:
+    needs: readiness
     runs-on: ubuntu-latest
 
     steps:

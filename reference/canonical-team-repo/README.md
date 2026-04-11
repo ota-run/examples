@@ -38,14 +38,18 @@ This is the advanced example you fork when you want ota to be part of the repo o
 ## Read this first
 
 1. [`ota.yaml`](ota.yaml)
-2. [`docs/architecture.md`](docs/architecture.md)
-3. [`docs/workflows.md`](docs/workflows.md)
-4. [`docs/instruction-examples.md`](docs/instruction-examples.md)
-5. [`docs/templates/agent-brief.md`](docs/templates/agent-brief.md)
+2. [`.ota/org-policy.yaml`](.ota/org-policy.yaml)
+3. [`AGENTS.md`](AGENTS.md)
+4. [`docs/architecture.md`](docs/architecture.md)
+5. [`docs/workflows.md`](docs/workflows.md)
+6. [`docs/instruction-examples.md`](docs/instruction-examples.md)
+7. [`docs/templates/agent-brief.md`](docs/templates/agent-brief.md)
 
 ## Structure
 
 - `ota.yaml` - canonical repo contract and agent boundaries
+- `.ota/org-policy.yaml` - shared org rules that sit above the repo contract
+- `AGENTS.md` - repo-local guidance for safe and reviewable agent work
 - `docs/` - operational knowledge that should stay close to the repo
 - `docs/templates/` - reusable templates for recurring work
 

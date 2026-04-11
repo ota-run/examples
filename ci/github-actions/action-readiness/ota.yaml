@@ -1,3 +1,4 @@
+#
 #                █████
 #               ░░███
 #       ██████  ███████    ██████
@@ -20,25 +21,43 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-name: ci
-
-on:
-  push:
-  pull_request:
-
-jobs:
+version: 1
+project:
+  name: github-actions-action-readiness
+  description: GitHub Action readiness example with a read-only receipt gate and a separate execution job
+runtimes:
+  node: "22"
+tools:
+  pnpm: "10"
+tasks:
+  setup:
+    run: pnpm install
   ci:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v5
-      - name: Install Ota
-        run: |
-          curl -fsSL https://dist.ota.run/install.sh | sh
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - name: Validate contract
-        run: ota validate .
-      - name: Prepare repo
-        run: ota run setup
-      - name: Run CI workflow
-        run: ota run ci
+    run: pnpm run ci
+checks:
+  - name: node-installed
+    kind: precondition
+    severity: error
+    run: node --version
+agent:
+  entrypoint: setup
+  default_task: ci
+  safe_tasks:
+    - setup
+    - ci
+  verify_after_changes:
+    - ci
+  writable_paths:
+    - src
+    - .github/workflows
+  protected_paths:
+    - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
+  notes: |
+    Use the read-only GitHub Action receipt gate before any mutating CI work.
+    Keep `ota-run/action@v1` for summaries, annotations, comments, and archived receipts.
+    Keep direct `ota` commands in the later job that actually prepares and executes the repo.

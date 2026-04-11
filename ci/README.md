@@ -41,6 +41,7 @@ This matters when pipeline steps drift across providers, release behavior gets c
 
 - `template/` - shared CI contract pattern
 - `github-actions/` - GitHub Actions workflow example
+- `github-actions/action-readiness/` - GitHub Action readiness receipt, annotations, and PR comment example
 - `github-actions/matrix-tests/` - GitHub Actions matrix example
 - `github-actions/scheduled-validation/` - GitHub Actions schedule example
 - `jenkins/` - Jenkins pipeline example
@@ -55,4 +56,5 @@ This matters when pipeline steps drift across providers, release behavior gets c
 ## Rule
 
 Keep CI orchestration in the provider file and repo truth in `ota.yaml`.
-Install ota explicitly in each workflow run; do not conditionally skip the install step based on a preinstalled binary.
+Install ota explicitly in each job that runs direct `ota` commands.
+If the workflow uses `ota-run/action@v1`, let the action manage installation for its own step and any later steps in the same job.
