@@ -36,8 +36,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install ota
-        run: curl -fsSL https://dist.ota.run/install.sh | sh
+      - name: Setup ota
+        uses: ota-run/setup@v1
+        with:
+          ota-version: 1.4.4
 
       - name: Validate examples repo
         run: ota run validate
