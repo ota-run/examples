@@ -1,3 +1,4 @@
+#
 #                █████
 #               ░░███
 #       ██████  ███████    ██████
@@ -20,56 +21,42 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-version: 2.1
-
-jobs:
+version: 1
+project:
+  name: circleci-readiness-gate
+  description: CircleCI readiness gate example with plain annotations and archived receipts
+runtimes:
+  node: "22"
+tools:
+  pnpm: "10"
+tasks:
+  setup:
+    run: pnpm install
   ci:
-    docker:
-      - image: cimg/node:22.15
-    steps:
-      - checkout
-      - run:
-          name: Install Ota
-          command: |
-            curl -fsSL https://dist.ota.run/install.sh | sh
-            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-      - run:
-          name: Validate contract
-          command: ota validate .
-      - run:
-          name: Setup
-          command: ota run setup
-      - run:
-          name: CI
-          command: ota run ci
-  release:
-    docker:
-      - image: cimg/node:22.15
-    steps:
-      - checkout
-      - run:
-          name: Install Ota
-          command: |
-            curl -fsSL https://dist.ota.run/install.sh | sh
-            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-      - run:
-          name: Validate contract
-          command: ota validate .
-      - run:
-          name: Setup
-          command: ota run setup
-      - run:
-          name: CI
-          command: ota run ci
-      - run:
-          name: Bump version
-          command: ota run version:bump . --version patch
-      - run:
-          name: Release
-          command: ota run release
-
-workflows:
-  version: 2
-  ci-and-release:
-    jobs:
-      - ci
+    run: pnpm run ci
+checks:
+  - name: node-installed
+    kind: precondition
+    severity: error
+    run: node --version
+agent:
+  entrypoint: setup
+  default_task: ci
+  safe_tasks:
+    - setup
+    - ci
+  verify_after_changes:
+    - ci
+  writable_paths:
+    - src
+    - .circleci
+  protected_paths:
+    - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
+  notes: |
+    Capture readiness first, upload `.ota/ci/` and `.ota/receipts/`, then fail on blockers
+    before the later execution job runs.

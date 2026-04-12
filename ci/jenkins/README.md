@@ -38,6 +38,10 @@ Use this when Jenkins is already your execution layer, but the repo contract sho
 - you run CI or release jobs in Jenkins
 - you want the repo contract to remain the source of truth
 - you want a pipeline that is easy to review and hard to misread
+- you want the direct CLI pipeline instead of the readiness-gate pattern
+
+If you want archived receipts, plain annotations, and a blocking readiness stage before setup and
+CI, use [readiness-gate/](readiness-gate).
 
 ## Copy these files
 
@@ -50,5 +54,6 @@ Use this when Jenkins is already your execution layer, but the repo contract sho
 ota validate .
 ota run setup
 ota run ci
+ota run version:bump . --version patch
 ota run release
 ```

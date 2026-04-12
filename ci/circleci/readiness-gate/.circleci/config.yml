@@ -23,6 +23,40 @@
 version: 2.1
 
 jobs:
+  readiness:
+    docker:
+      - image: cimg/node:22.15
+    steps:
+      - checkout
+      - run:
+          name: Install Ota
+          command: |
+            curl -fsSL https://dist.ota.run/install.sh | sh
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+      - run:
+          name: Capture readiness
+          command: |
+            mkdir -p .ota/ci .ota/receipts
+            set +e
+            ota validate --json . | tee .ota/ci/validate.json
+            validate_status=${PIPESTATUS[0]}
+            ota doctor --json . | tee .ota/ci/doctor.json
+            doctor_status=${PIPESTATUS[0]}
+            ota annotations --mode doctor --format plain --input .ota/ci/doctor.json | tee .ota/ci/annotations.log
+            ota receipt --json --archive . | tee .ota/ci/receipt.json
+            receipt_status=${PIPESTATUS[0]}
+            if [ "${validate_status}" -ne 0 ] || [ "${doctor_status}" -ne 0 ] || [ "${receipt_status}" -ne 0 ]; then
+              echo blocked > .ota/ci/status
+            else
+              echo ready > .ota/ci/status
+            fi
+      - store_artifacts:
+          path: .ota/ci
+      - store_artifacts:
+          path: .ota/receipts
+      - run:
+          name: Fail on blockers
+          command: test "$(cat .ota/ci/status)" = "ready"
   ci:
     docker:
       - image: cimg/node:22.15
@@ -42,34 +76,12 @@ jobs:
       - run:
           name: CI
           command: ota run ci
-  release:
-    docker:
-      - image: cimg/node:22.15
-    steps:
-      - checkout
-      - run:
-          name: Install Ota
-          command: |
-            curl -fsSL https://dist.ota.run/install.sh | sh
-            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-      - run:
-          name: Validate contract
-          command: ota validate .
-      - run:
-          name: Setup
-          command: ota run setup
-      - run:
-          name: CI
-          command: ota run ci
-      - run:
-          name: Bump version
-          command: ota run version:bump . --version patch
-      - run:
-          name: Release
-          command: ota run release
 
 workflows:
   version: 2
-  ci-and-release:
+  readiness-and-ci:
     jobs:
-      - ci
+      - readiness
+      - ci:
+          requires:
+            - readiness

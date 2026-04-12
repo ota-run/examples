@@ -1,4 +1,4 @@
-/*
+<!--
                 █████
                ░░███
        ██████  ███████    ██████
@@ -7,70 +7,42 @@
      ░███ ░███  ░███ ███ ███░░███
      ░░██████   ░░█████ ░░████████
       ░░░░░░     ░░░░░   ░░░░░░░░
-#
+
    Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
-#
+
    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-#
+
    Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
    You may not use this file except in compliance with that License.
    Unless required by applicable law or agreed to in writing, software distributed under the
    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
    either express or implied. See the License for the specific language governing permissions
    and limitations under the License.
-#
+
    If you need additional information or have any questions, please email: os@ota.run
-*/
+-->
 
-pipeline {
-  agent any
+# Jenkins readiness-gate example
 
-  environment {
-    PATH = "${env.HOME}/.local/bin:${env.PATH}"
-  }
+Use this when Jenkins is the runner and you want a blocking readiness stage that still archives
+portable annotations and receipts before the pipeline stops.
 
-  parameters {
-    choice(name: 'BUMP', choices: ['patch', 'minor', 'major', 'prerelease'], description: 'Version bump selector')
-  }
+## Why this exists
 
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
-    stage('Install Ota') {
-      steps {
-        sh 'curl -fsSL https://dist.ota.run/install.sh | sh'
-      }
-    }
-    stage('Validate') {
-      steps {
-        sh 'ota validate .'
-      }
-    }
-    stage('Setup') {
-      steps {
-        sh 'ota run setup'
-      }
-    }
-    stage('CI') {
-      steps {
-        sh 'ota run ci'
-      }
-    }
-    stage('Bump version') {
-      steps {
-        sh 'ota run version:bump . --version "${BUMP}"'
-      }
-    }
-    stage('Release') {
-      when {
-        expression { currentBuild.currentResult == null || currentBuild.currentResult == 'SUCCESS' }
-      }
-      steps {
-        sh 'ota run release'
-      }
-    }
-  }
-}
+- shows the generic `doctor` plus plain annotations plus receipt pattern on Jenkins
+- uses `post { always { ... } }` so artifacts survive blocked readiness runs
+- keeps setup and CI stages behind an explicit readiness boundary
+
+## Copy these files
+
+- [ota.yaml](ota.yaml)
+- [Jenkinsfile](Jenkinsfile)
+
+## Try this
+
+```bash
+ota validate .
+ota doctor
+ota run setup
+ota run ci
+```

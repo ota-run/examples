@@ -29,10 +29,6 @@ pipeline {
     PATH = "${env.HOME}/.local/bin:${env.PATH}"
   }
 
-  parameters {
-    choice(name: 'BUMP', choices: ['patch', 'minor', 'major', 'prerelease'], description: 'Version bump selector')
-  }
-
   stages {
     stage('Checkout') {
       steps {
@@ -44,9 +40,22 @@ pipeline {
         sh 'curl -fsSL https://dist.ota.run/install.sh | sh'
       }
     }
-    stage('Validate') {
+    stage('Capture readiness') {
       steps {
-        sh 'ota validate .'
+        script {
+          sh 'mkdir -p .ota/ci .ota/receipts'
+          int validateStatus = sh(script: 'ota validate --json . | tee .ota/ci/validate.json', returnStatus: true)
+          int doctorStatus = sh(script: 'ota doctor --json . | tee .ota/ci/doctor.json', returnStatus: true)
+          sh 'ota annotations --mode doctor --format plain --input .ota/ci/doctor.json | tee .ota/ci/annotations.log'
+          int receiptStatus = sh(script: 'ota receipt --json --archive . | tee .ota/ci/receipt.json', returnStatus: true)
+          String readinessStatus = (validateStatus == 0 && doctorStatus == 0 && receiptStatus == 0) ? 'ready' : 'blocked'
+          writeFile file: '.ota/ci/status', text: readinessStatus
+        }
+      }
+    }
+    stage('Fail on blockers') {
+      steps {
+        sh '[ "$(cat .ota/ci/status)" = "ready" ]'
       }
     }
     stage('Setup') {
@@ -59,18 +68,11 @@ pipeline {
         sh 'ota run ci'
       }
     }
-    stage('Bump version') {
-      steps {
-        sh 'ota run version:bump . --version "${BUMP}"'
-      }
-    }
-    stage('Release') {
-      when {
-        expression { currentBuild.currentResult == null || currentBuild.currentResult == 'SUCCESS' }
-      }
-      steps {
-        sh 'ota run release'
-      }
+  }
+
+  post {
+    always {
+      archiveArtifacts artifacts: '.ota/ci/**, .ota/receipts/**', allowEmptyArchive: true
     }
   }
 }

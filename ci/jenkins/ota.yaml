@@ -41,7 +41,7 @@ tasks:
         default: patch
     run: node scripts/bump-version.mjs
     notes: |
-      Example: `ota run version:bump --version patch`
+      Example: `ota run version:bump . --version patch`
       Use `patch` for routine releases.
       Use `minor`, `major`, `prerelease`, or an explicit semver when needed.
   release:

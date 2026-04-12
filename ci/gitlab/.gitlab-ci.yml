@@ -20,56 +20,48 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-version: 2.1
+image: node:22-bookworm
 
-jobs:
-  ci:
-    docker:
-      - image: cimg/node:22.15
-    steps:
-      - checkout
-      - run:
-          name: Install Ota
-          command: |
-            curl -fsSL https://dist.ota.run/install.sh | sh
-            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-      - run:
-          name: Validate contract
-          command: ota validate .
-      - run:
-          name: Setup
-          command: ota run setup
-      - run:
-          name: CI
-          command: ota run ci
-  release:
-    docker:
-      - image: cimg/node:22.15
-    steps:
-      - checkout
-      - run:
-          name: Install Ota
-          command: |
-            curl -fsSL https://dist.ota.run/install.sh | sh
-            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-      - run:
-          name: Validate contract
-          command: ota validate .
-      - run:
-          name: Setup
-          command: ota run setup
-      - run:
-          name: CI
-          command: ota run ci
-      - run:
-          name: Bump version
-          command: ota run version:bump . --version patch
-      - run:
-          name: Release
-          command: ota run release
+stages:
+  - readiness
+  - ci
 
-workflows:
-  version: 2
-  ci-and-release:
-    jobs:
-      - ci
+default:
+  before_script:
+    - apt-get update && apt-get install -y curl
+    - curl -fsSL https://dist.ota.run/install.sh | sh
+    - export PATH="$HOME/.local/bin:$PATH"
+
+readiness:
+  stage: readiness
+  script:
+    - mkdir -p .ota/ci .ota/receipts
+    - |
+      set +e
+      ota validate --json . | tee .ota/ci/validate.json
+      validate_status=${PIPESTATUS[0]}
+      ota doctor --json . | tee .ota/ci/doctor.json
+      doctor_status=${PIPESTATUS[0]}
+      ota annotations --mode doctor --format plain --input .ota/ci/doctor.json | tee .ota/ci/annotations.log
+      ota receipt --json --archive . | tee .ota/ci/receipt.json
+      receipt_status=${PIPESTATUS[0]}
+      if [ "${validate_status}" -ne 0 ] || [ "${doctor_status}" -ne 0 ] || [ "${receipt_status}" -ne 0 ]; then
+        echo blocked > .ota/ci/status
+      else
+        echo ready > .ota/ci/status
+      fi
+      [ "$(cat .ota/ci/status)" = "ready" ]
+  artifacts:
+    when: always
+    paths:
+      - .ota/ci/
+      - .ota/receipts/
+
+ci:
+  stage: ci
+  needs:
+    - readiness
+  script:
+    - ota validate .
+    - ota run setup
+    - ota run ci

@@ -40,12 +40,15 @@ This matters when pipeline steps drift across providers, release behavior gets c
 ## Folders
 
 - `template/` - shared CI contract pattern
+- `gitlab/` - GitLab CI readiness-gate example
 - `github-actions/` - GitHub Actions workflow example
 - `github-actions/action-readiness/` - GitHub Action readiness receipt, annotations, and PR comment example
 - `github-actions/matrix-tests/` - GitHub Actions matrix example
 - `github-actions/scheduled-validation/` - GitHub Actions schedule example
 - `jenkins/` - Jenkins pipeline example
+- `jenkins/readiness-gate/` - Jenkins readiness receipt and artifact-gate example
 - `circleci/` - CircleCI pipeline example
+- `circleci/readiness-gate/` - CircleCI readiness receipt and artifact-gate example
 
 ## Read first
 

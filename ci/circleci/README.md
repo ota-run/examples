@@ -38,6 +38,10 @@ Use this when CircleCI is the runner but you do not want CI behavior to live in 
 - you run CI in CircleCI
 - you want a provider-specific example with the same ota contract
 - you want to avoid duplicating repo logic across pipeline files
+- you want the direct CLI flow instead of the advanced readiness-gate pattern
+
+If you want archived receipts, plain annotations, and a separate readiness gate before execution,
+use [readiness-gate/](readiness-gate).
 
 ## Copy these files
 
@@ -50,5 +54,6 @@ Use this when CircleCI is the runner but you do not want CI behavior to live in 
 ota validate .
 ota run setup
 ota run ci
+ota run version:bump . --version patch
 ota run release
 ```
