@@ -65,6 +65,15 @@ def require_ok_json(root: Path, args: list[str]) -> dict[str, object]:
     return data
 
 
+def require_loaded_policy(root: Path, repo_dir: Path) -> dict[str, object]:
+    data = require_ok_json(root, ["policy", "--json", str(repo_dir)])
+    if not data.get("loaded", False):
+        print(f"FAILED: ota policy --json {repo_dir} reported loaded=false")
+        print(json.dumps(data, indent=2))
+        raise SystemExit(1)
+    return data
+
+
 def check_markdown_links(root: Path) -> tuple[int, list[str]]:
     checked = 0
     errors: list[str] = []
@@ -93,6 +102,7 @@ def main() -> None:
 
     repo_contracts = sorted(root.rglob("ota.yaml"))
     workspace_contracts = sorted(root.rglob("ota.workspace.yaml"))
+    policy_packs = sorted(root.rglob(".ota/org-policy.yaml"))
 
     require_ok_json(root, ["validate", "--json", "."])
 
@@ -108,6 +118,17 @@ def main() -> None:
         require_ok_json(root, ["workspace", "validate", "--json", str(contract.parent)])
         workspace_contract_count += 1
 
+    policy_pack_count = 0
+    for policy_pack in policy_packs:
+        repo_dir = policy_pack.parent.parent
+        data = require_loaded_policy(root, repo_dir)
+        policy_path = data.get("policy_path")
+        if policy_path not in ("./.ota/org-policy.yaml", ".ota/org-policy.yaml"):
+            print(f"FAILED: ota policy --json {repo_dir} reported unexpected policy_path")
+            print(json.dumps(data, indent=2))
+            raise SystemExit(1)
+        policy_pack_count += 1
+
     markdown_count, link_errors = check_markdown_links(root)
     if link_errors:
         print("Broken local markdown links:")
@@ -118,6 +139,7 @@ def main() -> None:
     print("Examples validation complete")
     print(f"Repo contracts: {repo_contract_count + 1} valid")
     print(f"Workspace contracts: {workspace_contract_count} valid")
+    print(f"Policy packs: {policy_pack_count} valid")
     print(f"Markdown files: {markdown_count} checked")
     print("Flagship starters: reference/adoption-flow, reference/windows-adoption-flow")
 
