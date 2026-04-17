@@ -34,6 +34,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 - how to reduce repeated explanations with structured docs
 - how to turn repo conventions into something people can trust and reuse
 - how to make the repo itself explain the operating model
+- how repo intent and org policy stay separate through explicit `version_policy`, provisioning, and adapter bootstrap rules
 
 ## Read this first
 
@@ -48,7 +49,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 ## Structure
 
 - `ota.yaml` - canonical repo contract and agent boundaries
-- `.ota/org-policy.yaml` - shared org rules that sit above the repo contract
+- `.ota/org-policy.yaml` - shared org rules that sit above the repo contract, including explicit version approvals and provisioning sources
 - `AGENTS.md` - repo-local guidance for safe and reviewable agent work
 - `docs/` - operational knowledge that should stay close to the repo
 - `docs/templates/` - reusable templates for recurring work

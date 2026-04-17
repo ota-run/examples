@@ -59,6 +59,7 @@ def main() -> None:
     examples = [
         ("reference/adoption-flow", "repo-with-services"),
         ("reference/windows-adoption-flow", "windows-first"),
+        ("reference/canonical-team-repo", "canonical-advanced"),
     ]
 
     for rel_path, label in examples:

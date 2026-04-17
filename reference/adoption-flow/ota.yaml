@@ -26,7 +26,10 @@ project:
   name: adoption-flow
   description: Flagship Ota adoption starter for turning an existing Java repo into an explicit contract
 runtimes:
-  java: 21-tem
+  java:
+    version: "21"
+    provider: sdkman
+    distribution: temurin
 tools:
   maven: "*"
   docker: "*"

@@ -22,6 +22,7 @@
 
 policies:
   required_sections:
+    - project
     - runtimes
     - tools
     - tasks
@@ -29,9 +30,69 @@ policies:
     - agent
   required_files:
     - AGENTS.md
-  strict_versions: true
+  version_policy:
+    runtimes:
+      node:
+        approved_versions:
+          - "22"
+    tools:
+      pnpm:
+        approved_versions:
+          - "10"
+      pwsh:
+        platforms:
+          windows:
+            approved_versions:
+              - "7.6.0"
   agent:
     require_safe_tasks: true
     require_writable_paths: true
   exports:
     require_agents_md: true
+  provisioning:
+    node:
+      source: brew
+      package: node
+      approved_versions:
+        - "22.15.0"
+      platforms:
+        linux:
+          source: apt
+          package: nodejs
+          approved_versions:
+            - "22.15.0"
+        windows:
+          source: choco
+          package: nodejs
+          approved_versions:
+            - "22.15.0"
+    pnpm:
+      source: brew
+      package: pnpm
+      approved_versions:
+        - "10.11.0"
+      platforms:
+        linux:
+          source: apt
+          package: pnpm
+          approved_versions:
+            - "10.11.0"
+        windows:
+          source: choco
+          package: pnpm
+          approved_versions:
+            - "10.11.0"
+    pwsh:
+      source: choco
+      package: powershell
+      approved_versions:
+        - "7.6.0"
+  adapter_bootstrap:
+    brew:
+      source: brew-bootstrap
+      approved_versions:
+        - "4.4"
+    choco:
+      source: choco-bootstrap
+      approved_versions:
+        - "2.0.0"

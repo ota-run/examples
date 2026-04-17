@@ -29,6 +29,11 @@ runtimes:
   node: "22"
 tools:
   pnpm: "10"
+  pwsh:
+    version: "7.6.0"
+    required: false
+    only_on:
+      - windows
 tasks:
   setup:
     run: pnpm install
