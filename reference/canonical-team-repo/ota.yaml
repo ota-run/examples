@@ -34,6 +34,24 @@ tools:
     required: false
     only_on:
       - windows
+env:
+  vars:
+    DOCS_SITE_BASE_URL:
+      required: true
+    RELEASE_CHANNEL:
+      default: stable
+      allowed:
+        - stable
+        - canary
+    PATH:
+      prepend:
+        - ./node_modules/.bin
+  sources:
+    - kind: dotenv
+      path: .env.local
+    - kind: dotenv
+      path: .env.ota-example
+      must_exist: true
 tasks:
   setup:
     run: pnpm install

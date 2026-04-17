@@ -35,6 +35,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 - how to turn repo conventions into something people can trust and reuse
 - how to make the repo itself explain the operating model
 - how repo intent and org policy stay separate through explicit `version_policy`, provisioning, and adapter bootstrap rules
+- how to declare env requirements explicitly through `env.vars` and ordered `env.sources` instead of relying on silent `.env` loading
 
 ## Read this first
 
@@ -49,10 +50,23 @@ This is the advanced example you fork when you want ota to be part of the repo o
 ## Structure
 
 - `ota.yaml` - canonical repo contract and agent boundaries
+- `.env.ota-example` - committed non-secret dotenv source used to demonstrate ordered `env.sources` and `must_exist`
 - `.ota/org-policy.yaml` - shared org rules that sit above the repo contract, including explicit version approvals and provisioning sources
 - `AGENTS.md` - repo-local guidance for safe and reviewable agent work
 - `docs/` - operational knowledge that should stay close to the repo
 - `docs/templates/` - reusable templates for recurring work
+
+## Env model
+
+This example intentionally dogfoods the current env contract:
+
+- `env.vars` declares the repo-facing values
+- `env.sources` declares where ota may read them from
+- `.ota/org-policy.yaml` can supply shared env values through `policies.env.values`
+- `.env.local` stays optional for local overrides
+- `.env.ota-example` is required and committed so the example validates and doctors cleanly without manual setup
+- org policy env values outrank process env and declared dotenv sources
+- process env still outranks declared dotenv sources
 
 ## Use this repo when
 

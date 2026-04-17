@@ -69,6 +69,14 @@ def main() -> None:
         doctor = run_plain(root, ["doctor", rel_path], {0, 1})
         assert_contains(f"{label} doctor", doctor, ["DOCTOR", "Verdict"])
 
+        if rel_path == "reference/canonical-team-repo":
+            env_report = run_plain(root, ["env", rel_path], {0, 1})
+            assert_contains(
+                f"{label} env",
+                env_report,
+                ["ENV", "Declared env sources", "DOCS_SITE_BASE_URL", "dotenv:.env.ota-example"],
+            )
+
         detect = run_plain(root, ["detect", "--dry-run", rel_path], {0})
         assert_contains(
             f"{label} detect",

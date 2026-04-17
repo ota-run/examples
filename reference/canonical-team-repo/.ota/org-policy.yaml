@@ -44,6 +44,9 @@ policies:
           windows:
             approved_versions:
               - "7.6.0"
+  env:
+    values:
+      RELEASE_CHANNEL: stable
   agent:
     require_safe_tasks: true
     require_writable_paths: true
