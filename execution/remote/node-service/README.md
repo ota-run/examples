@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Node service in ota remote execution mode
+# Node service in a remote execution context
 
-Use this example when a Node service should run on a remote host, but the repo still needs a clear, local contract.
+Use this example when a Node service should run in a remote execution context, but the repo still needs a clear, local contract.
 
 ## Why this exists
 
@@ -40,7 +40,6 @@ Use this example when a Node service should run on a remote host, but the repo s
 
 ## What this teaches
 
-- how to keep `execution.preferred: remote` visible in the contract
+- how to keep `execution.contexts` visible in the contract
 - how to keep setup, dev, and test tasks readable
 - how to keep the remote backend thin while the repo contract stays authoritative
-

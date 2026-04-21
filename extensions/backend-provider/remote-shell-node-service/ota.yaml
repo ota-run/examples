@@ -26,16 +26,15 @@ project:
   name: remote-shell-node-service
   description: Node service example that uses a custom remote backend provider
 execution:
-  preferred: remote
-  lifecycle: persistent
-  supported:
-    - native
-    - remote
-  backends:
-    remote:
-      provider: remote-shell
-      target: sandbox-dev
-      cwd: /workspace
+  default_context: app
+  contexts:
+    app:
+      backend: remote
+      lifecycle: persistent
+      remote:
+        provider: remote-shell
+        target: sandbox-dev
+        cwd: /workspace
 extensions:
   remote-shell:
     kind: backend_provider
@@ -49,17 +48,20 @@ tools:
   pnpm: "10"
 tasks:
   setup:
+    context: app
     run: pnpm install
     notes: |
-      Example: `ota run setup` to prepare the repo on the custom remote backend.
+      Example: `ota run setup` to prepare the repo on the custom remote context.
   dev:
+    context: app
     run: pnpm dev
     notes: |
-      Example: `ota run dev` while iterating on the remote backend.
+      Example: `ota run dev` while iterating on the remote context.
   test:
+    context: app
     run: pnpm test
     notes: |
-      Example: `ota run test` before merging.
+      Example: `ota run test` before merging from the remote context.
 agent:
   entrypoint: setup
   default_task: test

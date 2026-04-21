@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Node service in ota container mode
+# Node service in a container execution context
 
-A copyable starting point for a Node service that runs setup and tests in ota container mode.
+A copyable starting point for a Node service that runs setup and tests in a container execution context.
 
 ## Why this exists
 

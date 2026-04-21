@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# ota remote execution mode examples
+# ota remote execution-context examples
 
-Use this theme when ota should run repo tasks on a remote target instead of the local machine.
+Use this theme when ota should run repo tasks in a dedicated remote execution context instead of the local machine.
 
 ## Why this exists
 
@@ -40,7 +40,7 @@ Use this theme when ota should run repo tasks on a remote target instead of the 
 
 ## What this teaches
 
-- how to keep execution intent explicit
+- how to keep execution intent explicit through `execution.contexts`
 - how to keep remote targets understandable to humans and agents
 - how to preserve one repo contract across multiple execution locations
 

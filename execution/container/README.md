@@ -24,7 +24,7 @@
 
 # Container execution mode examples
 
-Use this theme when you want ota to run repo tasks inside a container boundary.
+Use this theme when you want ota to run repo tasks inside a dedicated container execution context.
 
 ## Why this exists
 
@@ -34,14 +34,14 @@ Use this theme when you want ota to run repo tasks inside a container boundary.
 
 ## What this teaches
 
-- how to keep container execution explicit
+- how to keep container execution explicit through `execution.contexts`
 - how to make host drift less relevant
-- how to keep `ota.yaml` as the repo contract even when ota runs tasks in a container
+- how to keep `ota.yaml` as the repo contract even when ota runs tasks in a container context
 
 ## Folders
 
 - `template/` - shared container contract pattern
-- `node-service/` - real Node service example using ota container mode
+- `node-service/` - real Node service example using a container execution context
 
 ## Read first
 

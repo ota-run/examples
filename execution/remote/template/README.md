@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# ota remote execution template
+# ota remote execution-context template
 
-Use this template when a repo should keep its contract local, but run setup and verification on a remote target. It is useful when the environment is shared, the local machine is not the right place to execute, or you want the remote boundary to stay visible in the repo itself.
+Use this template when a repo should keep its contract local, but run setup and verification in a remote execution context. It is useful when the environment is shared, the local machine is not the right place to execute, or you want the remote boundary to stay visible in the repo itself.
 
 ## Why this exists
 
@@ -45,6 +45,6 @@ Use this template when a repo should keep its contract local, but run setup and 
 
 ## What this teaches
 
-- how to keep `execution.preferred: remote` explicit
+- how to keep `execution.contexts` explicit for remote execution
 - how to keep the remote provider, target, and working directory in the contract
 - how to keep task guidance close to the task itself

@@ -26,31 +26,33 @@ project:
   name: ssh-node-service
   description: Node service template with Ota remote execution mode for setup, dev, and test
 execution:
-  preferred: remote
-  lifecycle: persistent
-  supported:
-    - native
-    - remote
-  backends:
-    remote:
-      provider: ssh
-      target: user@remote-host
-      cwd: /workspace
+  default_context: app
+  contexts:
+    app:
+      backend: remote
+      lifecycle: persistent
+      remote:
+        provider: ssh
+        target: user@remote-host
+        cwd: /workspace
 tools:
   pnpm: "10"
 tasks:
   setup:
+    context: app
     run: pnpm install
     notes: |
-      Example: `ota run setup` to prepare dependencies on the remote host.
+      Example: `ota run setup` to prepare dependencies on the remote context.
   dev:
+    context: app
     run: pnpm dev
     notes: |
-      Example: `ota run dev` while iterating on the remote host.
+      Example: `ota run dev` while iterating on the remote context.
   test:
+    context: app
     run: pnpm test
     notes: |
-      Example: `ota run test` before merging.
+      Example: `ota run test` before merging from the remote context.
 agent:
   entrypoint: setup
   default_task: test

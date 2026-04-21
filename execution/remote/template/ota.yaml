@@ -26,25 +26,26 @@ project:
   name: remote-template
   description: Ota remote execution template for repeatable setup and verification
 execution:
-  preferred: remote
-  lifecycle: persistent
-  supported:
-    - native
-    - remote
-  backends:
-    remote:
-      provider: ssh
-      target: user@remote-host
-      cwd: /workspace
+  default_context: app
+  contexts:
+    app:
+      backend: remote
+      lifecycle: persistent
+      remote:
+        provider: ssh
+        target: user@remote-host
+        cwd: /workspace
 tasks:
   setup:
+    context: app
     run: pnpm install
     notes: |
-      Example: `ota run setup` to prepare dependencies on the remote target.
+      Example: `ota run setup` to prepare dependencies on the remote context.
   test:
+    context: app
     run: pnpm test
     notes: |
-      Example: `ota run test` to verify the repo on the remote target.
+      Example: `ota run test` to verify the repo on the remote context.
 agent:
   entrypoint: setup
   default_task: test

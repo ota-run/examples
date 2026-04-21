@@ -43,10 +43,46 @@ tasks:
       - when:
           os: windows
         run: py -3 scripts/dogfood_examples.py "$PWD"
+    after_success:
+      - dogfood:summary
+    after_failure:
+      - dogfood:diagnose
+    after_always:
+      - dogfood:next
     notes: |
       Example: `ota run dogfood`
       Use this when Ota UX, output wording, or flagship examples change.
       It re-checks the flagship adoption examples against the current local Ota CLI.
+  dogfood:summary:
+    run: echo "Flagship examples still match the current local ota CLI."
+    variants:
+      - when:
+          os: windows
+        run: Write-Host "Flagship examples still match the current local ota CLI."
+    notes: |
+      Example: `ota run dogfood:summary`
+      This is the success follow-up for `ota run dogfood`.
+      It keeps the examples repo exercising task-success hooks with a real operator-facing summary.
+  dogfood:diagnose:
+    run: echo "Dogfood failed. Run ota run validate first to confirm contract integrity, then rerun ota run dogfood against the current checkout."
+    variants:
+      - when:
+          os: windows
+        run: Write-Host "Dogfood failed. Run ota run validate first to confirm contract integrity, then rerun ota run dogfood against the current checkout."
+    notes: |
+      Example: `ota run dogfood:diagnose`
+      This is the failure follow-up for `ota run dogfood`.
+      It gives the operator the next useful command instead of stopping at a raw failing exit.
+  dogfood:next:
+    run: echo "Review the README adoption paths and flagship example commands before shipping UX changes."
+    variants:
+      - when:
+          os: windows
+        run: Write-Host "Review the README adoption paths and flagship example commands before shipping UX changes."
+    notes: |
+      Example: `ota run dogfood:next`
+      This is the always-run follow-up for `ota run dogfood`.
+      It keeps the examples repo exercising the cleanup/finalization edge even when dogfood fails early.
 checks:
   - name: ota-installed
     kind: precondition
@@ -62,6 +98,9 @@ agent:
   safe_tasks:
     - validate
     - dogfood
+    - dogfood:summary
+    - dogfood:diagnose
+    - dogfood:next
   verify_after_changes:
     - validate
   writable_paths:

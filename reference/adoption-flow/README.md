@@ -52,12 +52,16 @@ This is the flagship public adoption starter. Use it when you are introducing ot
 
 - how `ota doctor` surfaces readiness gaps first
 - how `checks` make `ota doctor` fail fast when the Java toolchain is missing
-- how `services` make local dependencies explicit instead of hidden in README prose
+- how typed `services` make local dependencies explicit instead of hidden in README prose
+- how explicit host and app execution contexts keep repo work and containerized app work separate
+- how typed service managers make Postgres ownership and readiness honest instead of implied
 - how `ota explain` turns findings into concrete next steps
 - how `ota detect --dry-run` reviews the contract against repo signals before you write or merge anything
 - how `ota validate` and `ota up` become the repeatable path after adoption
 - how `ota agents --write` turns the contract into agent-facing repo guidance
 - how ota reduces repeated setup explanations for both humans and agents
+- how `tasks.<name>.requires_services` lets `db:integration` wait for `postgres` before it runs
+- how `tasks.<name>.runtime.listeners` lets a containerized Spring Boot API publish a deterministic host URL without pretending app ingress belongs in `services`
 
 ## What is included
 
@@ -83,6 +87,8 @@ ota doctor .
 ota explain .
 ota detect --dry-run .
 ota validate .
+ota run db:integration
+ota run dev:api
 ota up .
 ota agents --write .
 ```
@@ -92,7 +98,9 @@ ota agents --write .
 - `ota doctor` should tell you exactly what is missing or confirm the repo is ready
 - `ota explain` should turn those findings into an ordered fix plan
 - `ota detect --dry-run` should review the current contract against the repo signals instead of making you guess what ota saw
-- `ota up` should make setup and local service readiness feel like one repeatable flow
+- `ota run db:integration` should start and verify `postgres` before the integration task runs
+- `ota run dev:api` should print the resolved host endpoint for the API workload after it starts inside the container
+- `ota up` should make setup, local service readiness, and published workload endpoint planning feel like one repeatable flow
 - `ota agents --write` should give the repo an explicit agent-facing contract derived from `ota.yaml`
 
 ## What Ota will tell you
@@ -111,7 +119,7 @@ Local service readiness:
 ```text
 ERROR  Service healthcheck failed: postgres
 Why: service `postgres` did not pass its configured healthcheck
-Next: run `docker compose up -d postgres` and re-run `ota doctor ./reference/adoption-flow/ota.yaml`
+Next: run `ota up` and re-run `ota doctor ./reference/adoption-flow/ota.yaml`
 ```
 
 Derived agent guidance:
@@ -134,8 +142,10 @@ Next:
 ## Edit first
 
 - `project.name` and `project.description`
-- `runtimes.java`, `tools.maven`, and `tools.docker`
-- `services.postgres.start`, `services.postgres.stop`, and `services.postgres.healthcheck`
+- `execution.contexts.host` and `execution.contexts.app`
+- `services.postgres.manager`, `services.postgres.endpoints`, and `services.postgres.readiness`
+- `tasks.db:integration.requires_services`
+- `tasks.dev:api.runtime.listeners`
 - `tasks.setup`, `tasks.build`, `tasks.test`, `tasks.docs:check`, and `tasks.release`
 - `agent.safe_tasks`, `agent.verify_after_changes`, `agent.writable_paths`, and `agent.protected_paths`
 - `pom.xml` coordinates, dependencies, and Java release target
@@ -145,4 +155,6 @@ Next:
 
 - it gives users a believable “before this was tribal, now it is explicit” repo shape
 - it shows diagnosis, contract review, task execution, services, and agent guidance in one place
+- it shows a task prerequisite example where `db:integration` asks for Postgres readiness directly
+- it shows workload ingress explicitly, so the app can stay containerized while ota still tells the host browser where to connect
 - it can be forked as a starter instead of only read as a concept

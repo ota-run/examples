@@ -26,29 +26,31 @@ project:
   name: node-service-container
   description: Node service template with Ota container mode for setup, dev, and test
 execution:
-  preferred: container
-  lifecycle: persistent
-  supported:
-    - native
-    - container
-  backends:
-    container:
-      image: node:22
+  default_context: app
+  contexts:
+    app:
+      backend: container
+      lifecycle: persistent
+      container:
+        image: node:22
 tools:
   pnpm: "10"
 tasks:
   setup:
+    context: app
     run: pnpm install
     notes: |
-      Example: `ota run setup` to install dependencies inside Ota container mode.
+      Example: `ota run setup` to install dependencies inside the container context.
   dev:
+    context: app
     run: pnpm dev
     notes: |
-      Example: `ota run dev` while iterating locally.
+      Example: `ota run dev` while iterating in the container context.
   test:
+    context: app
     run: pnpm test
     notes: |
-      Example: `ota run test` before merging.
+      Example: `ota run test` before merging from the container context.
 agent:
   entrypoint: setup
   default_task: test

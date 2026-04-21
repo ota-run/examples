@@ -26,25 +26,26 @@ project:
   name: container-template
   description: Ota container mode contract pattern for repeatable setup and verification
 execution:
-  preferred: container
-  lifecycle: persistent
-  supported:
-    - native
-    - container
-  backends:
-    container:
-      image: node:22
+  default_context: app
+  contexts:
+    app:
+      backend: container
+      lifecycle: persistent
+      container:
+        image: node:22
 tools:
   pnpm: "10"
 tasks:
   setup:
+    context: app
     run: pnpm install
     notes: |
-      Example: `ota run setup` to install dependencies inside Ota container mode.
+      Example: `ota run setup` to install dependencies inside the container context.
   test:
+    context: app
     run: pnpm test
     notes: |
-      Example: `ota run test` after code changes.
+      Example: `ota run test` after code changes in the container context.
 agent:
   entrypoint: setup
   default_task: test

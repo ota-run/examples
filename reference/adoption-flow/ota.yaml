@@ -25,47 +25,119 @@ version: 1
 project:
   name: adoption-flow
   description: Flagship Ota adoption starter for turning an existing Java repo into an explicit contract
-runtimes:
-  java:
-    version: "21"
-    provider: sdkman
-    distribution: temurin
-tools:
-  maven: "*"
-  docker: "*"
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        runtimes:
+          java: ">=21"
+        tools:
+          docker: "*"
+          maven: "*"
+    app:
+      backend: container
+      lifecycle: persistent
+      container:
+        image: maven:3.9.14-eclipse-temurin-21-noble
+      attachments:
+        compose:
+          - local
+      requirements:
+        runtimes:
+          java: ">=21"
+        tools:
+          maven: "*"
 services:
   postgres:
-    required: true
-    provider: docker-compose
-    start: docker compose up -d postgres
-    stop: docker compose stop postgres
-    healthcheck: docker compose exec -T postgres sh -lc 'pg_isready -U adoption -d adoption_flow'
-    timeout: 5000
+    manager:
+      kind: compose
+      name: local
+      file: docker-compose.yml
+      service: postgres
+    endpoints:
+      host:
+        address: 127.0.0.1
+        port: 5432
+      app:
+        address: postgres
+        port: 5432
+    readiness:
+      from: app
+      run: pg_isready -h postgres -p 5432 -U adoption -d adoption_flow
 tasks:
   setup:
+    context: app
     run: mvn -q -DskipTests dependency:go-offline
     notes: |
       Example: `ota up` or `ota run setup` after the contract has been written.
   build:
+    context: app
     run: mvn package
     depends_on:
       - setup
     notes: |
       Example: `ota run build` to compile and package the Java repo.
   test:
+    context: app
     run: mvn test
     depends_on:
       - setup
     safe_for_agent: true
     notes: |
       Example: `ota run test` before merging contract changes.
+  db:integration:
+    description: Run the database integration test suite
+    context: app
+    env:
+      DB_URL: jdbc:postgresql://postgres:5432/adoption_flow
+    run: mvn test
+    depends_on:
+      - setup
+    requires_services:
+      - postgres
+    notes: |
+      Example: `ota run db:integration`
+      Use this when integration tests need Postgres ready before the task body runs.
+    category: test
+    safe_for_agent: true
+  dev:api:
+    description: Run the Spring Boot API inside the app container and publish it back to the host
+    context: app
+    env:
+      DB_URL: jdbc:postgresql://postgres:5432/adoption_flow
+    run: mvn spring-boot:run -Dspring-boot.run.arguments=--server.address=0.0.0.0,--server.port=8080
+    requires_services:
+      - postgres
+    runtime:
+      kind: service
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 8080
+          project:
+            host:
+              address: 127.0.0.1
+              port:
+                mode: auto
+              path: /
+    notes: |
+      Example: `ota run dev:api`
+      Use this when the app should stay in the container context but still expose a host URL that browsers, curl, and local tools can reach deterministically.
   docs:check:
+    context: host
     run: test -f docs/first-week.md && test -f docs/release-checklist.md
     depends_on:
       - build
     notes: |
       Example: `ota run docs:check` when repo guidance or release steps change.
   release:
+    context: host
     run: ./scripts/release.sh
     depends_on:
       - build
@@ -89,10 +161,12 @@ agent:
     - setup
     - build
     - test
+    - db:integration
     - docs:check
   verify_after_changes:
     - build
     - test
+    - db:integration
     - docs:check
   writable_paths:
     - src

@@ -51,7 +51,7 @@ Use these as starting points when you want:
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
-  This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, docs, and release-script companions so users can copy more than just `ota.yaml`.
+  This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, a task-prerequisite example with `requires_services`, docs, and release-script companions so users can copy more than just `ota.yaml`.
 - Windows-first repo adoption: [`reference/windows-adoption-flow`](reference/windows-adoption-flow)
   This is the Windows-oriented flagship starter. It shows how ota keeps `.NET`, PowerShell release flow, and cross-platform task variants explicit without hiding the repo behind shell glue.
 - Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)

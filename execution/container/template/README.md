@@ -22,9 +22,9 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# ota container template
+# ota container execution-context template
 
-Use this when the repo should run setup and verification through ota container mode.
+Use this when the repo should run setup and verification through a container execution context.
 
 ## Why this exists
 
@@ -37,7 +37,7 @@ Use this when the repo should run setup and verification through ota container m
 
 - local and CI environments should match
 - the toolchain is easier to standardize inside a container
-- you want the container to be the execution boundary, not the source of truth
+- you want the container execution context to be the boundary, not the source of truth
 - you want every new contributor to start from the same runtime instead of recreating one
 
 ## Try this

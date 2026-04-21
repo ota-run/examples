@@ -41,8 +41,8 @@ Use this theme when ota should run repo tasks through a backend boundary instead
 
 ## Folders
 
-- `container/` - container execution mode examples
-- `remote/` - remote execution mode examples
+- `container/` - container execution-context examples
+- `remote/` - remote execution-context examples
 - `os-aware/` - OS-specific launcher examples
 
 ## Read first
