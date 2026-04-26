@@ -1,0 +1,152 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: task-target-binding
+  description: Advanced task target-binding example with one producer service and two helper consumers
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        runtimes:
+          node: ">=24"
+        tools:
+          pnpm: "*"
+    tools:
+      backend: container
+      lifecycle: ephemeral
+      container:
+        image: node:24-bookworm
+tasks:
+  dev:
+    description: Start the API service
+    execution:
+      default_mode: native
+      modes:
+        native:
+          context: host
+          env:
+            HOST: 127.0.0.1
+            PORT: "8080"
+          run: pnpm dev:api
+          runtime:
+            kind: service
+            listeners:
+              http:
+                protocol: http
+                bind:
+                  address: 127.0.0.1
+                  port:
+                    mode: fixed
+                    value: 8080
+                project:
+                  host:
+                    address: 127.0.0.1
+                    primary: true
+                    port:
+                      mode: fixed
+                      value: 8080
+                    path: /
+        container:
+          context: tools
+          lifecycle: persistent
+          env:
+            HOST: 0.0.0.0
+            PORT: "8080"
+          run: pnpm dev:api
+          runtime:
+            kind: service
+            listeners:
+              http:
+                protocol: http
+                bind:
+                  address: 0.0.0.0
+                  port:
+                    mode: fixed
+                    value: 8080
+                project:
+                  host:
+                    address: 127.0.0.1
+                    primary: true
+                    port:
+                      mode: fixed
+                      value: 8080
+                    path: /
+    notes: |
+      Example: `ota run dev`
+      Use `ota run dev --container` to switch the producer to the container plane without renaming the task.
+  sandbox:
+    description: Start a helper app that normally targets the local API but can be pointed elsewhere
+    context: tools
+    inputs:
+      base_url:
+        description: Override the API base URL when sandbox should target something other than the repo-managed API
+    targets:
+      api:
+        service:
+          task: dev
+          listener: http
+          address_view: host
+        override_input: base_url
+    run: pnpm dev:sandbox
+    notes: |
+      Example: `ota run sandbox`
+      Ota resolves the default `base_url` from `service(dev.http)` and still lets the operator override it.
+  probe:api:
+    description: Run a smoke probe against the repo-managed API without exposing a user-facing input
+    context: host
+    targets:
+      api:
+        service:
+          task: dev
+          listener: http
+          address_view: host
+    run: curl -fsS "$OTA_TARGET_API/actuator/health"
+    notes: |
+      Example: `ota run probe:api`
+      This task consumes the resolved target through `OTA_TARGET_API` because it does not need an explicit override input.
+agent:
+  entrypoint: dev
+  default_task: probe:api
+  safe_tasks:
+    - dev
+    - sandbox
+    - probe:api
+  verify_after_changes:
+    - probe:api
+  writable_paths:
+    - src
+    - docs
+  protected_paths:
+    - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
+  notes: |
+    Start with `ota doctor`, then `ota validate`, then `ota run dev`.
+    Keep service identity in `targets` and reserve task inputs for explicit operator overrides.

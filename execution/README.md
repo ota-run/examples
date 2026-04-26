@@ -42,19 +42,22 @@ Use this theme when ota should run repo tasks through a backend boundary instead
 ## Folders
 
 - `container/` - container execution-context examples
+- `local-topology/` - task target-binding and helper-app targeting patterns
 - `remote/` - remote execution-context examples
 - `os-aware/` - OS-specific launcher examples
 
 ## Read first
 
 1. `container/README.md`
-2. `container/template/README.md`
-3. `container/node-service/README.md`
-4. `remote/README.md`
-5. `remote/template/README.md`
-6. `remote/ssh-node-service/README.md`
-7. `os-aware/README.md`
-8. `os-aware/python-service/README.md`
+2. `local-topology/README.md`
+3. `local-topology/task-target-binding/README.md`
+4. `container/template/README.md`
+5. `container/node-service/README.md`
+6. `remote/README.md`
+7. `remote/template/README.md`
+8. `remote/ssh-node-service/README.md`
+9. `os-aware/README.md`
+10. `os-aware/python-service/README.md`
 
 ## Rule
 

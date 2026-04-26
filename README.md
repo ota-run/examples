@@ -41,6 +41,7 @@ Use these as starting points when you want:
 - `templates/` - starter contracts you can copy into a new repo
 - `ci/` - provider-specific CI patterns
 - `execution/` - container and remote execution patterns
+- `execution/local-topology/` - task target-binding patterns for helper apps and probes
 - `execution/os-aware/` - OS-specific launcher examples
 - `extensions/` - check, export, and backend adapter patterns
 - `workspace/` - multi-repo workspace patterns
@@ -52,11 +53,19 @@ Use these as starting points when you want:
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
   This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, a task-prerequisite example with `requires_services`, docs, and release-script companions so users can copy more than just `ota.yaml`.
+- Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
+  Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
+- Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)
+  Use this when the task keeps a fixed projected host port in contract (`8080`) but operators sometimes need a predictable one-run public override like `ota run dev:api --host-port 4000` without changing the app’s internal bind.
+- Internal task plumbing boundary: mark setup-only graph nodes with `internal: true`
+  Use this when tasks like `setup` should still run through `depends_on`/hooks but should stay out of default operator discovery (`ota tasks`). Use `ota tasks --all` to inspect the full graph including internal nodes.
 - Windows-first repo adoption: [`reference/windows-adoption-flow`](reference/windows-adoption-flow)
   This is the Windows-oriented flagship starter. It shows how ota keeps `.NET`, PowerShell release flow, and cross-platform task variants explicit without hiding the repo behind shell glue.
 - Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
+- Local helper app or probe targeting a repo-managed service: [`execution/local-topology/task-target-binding`](execution/local-topology/task-target-binding)
+  Use this when a helper workload like a sandbox, SDK harness, or smoke probe should target one repo-managed app by service identity, keep an open override when needed, and stop hardcoding `localhost` or `host.docker.internal` as the primary contract truth.
 - OS-specific launchers or platform branching: [`execution/os-aware`](execution/os-aware)
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
