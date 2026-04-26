@@ -1,0 +1,123 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: shared-local-backend-fulfillment
+  description: Advanced shared backend example where ota prepares the effective runtime and tool union on the run path
+runtimes:
+  java: ">=21"
+tools:
+  maven: "*"
+execution:
+  default_context: app
+  contexts:
+    app:
+      backend: container
+      lifecycle: persistent
+      container:
+        image: node:24-bookworm
+      requirements:
+        runtimes:
+          node: ">=24"
+        tools:
+          pnpm: "*"
+          curl: "*"
+  local_backends:
+    workbench:
+      backend: container
+      lifecycle: persistent
+      context: app
+      fulfillment: run
+tasks:
+  dev:
+    description: Start the API service inside the shared workbench backend
+    run: pnpm dev:api
+    runtime:
+      kind: service
+      backend_binding: workbench
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 8080
+          project:
+            host:
+              address: 127.0.0.1
+              primary: true
+              port:
+                mode: fixed
+                value: 8080
+              path: /
+    notes: |
+      Example: `ota run dev`
+      Ota prepares the shared workbench backend before this task or any bound dependency uses it.
+  dev:debug:
+    description: Start the same API shape with a debug-oriented operator profile after ota prepares the backend
+    run: LOG_LEVEL=debug pnpm dev:api
+    runtime:
+      kind: service
+      backend_binding: workbench
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 8080
+          project:
+            host:
+              address: 127.0.0.1
+              primary: true
+              port:
+                mode: fixed
+                value: 8080
+              path: /
+    notes: |
+      Example: `ota run dev:debug`
+      This task resolves the same container image, publications, and memory shape as `dev` so the shared backend stays deterministic while fulfillment still prepares the effective backend union once.
+agent:
+  entrypoint: dev
+  default_task: dev:debug
+  safe_tasks:
+    - dev
+    - dev:debug
+  verify_after_changes:
+    - dev:debug
+  writable_paths:
+    - src
+    - docs
+  protected_paths:
+    - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
+  notes: |
+    Start with `ota doctor`, then `ota validate`, then run `ota run dev` or `ota run dev:debug`.
+    This example keeps one deterministic shared backend shape and lets ota prepare the effective Java + Maven + Node + pnpm + curl surface on the run path.

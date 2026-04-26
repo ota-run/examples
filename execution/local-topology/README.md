@@ -39,15 +39,22 @@ Use this theme when one task or helper app should target another repo-managed ap
 - how to keep `override_input` as an explicit operator override instead of the primary wiring surface
 - how `OTA_TARGET_<TARGET>` works when no override input is needed
 - when `address_view: host` is the honest choice for helper apps that may run in another execution plane
+- when `execution.local_backends.<name>` plus `runtime.backend_binding` make `address_view: topology` truthful for co-located long-running container tasks
 
 ## Folders
 
 - `task-target-binding/` - advanced example showing one app service plus two consumers: one with `override_input`, one with `OTA_TARGET_*`
+- `shared-local-backend/` - advanced example showing two long-running container tasks intentionally sharing one backend so a helper app can target the producer through `address_view: topology`
+- `shared-local-backend-fulfillment/` - advanced example showing the same shared backend boundary with `fulfillment: run` so ota can prepare the effective runtime/tool union before bound tasks execute
 
 ## Read first
 
 1. `task-target-binding/README.md`
 2. `task-target-binding/ota.yaml`
+3. `shared-local-backend/README.md`
+4. `shared-local-backend/ota.yaml`
+5. `shared-local-backend-fulfillment/README.md`
+6. `shared-local-backend-fulfillment/ota.yaml`
 
 ## Rule
 

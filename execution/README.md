@@ -51,13 +51,15 @@ Use this theme when ota should run repo tasks through a backend boundary instead
 1. `container/README.md`
 2. `local-topology/README.md`
 3. `local-topology/task-target-binding/README.md`
-4. `container/template/README.md`
-5. `container/node-service/README.md`
-6. `remote/README.md`
-7. `remote/template/README.md`
-8. `remote/ssh-node-service/README.md`
-9. `os-aware/README.md`
-10. `os-aware/python-service/README.md`
+4. `local-topology/shared-local-backend/README.md`
+5. `local-topology/shared-local-backend-fulfillment/README.md`
+6. `container/template/README.md`
+7. `container/node-service/README.md`
+8. `remote/README.md`
+9. `remote/template/README.md`
+10. `remote/ssh-node-service/README.md`
+11. `os-aware/README.md`
+12. `os-aware/python-service/README.md`
 
 ## Rule
 
