@@ -1,2 +1,5 @@
 /reference/swift-service/.build/*
 /templates/swift-service/.build/*
+
+# Ota local runtime state
+.ota/state/
