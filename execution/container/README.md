@@ -31,11 +31,14 @@ Use this theme when you want ota to run repo tasks inside a dedicated container 
 - keeps setup and verification repeatable across machines
 - shows when container execution is the boundary, not the repo truth
 - gives humans and agents the same container-backed path
+- keeps platform-sensitive dependency trees isolated from the host repo when needed
 
 ## What this teaches
 
 - how to keep container execution explicit through `execution.contexts`
+- how to keep one task intent while supporting multiple execution modes through `tasks.<name>.execution.modes`
 - how to make host drift less relevant
+- how to isolate container dependency paths like `node_modules`
 - how to keep `ota.yaml` as the repo contract even when ota runs tasks in a container context
 
 ## Folders

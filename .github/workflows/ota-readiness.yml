@@ -21,25 +21,31 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 
-name: Validate examples
+name: Ota Readiness
 
 on:
   pull_request:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
 
 jobs:
-  validate:
+  readiness:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup ota
-        uses: ota-run/setup@v1
+      - uses: actions/checkout@v5
+      - name: Publish ota readiness
+        uses: ota-run/action@v1
         with:
-          ota-version: 1.6.0
-
-      - name: Validate examples repo
-        run: ota run validate
+          command: receipt
+          path: .
+          archive: true
+          artifact-name: ota-readiness
+          github-token: ${{ github.token }}

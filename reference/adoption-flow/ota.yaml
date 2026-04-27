@@ -68,6 +68,7 @@ services:
       run: pg_isready -h postgres -p 5432 -U adoption -d adoption_flow
 tasks:
   setup:
+    internal: true
     context: app
     run: mvn -q -DskipTests dependency:go-offline
     notes: |
@@ -124,10 +125,12 @@ tasks:
             host:
               address: 127.0.0.1
               port:
-                mode: auto
+                mode: fixed
+                value: 8080
               path: /
     notes: |
       Example: `ota run dev:api`
+      Example override: `ota run dev:api --host-port 4000` (keeps internal bind on `8080`)
       Use this when the app should stay in the container context but still expose a host URL that browsers, curl, and local tools can reach deterministically.
   docs:check:
     context: host

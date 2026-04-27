@@ -1,0 +1,10 @@
+{
+  "name": "node-service-container-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.mjs",
+    "test": "node -e \"console.log('example test placeholder')\""
+  }
+}

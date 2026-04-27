@@ -62,6 +62,7 @@ This is the flagship public adoption starter. Use it when you are introducing ot
 - how ota reduces repeated setup explanations for both humans and agents
 - how `tasks.<name>.requires_services` lets `db:integration` wait for `postgres` before it runs
 - how `tasks.<name>.runtime.listeners` lets a containerized Spring Boot API publish a deterministic host URL without pretending app ingress belongs in `services`
+- how ota injects `OTA_PUBLIC_URL` before startup so app logs, links, and redirects can use the real host URL instead of guessing
 
 ## What is included
 
@@ -89,6 +90,7 @@ ota detect --dry-run .
 ota validate .
 ota run db:integration
 ota run dev:api
+ota run dev:api --host-port 4000
 ota up .
 ota agents --write .
 ```
@@ -100,6 +102,8 @@ ota agents --write .
 - `ota detect --dry-run` should review the current contract against the repo signals instead of making you guess what ota saw
 - `ota run db:integration` should start and verify `postgres` before the integration task runs
 - `ota run dev:api` should print the resolved host endpoint for the API workload after it starts inside the container
+- `ota run dev:api --host-port 4000` should publish the same workload on `http://127.0.0.1:4000/` for that run while the app keeps binding internally to `8080`
+- the `dev:api` process should receive that same endpoint in `OTA_PUBLIC_URL` before startup
 - `ota up` should make setup, local service readiness, and published workload endpoint planning feel like one repeatable flow
 - `ota agents --write` should give the repo an explicit agent-facing contract derived from `ota.yaml`
 

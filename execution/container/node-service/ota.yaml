@@ -28,11 +28,21 @@ project:
 execution:
   default_context: app
   contexts:
+    host:
+      backend: native
+      requirements:
+        runtimes:
+          node: ">=22"
+        tools:
+          pnpm: "10"
     app:
       backend: container
       lifecycle: persistent
       container:
         image: node:22
+      attachments:
+        isolated_paths:
+          - node_modules
 tools:
   pnpm: "10"
 tasks:
@@ -41,11 +51,109 @@ tasks:
     run: pnpm install
     notes: |
       Example: `ota run setup` to install dependencies inside the container context.
-  dev:
-    context: app
-    run: pnpm dev
+  start:
+    execution:
+      default_mode: container
+      modes:
+        native:
+          context: host
+          env:
+            HOSTNAME: 127.0.0.1
+            PORT: "3000"
+            METRICS_PORT: "9090"
+          run: pnpm dev
+        container:
+          context: app
+          lifecycle: persistent
+          env:
+            HOSTNAME: 0.0.0.0
+            PORT: "3000"
+            METRICS_PORT: "9090"
+          run: pnpm dev
+          runtime:
+            kind: service
+            listeners:
+              http:
+                protocol: http
+                bind:
+                  address: 0.0.0.0
+                  port:
+                    mode: fixed
+                    value: 3000
+                project:
+                  host:
+                    address: 127.0.0.1
+                    primary: true
+                    port:
+                      mode: auto
+                    path: /
+              metrics:
+                protocol: http
+                bind:
+                  address: 0.0.0.0
+                  port:
+                    mode: fixed
+                    value: 9090
+                project:
+                  host:
+                    address: 127.0.0.1
+                    port:
+                      mode: auto
+                    path: /metrics
+  clean:start:
+    execution:
+      default_mode: container
+      modes:
+        native:
+          context: host
+          env:
+            HOSTNAME: 127.0.0.1
+            PORT: "3000"
+            METRICS_PORT: "9090"
+          run: pnpm dev
+        container:
+          context: app
+          lifecycle: ephemeral
+          env:
+            HOSTNAME: 0.0.0.0
+            PORT: "3000"
+            METRICS_PORT: "9090"
+          run: pnpm dev
+          runtime:
+            kind: service
+            listeners:
+              http:
+                protocol: http
+                bind:
+                  address: 0.0.0.0
+                  port:
+                    mode: fixed
+                    value: 3000
+                project:
+                  host:
+                    address: 127.0.0.1
+                    primary: true
+                    port:
+                      mode: auto
+                    path: /
+              metrics:
+                protocol: http
+                bind:
+                  address: 0.0.0.0
+                  port:
+                    mode: fixed
+                    value: 9090
+                project:
+                  host:
+                    address: 127.0.0.1
+                    port:
+                      mode: auto
+                    path: /metrics
     notes: |
-      Example: `ota run dev` while iterating in the container context.
+      Example: `ota run start` while iterating in the container context.
+      Use `ota run start --mode native` to run the same task intent on the host.
+      Use `ota run clean:start` when you want an ephemeral container lifecycle.
+      Ota injects `OTA_PUBLIC_URL` before the process starts and prints the same URL after startup.
   test:
     context: app
     run: pnpm test
@@ -56,7 +164,8 @@ agent:
   default_task: test
   safe_tasks:
     - setup
-    - dev
+    - start
+    - clean:start
     - test
   verify_after_changes:
     - test
