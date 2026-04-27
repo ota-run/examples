@@ -37,6 +37,7 @@ Use this theme when one task or helper app should target another repo-managed ap
 
 - how to use `tasks.<name>.targets.<target>` as the primary topology declaration
 - how to keep `override_input` as an explicit operator override instead of the primary wiring surface
+- how to use `activation.mode: ensure_ready` when ota should make the producer ready before the consumer runs
 - how `OTA_TARGET_<TARGET>` works when no override input is needed
 - when `address_view: host` is the honest choice for helper apps that may run in another execution plane
 - when `execution.local_backends.<name>` plus `runtime.backend_binding` make `address_view: topology` truthful for co-located long-running container tasks
@@ -44,6 +45,7 @@ Use this theme when one task or helper app should target another repo-managed ap
 ## Folders
 
 - `task-target-binding/` - advanced example showing one app service plus two consumers: one with `override_input`, one with `OTA_TARGET_*`
+- `task-target-activation/` - advanced example showing `activation.mode: ensure_ready` on a host-view consumer that asks ota to make a persistent container producer service ready first
 - `shared-local-backend/` - advanced example showing two long-running container tasks intentionally sharing one backend so a helper app can target the producer through `address_view: topology`
 - `shared-local-backend-fulfillment/` - advanced example showing the same shared backend boundary with `fulfillment: run` so ota can prepare the effective runtime/tool union before bound tasks execute
 - `shared-local-backend-environment/` - advanced example showing a shared backend that declares `environment.profile` so policy resolves the effective backend image while shared-backend identity stays explicit
@@ -52,12 +54,14 @@ Use this theme when one task or helper app should target another repo-managed ap
 
 1. `task-target-binding/README.md`
 2. `task-target-binding/ota.yaml`
-3. `shared-local-backend/README.md`
-4. `shared-local-backend/ota.yaml`
-5. `shared-local-backend-fulfillment/README.md`
-6. `shared-local-backend-fulfillment/ota.yaml`
-7. `shared-local-backend-environment/README.md`
-8. `shared-local-backend-environment/ota.yaml`
+3. `task-target-activation/README.md`
+4. `task-target-activation/ota.yaml`
+5. `shared-local-backend/README.md`
+6. `shared-local-backend/ota.yaml`
+7. `shared-local-backend-fulfillment/README.md`
+8. `shared-local-backend-fulfillment/ota.yaml`
+9. `shared-local-backend-environment/README.md`
+10. `shared-local-backend-environment/ota.yaml`
 
 ## Rule
 
