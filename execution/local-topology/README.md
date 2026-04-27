@@ -46,6 +46,7 @@ Use this theme when one task or helper app should target another repo-managed ap
 - `task-target-binding/` - advanced example showing one app service plus two consumers: one with `override_input`, one with `OTA_TARGET_*`
 - `shared-local-backend/` - advanced example showing two long-running container tasks intentionally sharing one backend so a helper app can target the producer through `address_view: topology`
 - `shared-local-backend-fulfillment/` - advanced example showing the same shared backend boundary with `fulfillment: run` so ota can prepare the effective runtime/tool union before bound tasks execute
+- `shared-local-backend-environment/` - advanced example showing a shared backend that declares `environment.profile` so policy resolves the effective backend image while shared-backend identity stays explicit
 
 ## Read first
 
@@ -55,6 +56,8 @@ Use this theme when one task or helper app should target another repo-managed ap
 4. `shared-local-backend/ota.yaml`
 5. `shared-local-backend-fulfillment/README.md`
 6. `shared-local-backend-fulfillment/ota.yaml`
+7. `shared-local-backend-environment/README.md`
+8. `shared-local-backend-environment/ota.yaml`
 
 ## Rule
 

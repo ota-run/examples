@@ -70,6 +70,8 @@ Use these as starting points when you want:
   Use this when both workloads are intentional long-running container tasks and ota should treat them as one shared local backend so `address_view: topology` resolves to the producer's in-boundary address without host bridge hacks.
 - Shared local backend plus backend preparation on the actual run path: [`execution/local-topology/shared-local-backend-fulfillment`](execution/local-topology/shared-local-backend-fulfillment)
   Use this when one shared backend shape should stay explicit but ota also needs to prepare the effective runtime/tool union before any bound task or dependency executes.
+- Shared local backend plus policy-governed backend image resolution: [`execution/local-topology/shared-local-backend-environment`](execution/local-topology/shared-local-backend-environment)
+  Use this when the repo should declare backend image intent and let policy resolve the approved effective image for the shared backend instead of hardcoding the final image string in every contract.
 - OS-specific launchers or platform branching: [`execution/os-aware`](execution/os-aware)
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)

@@ -1,0 +1,115 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: shared-local-backend-environment
+  description: Advanced shared backend example where policy resolves the effective backend image from declared environment intent
+execution:
+  default_context: app
+  contexts:
+    app:
+      backend: container
+      lifecycle: persistent
+      container:
+        image: node:24-bookworm
+  local_backends:
+    workbench:
+      backend: container
+      lifecycle: persistent
+      context: app
+      environment:
+        profile: java-node-workbench
+tasks:
+  dev:
+    description: Start the API service inside the shared workbench backend
+    run: pnpm dev:api
+    runtime:
+      kind: service
+      backend_binding: workbench
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 8080
+          project:
+            host:
+              address: 127.0.0.1
+              primary: true
+              port:
+                mode: fixed
+                value: 8080
+              path: /
+    notes: |
+      Example: `ota run dev`
+      Policy resolves the effective backend image from `execution.local_backends.workbench.environment.profile`.
+  dev:debug:
+    description: Start the same API shape with debug logging in the shared workbench backend
+    run: LOG_LEVEL=debug pnpm dev:api
+    runtime:
+      kind: service
+      backend_binding: workbench
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 8080
+          project:
+            host:
+              address: 127.0.0.1
+              primary: true
+              port:
+                mode: fixed
+                value: 8080
+              path: /
+    notes: |
+      Example: `ota run dev:debug`
+      This task resolves the same backend binding, listener shape, and effective image as `dev`.
+agent:
+  entrypoint: dev
+  default_task: dev
+  safe_tasks:
+    - dev
+    - dev:debug
+  verify_after_changes:
+    - dev
+  writable_paths:
+    - src
+    - docs
+    - .ota
+  protected_paths:
+    - ota.yaml
+  bootstrap:
+    ota:
+      note: Only install ota if it is missing and installation is approved.
+      sh: curl -fsSL https://dist.ota.run/install.sh | sh
+      powershell: irm https://dist.ota.run/install.ps1 | iex
+  notes: |
+    Start with `ota validate`, inspect `ota execution plan`, then run `ota run dev`.
+    This example keeps the shared backend explicit while policy selects the approved effective image.
