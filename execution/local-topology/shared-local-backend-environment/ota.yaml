@@ -33,8 +33,9 @@ execution:
       lifecycle: persistent
       container:
         image: node:24-bookworm
-  local_backends:
+  shared_backends:
     workbench:
+      scope: local
       backend: container
       lifecycle: persistent
       context: app
@@ -65,38 +66,12 @@ tasks:
               path: /
     notes: |
       Example: `ota run dev`
-      Policy resolves the effective backend image from `execution.local_backends.workbench.environment.profile`.
-  dev:debug:
-    description: Start the same API shape with debug logging in the shared workbench backend
-    run: LOG_LEVEL=debug pnpm dev:api
-    runtime:
-      kind: service
-      backend_binding: workbench
-      listeners:
-        http:
-          protocol: http
-          bind:
-            address: 0.0.0.0
-            port:
-              mode: fixed
-              value: 8080
-          project:
-            host:
-              address: 127.0.0.1
-              primary: true
-              port:
-                mode: fixed
-                value: 8080
-              path: /
-    notes: |
-      Example: `ota run dev:debug`
-      This task resolves the same backend binding, listener shape, and effective image as `dev`.
+      Policy resolves the effective backend image from `execution.shared_backends.workbench.environment.profile`.
 agent:
   entrypoint: dev
   default_task: dev
   safe_tasks:
     - dev
-    - dev:debug
   verify_after_changes:
     - dev
   writable_paths:

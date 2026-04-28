@@ -23,16 +23,18 @@
 
 version: 1
 project:
-  name: shared-local-backend
-  description: Advanced shared local backend example with one producer service and one co-located helper app intentionally reusing one container boundary
+  name: shared-remote-backend-minimal
+  description: Minimal shared remote backend example with two long-running services intentionally reusing one persistent remote boundary
 execution:
-  default_context: app
+  default_context: remote_app
   contexts:
-    app:
-      backend: container
+    remote_app:
+      backend: remote
       lifecycle: persistent
-      container:
-        image: node:24-bookworm
+      remote:
+        provider: ssh
+        target: user@devbox
+        cwd: /workspace/app
       requirements:
         runtimes:
           node: ">=24"
@@ -40,13 +42,13 @@ execution:
           pnpm: "*"
   shared_backends:
     workbench:
-      scope: local
-      backend: container
+      scope: remote
+      backend: remote
       lifecycle: persistent
-      context: app
+      context: remote_app
 tasks:
   dev:
-    description: Start the API service inside the shared workbench backend
+    description: Start the primary API inside the shared remote backend
     run: pnpm dev:api
     runtime:
       kind: service
@@ -55,26 +57,12 @@ tasks:
         http:
           protocol: http
           bind:
-            address: 0.0.0.0
+            address: 127.0.0.1
             port:
               mode: fixed
               value: 8080
-          project:
-            host:
-              address: 127.0.0.1
-              primary: true
-              port:
-                mode: fixed
-                value: 8080
-              path: /
-    notes: |
-      Example: `ota run dev`
-      This task is the producer service inside the shared local backend family.
   sandbox:
-    description: Start a co-located helper app that targets the producer through the internal plane by default
-    inputs:
-      base_url:
-        description: Override the API base URL when sandbox should point somewhere other than the repo-managed producer
+    description: Start a helper app inside the same shared remote backend
     run: pnpm dev:sandbox
     runtime:
       kind: service
@@ -83,28 +71,10 @@ tasks:
         web:
           protocol: http
           bind:
-            address: 0.0.0.0
+            address: 127.0.0.1
             port:
               mode: fixed
               value: 3000
-          project:
-            host:
-              address: 127.0.0.1
-              primary: true
-              port:
-                mode: fixed
-                value: 3000
-              path: /
-    targets:
-      api:
-        service:
-          task: dev
-          listener: http
-          address_view: internal
-        override_input: base_url
-    notes: |
-      Example: `ota run sandbox`
-      Because `sandbox` and `dev` share one declared backend boundary, ota can resolve `address_view: internal` truthfully to the producer bind endpoint instead of guessing a host bridge.
 agent:
   entrypoint: dev
   default_task: sandbox
@@ -123,6 +93,3 @@ agent:
       note: Only install ota if it is missing and installation is approved.
       sh: curl -fsSL https://dist.ota.run/install.sh | sh
       powershell: irm https://dist.ota.run/install.ps1 | iex
-  notes: |
-    Start with `ota doctor`, then `ota validate`, then run `ota run dev` or `ota run sandbox`.
-    Keep bound task shapes deterministic; shared local backends are explicit identity, not a way to ignore conflicting container shape.

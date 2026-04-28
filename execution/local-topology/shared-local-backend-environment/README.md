@@ -44,9 +44,9 @@ An advanced local-topology example where a shared container backend declares env
 This example uses:
 
 - one shared local backend bound to the `app` container context
-- `execution.local_backends.workbench.environment.profile: java-node-workbench`
+- `execution.shared_backends.workbench.environment.profile: java-node-workbench`
 - a repo policy pack under `.ota/org-policy.yaml`
-- two bound tasks with the same listener and publication shape so the backend stays deterministic
+- one bound service task whose effective backend image is policy-resolved
 
 ## Try this
 

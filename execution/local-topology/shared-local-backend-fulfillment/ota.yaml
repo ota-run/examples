@@ -43,8 +43,9 @@ execution:
         tools:
           pnpm: "*"
           curl: "*"
-  local_backends:
+  shared_backends:
     workbench:
+      scope: local
       backend: container
       lifecycle: persistent
       context: app
@@ -75,39 +76,13 @@ tasks:
     notes: |
       Example: `ota run dev`
       Ota prepares the shared workbench backend before this task or any bound dependency uses it.
-  dev:debug:
-    description: Start the same API shape with a debug-oriented operator profile after ota prepares the backend
-    run: LOG_LEVEL=debug pnpm dev:api
-    runtime:
-      kind: service
-      backend_binding: workbench
-      listeners:
-        http:
-          protocol: http
-          bind:
-            address: 0.0.0.0
-            port:
-              mode: fixed
-              value: 8080
-          project:
-            host:
-              address: 127.0.0.1
-              primary: true
-              port:
-                mode: fixed
-                value: 8080
-              path: /
-    notes: |
-      Example: `ota run dev:debug`
-      This task resolves the same container image, publications, and memory shape as `dev` so the shared backend stays deterministic while fulfillment still prepares the effective backend union once.
 agent:
   entrypoint: dev
-  default_task: dev:debug
+  default_task: dev
   safe_tasks:
     - dev
-    - dev:debug
   verify_after_changes:
-    - dev:debug
+    - dev
   writable_paths:
     - src
     - docs
@@ -119,5 +94,5 @@ agent:
       sh: curl -fsSL https://dist.ota.run/install.sh | sh
       powershell: irm https://dist.ota.run/install.ps1 | iex
   notes: |
-    Start with `ota doctor`, then `ota validate`, then run `ota run dev` or `ota run dev:debug`.
+    Start with `ota doctor`, then `ota validate`, then run `ota run dev`.
     This example keeps one deterministic shared backend shape and lets ota prepare the effective Java + Maven + Node + pnpm + curl surface on the run path.

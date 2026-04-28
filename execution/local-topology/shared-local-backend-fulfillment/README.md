@@ -30,7 +30,7 @@ An advanced execution example where multiple container tasks intentionally share
 
 - shows the shipped slice-3 surface instead of repo-local bootstrap glue
 - keeps backend preparation attached to the shared backend identity, not scattered across tasks
-- demonstrates `execution.local_backends.<name>.fulfillment: run`
+- demonstrates `execution.shared_backends.<name>.fulfillment: run`
 - keeps the shared backend story honest by using two bound tasks that resolve the same container shape
 
 ## Use when
@@ -45,9 +45,8 @@ This example uses:
 
 - root requirements for repo-wide Java plus Maven expectations
 - context requirements for Node plus pnpm in the shared app container
-- `execution.local_backends.workbench.fulfillment: run`
-- one primary service entrypoint plus one debug-oriented entrypoint bound to the same backend
-- the same listener/publication shape across both tasks so validation accepts one deterministic shared backend
+- `execution.shared_backends.workbench.fulfillment: run`
+- one primary service entrypoint bound to the shared backend
 
 ## Try this
 
@@ -55,7 +54,6 @@ This example uses:
 ota doctor
 ota validate .
 ota run dev
-ota run dev:debug
 ```
 
 ## What to notice

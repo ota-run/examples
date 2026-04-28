@@ -64,8 +64,18 @@ Use these as starting points when you want:
 - Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
+- Remote execution context only: [`execution/remote/template`](execution/remote/template)
+  Use this when one task should simply run off-host and you do not need one intentional shared remote backend boundary.
+- Minimal shared remote backend boundary: [`execution/remote/shared-remote-backend-minimal`](execution/remote/shared-remote-backend-minimal)
+  Use this when two long-running remote tasks should intentionally reuse one ota-managed remote backend boundary and you want the smallest copyable example before adding remote target activation.
+- Shared remote backend plus remote producer activation: [`execution/remote/shared-remote-backend-activation`](execution/remote/shared-remote-backend-activation)
+  Use this when a helper task should target a repo-managed remote producer through one shared backend and ask ota to make that producer ready first.
 - Local helper app or probe targeting a repo-managed service: [`execution/local-topology/task-target-binding`](execution/local-topology/task-target-binding)
   Use this when a helper workload like a sandbox, SDK harness, or smoke probe should target one repo-managed app by service identity, keep an open override when needed, and stop hardcoding `localhost` or `host.docker.internal` as the primary contract truth.
+- Minimal shared local backend boundary: [`execution/local-topology/shared-local-backend-minimal`](execution/local-topology/shared-local-backend-minimal)
+  Use this when two long-running container tasks should intentionally reuse one ota-managed backend boundary and you want the smallest copyable example before adding target binding, fulfillment, or policy-backed backend environment.
+- Minimal native shared local backend boundary: [`execution/local-topology/shared-local-backend-native-minimal`](execution/local-topology/shared-local-backend-native-minimal)
+  Use this when two long-running native tasks should intentionally reuse one ota-managed host backend boundary without adding container image or policy-backed backend environment semantics.
 - Co-located long-running helper app plus producer in one shared container boundary: [`execution/local-topology/shared-local-backend`](execution/local-topology/shared-local-backend)
   Use this when both workloads are intentional long-running container tasks and ota should treat them as one shared local backend so `address_view: topology` resolves to the producer's in-boundary address without host bridge hacks.
 - Shared local backend plus backend preparation on the actual run path: [`execution/local-topology/shared-local-backend-fulfillment`](execution/local-topology/shared-local-backend-fulfillment)
