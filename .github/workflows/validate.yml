@@ -38,8 +38,6 @@ jobs:
 
       - name: Setup ota
         uses: ota-run/setup@v1
-        with:
-          ota-version: 1.6.2
 
       - name: Validate examples repo
         run: ota run validate
