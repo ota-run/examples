@@ -93,16 +93,7 @@ Use these as starting points when you want:
 - Flagship adoption starter: contract plus repo signals, docs, and companion files that show obvious `doctor -> explain -> detect -> up -> agents` value
 - Windows-first flagship starter: a reference example that keeps `.NET`, PowerShell, and cross-platform variants explicit
 - Canonical advanced reference: production-adjacent repo shape that teaches a full operating model
-- Workspace reference: multi-repo bootstrap and adoption ordering
-
-## Terminal previews
-
-These are small terminal previews of the flagship examples. They are not mock marketing copy; they are meant to look like the real value users should expect from Ota.
-They are illustrative, not byte-for-byte transcripts. Wording can shift as the CLI evolves.
-
-![Flagship adoption doctor preview](assets/reference-adoption-doctor.svg)
-
-![Windows-first adoption doctor preview](assets/windows-adoption-doctor.svg)
+- Workspace reference: multi-repo bootstrap and adoption ordering.
 
 ## How to use
 
