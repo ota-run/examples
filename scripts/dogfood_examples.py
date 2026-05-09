@@ -23,21 +23,30 @@
 
 from __future__ import annotations
 
+import os
+import shlex
 import subprocess
 import sys
 from pathlib import Path
 
 
+def ota_command() -> list[str]:
+    override = os.environ.get("OTA_BIN", "").strip()
+    if override:
+        return shlex.split(override, posix=os.name != "nt")
+    return ["ota"]
+
+
 def run_plain(root: Path, args: list[str], allowed_exit_codes: set[int]) -> str:
     process = subprocess.run(
-        ["ota", "--plain", *args],
+        [*ota_command(), "--plain", *args],
         cwd=root,
         capture_output=True,
         text=True,
     )
     payload = process.stdout.strip() or process.stderr.strip()
     if process.returncode not in allowed_exit_codes:
-        print(f"FAILED: ota --plain {' '.join(args)}")
+        print(f"FAILED: {' '.join([*ota_command(), '--plain', *args])}")
         if payload:
             print(payload)
         raise SystemExit(process.returncode)

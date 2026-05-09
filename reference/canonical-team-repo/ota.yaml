@@ -55,6 +55,9 @@ env:
 surfaces:
   docs:
     kind: http
+    label: Docs Preview
+    purpose: Browser-facing preview surface for the docs workflow
+    visibility: public
     port: 4173
     path: /
     readiness:

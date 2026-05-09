@@ -38,6 +38,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 - how to declare env requirements explicitly through `env.vars` and ordered `env.sources` instead of relying on silent `.env` loading
 - how to make one canonical repo workflow explicit through `workflows.default`
 - how to declare one reusable runtime surface for the docs preview path instead of repeating listener and host URL truth
+- how to attach small operator-facing surface metadata such as `label`, `purpose`, and `visibility`
 - how to keep one reusable probe-backed readiness check separate from the workflow surface itself
 
 ## Read this first

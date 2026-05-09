@@ -36,6 +36,7 @@ tasks:
       Example: `ota run validate`
       Use this before opening a pull request.
       It validates all example contracts, workspace contracts, and local markdown links with a concise summary.
+      Set `OTA_BIN` when you need to dogfood unreleased local ota changes against this repo instead of the installed binary.
       On Unix-like systems, Ota uses `python3`; on Windows, it uses `py -3`.
   dogfood:
     run: python3 scripts/dogfood_examples.py "$PWD"
@@ -52,6 +53,7 @@ tasks:
     notes: |
       Example: `ota run dogfood`
       Use this when Ota UX, output wording, or flagship examples change.
+      Set `OTA_BIN` when you need to dogfood this repo against a local unreleased ota checkout.
       It re-checks the flagship adoption examples against the current local Ota CLI.
   dogfood:summary:
     run: echo "Flagship examples still match the current local ota CLI."

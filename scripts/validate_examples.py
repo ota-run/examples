@@ -24,7 +24,9 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -34,16 +36,23 @@ LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 SKIP_PREFIXES = ("http://", "https://", "mailto:", "tel:", "#", "file://")
 
 
+def ota_command() -> list[str]:
+    override = os.environ.get("OTA_BIN", "").strip()
+    if override:
+        return shlex.split(override, posix=os.name != "nt")
+    return ["ota"]
+
+
 def run_ota(root: Path, args: list[str]) -> str:
     process = subprocess.run(
-        ["ota", *args],
+        [*ota_command(), *args],
         cwd=root,
         capture_output=True,
         text=True,
     )
     payload = process.stdout.strip() or process.stderr.strip()
     if process.returncode != 0:
-        print(f"FAILED: ota {' '.join(args)}")
+        print(f"FAILED: {' '.join([*ota_command(), *args])}")
         if payload:
             print(payload)
         raise SystemExit(process.returncode)
