@@ -52,6 +52,26 @@ env:
     - kind: dotenv
       path: .env.ota-example
       must_exist: true
+surfaces:
+  docs:
+    kind: http
+    port: 4173
+    path: /
+    readiness:
+      kind: http
+      path: /health
+      timeout: 5s
+readiness:
+  probes:
+    docs-preview-ready:
+      kind: http
+      target:
+        kind: task
+        name: docs:preview
+        listener: docs
+        address_view: host
+      path: /health
+      timeout: 5000
 tasks:
   setup:
     run: pnpm install
@@ -63,6 +83,14 @@ tasks:
     run: pnpm run docs:check
     depends_on:
       - setup
+  docs:preview:
+    run: pnpm run docs:preview --host 127.0.0.1 --port 4173
+    depends_on:
+      - setup
+    runtime:
+      kind: service
+      surfaces:
+        - docs
   release:
     run: pnpm run release
     depends_on:
@@ -70,11 +98,35 @@ tasks:
     notes: |
       Run this only after `test` and `docs:check` are green.
       Keep release notes and operating guidance in sync with the repo docs.
+workflows:
+  default: docs
+  docs:
+    intent: local_development
+    description: Canonical docs authoring and preview path
+    setup:
+      task: setup
+    run:
+      task: docs:preview
+    readiness:
+      surfaces:
+        - docs
+    exposes:
+      - surface: docs
+  release:
+    description: Release preparation path after docs and validation are green
+    setup:
+      task: setup
+    run:
+      task: release
 checks:
   - name: node-installed
     kind: precondition
     severity: error
     run: node --version
+  - name: docs-preview-ready
+    kind: health
+    severity: warn
+    probe: docs-preview-ready
 agent:
   entrypoint: setup
   default_task: docs:check
@@ -82,6 +134,7 @@ agent:
     - setup
     - test
     - docs:check
+    - docs:preview
   verify_after_changes:
     - test
     - docs:check
@@ -100,5 +153,5 @@ agent:
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.
-    Start with `ota doctor`, then `ota validate`, then `ota tasks`.
+    Start with `ota doctor`, then `ota validate`, then `ota workflows`.
     Use the docs in `docs/` as the repo's operational source of truth.

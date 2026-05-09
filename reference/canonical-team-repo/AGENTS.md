@@ -33,8 +33,9 @@ safe, and aligned with the contract and the shared org policy.
 
 - Use `ota doctor` first when the repo feels out of sync.
 - Use `ota validate` after contract edits.
+- Use `ota workflows` when you need the canonical repo paths before choosing a task.
 - Keep agent work inside the declared writable paths.
-- Treat `setup`, `test`, and `docs:check` as the safe task surface.
+- Treat `setup`, `test`, `docs:check`, and `docs:preview` as the safe task surface.
 - Use `release` only after the contract, docs, and validation steps are green.
 
 ## Repo boundaries

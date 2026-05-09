@@ -36,6 +36,8 @@
 - keep repo knowledge close to execution
 - make the current operating model easy to audit
 - avoid hidden conventions that only a few people remember
+- let one reusable `docs` runtime surface carry the preview endpoint truth instead of repeating
+  host URLs and readiness paths across tasks, checks, and workflows
 
 ## Decision rule
 

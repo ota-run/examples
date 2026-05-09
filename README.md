@@ -86,6 +86,9 @@ Use these as starting points when you want:
 - Custom adapters and backend providers: [`extensions`](extensions)
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
 - Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo) or [`reference/swift-service`](reference/swift-service)
+  The canonical team repo is the advanced example that now shows the modern workflow surface:
+  `workflows.default`, one reusable runtime `surface`, and one reusable probe-backed readiness
+  check.
 
 ## Example types
 

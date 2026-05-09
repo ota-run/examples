@@ -24,22 +24,37 @@
 
 # Workflows
 
+This repo uses explicit ota workflows instead of asking contributors to infer the front door from a
+flat task list.
+
+## Declared paths
+
+- `docs`
+  - canonical local authoring path
+  - setup task: `setup`
+  - run task: `docs:preview`
+  - readiness surface: `docs`
+  - expose surface: `docs`
+- `release`
+  - release preparation path
+  - setup task: `setup`
+  - run task: `release`
+
 ## Human workflow
 
 1. `ota doctor`
 2. `ota validate`
-3. `ota tasks`
-4. run the relevant task
+3. `ota workflows`
+4. `ota up --workflow docs` or `ota run docs:preview`
 5. update docs when the operating model changes
 
 ## Agent workflow
 
 1. read `ota.yaml`
-2. read `docs/repo-map.md`
-3. read `docs/agent-brief.md`
-4. run only safe tasks
-5. verify after changes
+2. read `docs/workflows.md`
+3. run only safe tasks
+4. verify after changes
 
 ## Principle
 
-Use the repo's own instructions before inventing a new path.
+Use the repo's declared workflow before inventing a new path or guessing from task names alone.
