@@ -38,6 +38,10 @@
 - avoid hidden conventions that only a few people remember
 - let one reusable `docs` runtime surface carry the preview endpoint truth instead of repeating
   host URLs and readiness paths across tasks, checks, and workflows
+- teach the surface model in a stable order:
+  - simple task attachment first
+  - workflow consumption second
+  - external URL escape hatch only when the endpoint is outside Ota topology
 
 ## Decision rule
 

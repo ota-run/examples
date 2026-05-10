@@ -89,3 +89,23 @@ This example now treats workflows as the first operational surface:
   host URL through `{ surface: docs }`
 - `checks.docs-preview-ready` reuses one named top-level probe instead of embedding another shell
   command
+
+## Surface learning path
+
+This advanced example is meant to reinforce the shipped surface model in the same order users
+should learn it:
+
+1. native simple case
+   - attach one surface with `runtime.surfaces: [docs]`
+2. container publication case
+   - use task-level attachment overrides only when publication differs
+3. multi-surface app
+   - use several attached surfaces and mark one `project.host.primary: true`
+4. workflow surface readiness and exposes
+   - use `readiness.surfaces` and `{ surface: docs }`
+5. literal external URL
+   - keep it only for third-party or otherwise non-Ota-owned endpoints
+
+This repo currently demonstrates steps 1, 4, and 5 directly.
+The broader multi-surface and container-override forms are shown in the flagship full contract and
+the `ota-site` contract.

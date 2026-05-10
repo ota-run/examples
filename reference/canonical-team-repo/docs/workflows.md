@@ -48,6 +48,17 @@ flat task list.
 4. `ota up --workflow docs` or `ota run docs:preview`
 5. update docs when the operating model changes
 
+## Surface progression in this repo
+
+Use this repo's workflow path to learn the surface model in the right order:
+
+1. `docs:preview` attaches the `docs` surface in the simple native list form
+2. `workflows.docs.readiness.surfaces` proves that surface on the selected run task
+3. `workflows.docs.exposes` resolves `{ surface: docs }` into the host URL
+4. `checks.docs-preview-ready` shows when a reusable probe is the better fit than another inline
+   runtime or workflow readiness block
+5. external endpoints should stay as literal URL probes, not surfaces
+
 ## Agent workflow
 
 1. read `ota.yaml`
