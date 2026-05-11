@@ -28,22 +28,41 @@ project:
 runtimes:
   python: "3.12"
 tools:
-  uv: "0.6"
+  uv:
+    version: "0.6"
+    acquisition:
+      provider: command
+      shell: sh
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
 tasks:
   setup:
     run: uv sync
+    requirements:
+      tools:
+        uv: "0.6"
   test:
     run: uv run pytest
     depends_on:
       - setup
+    requirements:
+      tools:
+        uv: "0.6"
     notes: |
       Run this after code changes.
   lint:
     run: uv run ruff check .
     depends_on:
       - setup
+    requirements:
+      tools:
+        uv: "0.6"
     notes: |
       Use this when you touch application code.
+workflows:
+  default: app
+  app:
+    setup:
+      task: setup
 checks:
   - name: python-installed
     kind: precondition
@@ -72,5 +91,5 @@ agent:
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way uv is the default package workflow in a Python service.
-    Start with `ota doctor`, then `ota validate`, then `ota run test`.
-    Use `ota tasks` to see available tasks and their descriptions.
+    Start with `ota doctor`, then `ota validate`, then `ota up --dry-run`, then `ota run test`.
+    Use `ota workflows` to inspect the main setup lane and `ota up` to apply the selected uv acquisition path.

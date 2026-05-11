@@ -28,6 +28,15 @@ Collections of solid, real-world examples you can copy, adapt, and use to see ho
 
 If you are introducing ota to a team, start with the adoption flows first. They show how ota earns trust before you move into CI, execution boundaries, or adapter patterns.
 
+The shortest public first-run lane is now:
+
+1. `ota doctor`
+2. `ota detect --dry-run .` or `ota init --dry-run .`
+3. `ota validate`
+4. `ota up --dry-run`
+5. `ota up`
+6. `ota run <task>` or `ota proof runtime --workflow <name>`
+
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a first-week adoption flow for an existing repo
@@ -51,8 +60,13 @@ Use these as starting points when you want:
 ## Choose by problem
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
+  These are now the cleanest copyable examples for workflow-first setup plus tool acquisition truth.
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
   This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, a task-prerequisite example with `requires_services`, docs, and release-script companions so users can copy more than just `ota.yaml`.
+- Tool acquisition through the contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
+  Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when one explicit shell command is the honest `uv` acquisition lane.
+- Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)
+  Use this when you want one compact example that isolates workflow-scoped Corepack and command acquisition without the rest of a larger flagship repo.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)
@@ -60,7 +74,7 @@ Use these as starting points when you want:
 - Internal task plumbing boundary: mark setup-only graph nodes with `internal: true`
   Use this when tasks like `setup` should still run through `depends_on`/hooks but should stay out of default operator discovery (`ota tasks`). Use `ota tasks --all` to inspect the full graph including internal nodes.
 - Windows-first repo adoption: [`reference/windows-adoption-flow`](reference/windows-adoption-flow)
-  This is the Windows-oriented flagship starter. It shows how ota keeps `.NET`, PowerShell release flow, and cross-platform task variants explicit without hiding the repo behind shell glue.
+  This is the Windows-oriented flagship starter. It shows how ota keeps `.NET`, PowerShell release flow, Windows-native build-tool activation, and cross-platform task variants explicit without hiding the repo behind shell glue.
 - Workspace adoption flow: [`workspace/adoption-flow`](workspace/adoption-flow)
 - CI and release flow: [`ci`](ci)
 - Container or remote execution: [`execution`](execution)
@@ -87,8 +101,8 @@ Use these as starting points when you want:
 - Multi-repo bootstrap: [`workspace/monorepo`](workspace/monorepo)
 - Serious repo reference shape: [`reference/canonical-team-repo`](reference/canonical-team-repo) or [`reference/swift-service`](reference/swift-service)
   The canonical team repo is the advanced example that now shows the modern workflow surface:
-  `workflows.default`, one reusable runtime `surface`, and one reusable probe-backed readiness
-  check.
+  `workflows.default`, one reusable runtime `surface`, one reusable probe-backed readiness
+  check, and one tool acquisition lane attached to `pnpm`.
 
 ## Example types
 

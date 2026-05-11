@@ -29,9 +29,21 @@ runtimes:
   dotnet: 8.0.203
 tools:
   dotnet: "*"
+native_prerequisites:
+  msvc-shell:
+    platforms:
+      windows:
+        check: msvc-shell-check
+        visual_studio_build_tools: true
+        activation:
+          kind: visual_studio_dev_shell
+          arch: x64
 tasks:
   setup:
     run: dotnet restore
+    requirements:
+      native:
+        - msvc-shell
     notes: |
       Example: `ota run setup`
       Use this before build or test runs so restore stays explicit.
@@ -39,6 +51,9 @@ tasks:
     run: dotnet build
     depends_on:
       - setup
+    requirements:
+      native:
+        - msvc-shell
     notes: |
       Example: `ota run build`
       Use this to confirm the repo still compiles against the declared SDK.
@@ -47,6 +62,9 @@ tasks:
     depends_on:
       - build
     safe_for_agent: true
+    requirements:
+      native:
+        - msvc-shell
     notes: |
       Example: `ota run test`
       Use this after changes when the repo needs one stable verification task across platforms.
@@ -71,11 +89,22 @@ tasks:
     notes: |
       Example: `ota run release`
       Use this after verification is green and the repo-specific publish path is configured.
+workflows:
+  default: app
+  app:
+    setup:
+      task: setup
+    run:
+      task: test
 checks:
   - name: dotnet-installed
     kind: precondition
     severity: error
     run: dotnet --version
+  - name: msvc-shell-check
+    kind: precondition
+    severity: error
+    run: where cl
 agent:
   entrypoint: setup
   default_task: test
@@ -100,5 +129,5 @@ agent:
   notes: |
     Use Ota first for setup, validation, and task execution.
     Treat Windows and Unix differences as part of the contract instead of hiding them in shell glue.
-    Start with `ota doctor`, then `ota explain`, then `ota detect --dry-run`.
+    Start with `ota doctor`, then `ota validate`, then `ota up --dry-run`, then `ota proof runtime --workflow app`.
     Use `ota agents --write` after the contract is in place so agent guidance stays derived.

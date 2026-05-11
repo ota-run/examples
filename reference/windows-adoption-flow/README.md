@@ -37,6 +37,7 @@ This is the Windows-oriented flagship starter. Use it when the repo is `.NET`-ba
 - gives Ota a believable Windows-first adoption story instead of a Unix-only one
 - keeps `.NET`, PowerShell, docs checks, and release flow explicit in one contract
 - shows how one task name can stay stable while the platform-specific command changes
+- shows how Windows-native build-tool activation can be part of the contract instead of a hidden terminal precondition
 - gives mixed Windows and Unix teams a copyable repo shape instead of ad hoc shell glue
 
 ## Use when
@@ -45,12 +46,14 @@ This is the Windows-oriented flagship starter. Use it when the repo is `.NET`-ba
 - setup and release behavior are real, but buried in PowerShell scripts or team memory
 - you want `.NET` readiness, test flow, and release steps to be visible before people run them
 - you want one contract that works for both humans and agents
+- you want Windows-native compiler activation to be explicit and provable
 
 ## What this teaches
 
 - how `ota doctor` gives exact `.NET` remediation when the SDK is missing or wrong
 - how `ota detect --dry-run` reviews `global.json` and project signals before you write changes
 - how cross-platform task variants keep task meaning stable while the launcher changes
+- how `native_prerequisites` plus `visual_studio_dev_shell` make MSVC activation part of the selected run path instead of a manual shell ritual
 - how `ota agents --write` turns the contract into agent-facing repo guidance
 
 ## What is included
@@ -72,18 +75,20 @@ This is the Windows-oriented flagship starter. Use it when the repo is `.NET`-ba
 
 ```bash
 ota doctor .
-ota explain .
-ota detect --dry-run .
 ota validate .
+ota up --dry-run .
+ota up .
 ota run test .
+ota proof runtime --workflow app .
 ota agents --write .
 ```
 
 ## Expected result
 
 - `ota doctor` should make the `.NET` SDK requirement and next step obvious
-- `ota detect --dry-run` should review the contract against `global.json` and the project files
+- `ota up` should apply the Windows-native activation lane before the selected .NET build/test path
 - `ota run test` should stay one task name even though docs/release helpers differ by OS
+- `ota proof runtime --workflow app` should prove that the Windows-native front door becomes operational on a clean runner
 - `ota agents --write` should give the repo explicit derived guidance for agents
 
 ## What Ota will tell you

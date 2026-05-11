@@ -37,6 +37,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 - how repo intent and org policy stay separate through explicit `version_policy`, provisioning, and adapter bootstrap rules
 - how to declare env requirements explicitly through `env.vars` and ordered `env.sources` instead of relying on silent `.env` loading
 - how to make one canonical repo workflow explicit through `workflows.default`
+- how to attach one honest tool acquisition lane to `pnpm` and let workflow-selected task requirements decide when it applies
 - how to declare one reusable runtime surface for the docs preview path instead of repeating listener and host URL truth
 - how to attach small operator-facing surface metadata such as `label`, `purpose`, and `visibility`
 - how to keep one reusable probe-backed readiness check separate from the workflow surface itself
@@ -85,6 +86,7 @@ This example now treats workflows as the first operational surface:
 
 - `ota workflows` lists the declared repo paths
 - `workflows.default: docs` is the canonical local authoring path
+- `tools.pnpm.acquisition` keeps the Corepack activation lane attached to the tool instead of leaving pnpm setup in docs-only guidance
 - `workflows.docs` runs `docs:preview`, proves the reusable `docs` surface, and resolves its
   host URL through `{ surface: docs }`
 - `checks.docs-preview-ready` reuses one named top-level probe instead of embedding another shell

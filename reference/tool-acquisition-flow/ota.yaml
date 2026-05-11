@@ -1,0 +1,131 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: tool-acquisition-flow
+  description: Focused example for workflow-scoped tool acquisition through Corepack and command activation
+tools:
+  pnpm:
+    version: "10"
+    acquisition:
+      provider: corepack
+      package: pnpm
+      version: "10.0.0"
+  uv:
+    version: "0.6"
+    acquisition:
+      provider: command
+      shell: sh
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+tasks:
+  setup:web:
+    run: pnpm install
+    requirements:
+      runtimes:
+        node: "22"
+      tools:
+        pnpm: "10"
+    notes: |
+      Use this when the Node front door is the path you want to prepare.
+      The selected acquisition lane is Corepack-managed pnpm.
+  test:web:
+    run: pnpm test
+    depends_on:
+      - setup:web
+    requirements:
+      runtimes:
+        node: "22"
+      tools:
+        pnpm: "10"
+    notes: |
+      Use this as the Node verification path after setup.
+  setup:python:
+    run: uv sync
+    requirements:
+      runtimes:
+        python: "3.12"
+      tools:
+        uv: "0.6"
+    notes: |
+      Use this when the Python front door is the path you want to prepare.
+      The selected acquisition lane is the declared uv install command.
+  lint:python:
+    run: uv run ruff check .
+    depends_on:
+      - setup:python
+    requirements:
+      runtimes:
+        python: "3.12"
+      tools:
+        uv: "0.6"
+    notes: |
+      Use this as the Python verification path after setup.
+workflows:
+  default: web
+  web:
+    intent: local_development
+    description: Node workflow that selects only the Corepack-managed pnpm acquisition lane
+    setup:
+      task: setup:web
+    run:
+      task: test:web
+  python:
+    intent: local_development
+    description: Python workflow that selects only the command-backed uv acquisition lane
+    setup:
+      task: setup:python
+    run:
+      task: lint:python
+checks:
+  - name: node-installed
+    kind: precondition
+    severity: error
+    run: node --version
+  - name: python-installed
+    kind: precondition
+    severity: error
+    run: python --version
+agent:
+  entrypoint: setup:web
+  default_task: test:web
+  safe_tasks:
+    - setup:web
+    - test:web
+    - setup:python
+    - lint:python
+  verify_after_changes:
+    - test:web
+    - lint:python
+  writable_paths:
+    - app
+    - packages
+    - src
+    - tests
+    - scripts
+  protected_paths:
+    - ota.yaml
+  notes: |
+    Use `ota workflows` first to choose the front door you actually want.
+    Start with `ota doctor`, then `ota up --dry-run --workflow web` or `ota up --dry-run --workflow python`.
+    The point of this example is that only the selected workflow's acquisition lane should appear.

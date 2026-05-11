@@ -28,22 +28,43 @@ project:
 runtimes:
   node: "22"
 tools:
-  pnpm: "10"
+  pnpm:
+    version: "10"
+    acquisition:
+      provider: corepack
+      package: pnpm
+      version: "10.0.0"
 tasks:
   setup:
     run: pnpm install
+    requirements:
+      tools:
+        pnpm: "10"
   dev:
     run: pnpm dev
     depends_on:
       - setup
+    requirements:
+      tools:
+        pnpm: "10"
     notes: |
       Use this when you are iterating locally.
   test:
     run: pnpm test
     depends_on:
       - setup
+    requirements:
+      tools:
+        pnpm: "10"
     notes: |
       Run this after code changes.
+workflows:
+  default: app
+  app:
+    setup:
+      task: setup
+    run:
+      task: dev
 checks:
   - name: node-installed
     kind: precondition
@@ -71,5 +92,5 @@ agent:
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.
-    Start with `ota doctor`, then `ota validate`, then `ota run test`.
-    Use `ota tasks` to see available tasks and their descriptions.
+    Start with `ota doctor`, then `ota validate`, then `ota up --dry-run`, then `ota run test`.
+    Use `ota workflows` to see the main front door and `ota proof runtime --workflow app` to prove it.
