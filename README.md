@@ -61,8 +61,12 @@ Use these as starting points when you want:
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
   These are now the cleanest copyable examples for workflow-first setup plus tool acquisition truth.
+- Service starter with `prepare` plus runtime proof: [`templates/node-service`](templates/node-service)
+  Use this when the repo needs one honest `.env.local` bootstrap step before setup and one declared service URL that `ota proof runtime` can verify.
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
   This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, a task-prerequisite example with `requires_services`, docs, and release-script companions so users can copy more than just `ota.yaml`.
+- Env policy plus task-scoped env requirements in a serious repo: [`reference/canonical-team-repo`](reference/canonical-team-repo)
+  Use this when you want `env.vars`, ordered `env.sources`, reusable surfaces, probe-backed readiness, and one release-only env requirement in the same contract.
 - Tool acquisition through the contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
   Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when one explicit shell command is the honest `uv` acquisition lane.
 - Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)

@@ -36,6 +36,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 - how to make the repo itself explain the operating model
 - how repo intent and org policy stay separate through explicit `version_policy`, provisioning, and adapter bootstrap rules
 - how to declare env requirements explicitly through `env.vars` and ordered `env.sources` instead of relying on silent `.env` loading
+- how to keep a task-scoped env requirement on the release path instead of pretending every repo task needs the same env
 - how to make one canonical repo workflow explicit through `workflows.default`
 - how to attach one honest tool acquisition lane to `pnpm` and let workflow-selected task requirements decide when it applies
 - how to declare one reusable runtime surface for the docs preview path instead of repeating listener and host URL truth
@@ -72,6 +73,7 @@ This example intentionally dogfoods the current env contract:
 - `.env.ota-example` is required and committed so the example validates and doctors cleanly without manual setup
 - org policy env values outrank process env and declared dotenv sources
 - process env still outranks declared dotenv sources
+- `tasks.release.requirements.env` keeps `DOCS_SITE_BASE_URL` attached to the release path instead of flattening it into a repo-global prerequisite
 
 ## Use this repo when
 
@@ -91,6 +93,7 @@ This example now treats workflows as the first operational surface:
   host URL through `{ surface: docs }`
 - `checks.docs-preview-ready` reuses one named top-level probe instead of embedding another shell
   command
+- `tasks.release.requirements.env` keeps the release-only env contract explicit
 
 ## Surface learning path
 

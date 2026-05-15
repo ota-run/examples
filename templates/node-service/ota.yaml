@@ -24,7 +24,8 @@
 version: 1
 project:
   name: node-service
-  description: Real Node service template with explicit setup, test, and agent boundaries
+  description: Real Node service template with explicit prepare, setup, runtime proof, and agent boundaries
+  type: application
 runtimes:
   node: "22"
 tools:
@@ -34,22 +35,69 @@ tools:
       provider: corepack
       package: pnpm
       version: "10.0.0"
+env:
+  vars:
+    APP_ENV:
+      default: local
+      allowed:
+        - local
+        - ci
+    PATH:
+      prepend:
+        - ./node_modules/.bin
+  sources:
+    - kind: dotenv
+      path: .env.local
+surfaces:
+  app:
+    kind: http
+    label: Local App
+    purpose: Browser-facing service surface for the local Node workflow
+    visibility: public
+    port: 3000
+    path: /
+    readiness:
+      kind: http
+      path: /health
+      timeout: 5s
 tasks:
+  setup:env:local:
+    internal: true
+    description: Create a local env overlay from the committed template when needed
+    action:
+      kind: copy_if_missing
+      from: .env.example
+      to: .env.local
   setup:
+    description: Install Node dependencies
     run: pnpm install
+    depends_on:
+      - setup:env:local
     requirements:
+      runtimes:
+        node: "22"
       tools:
         pnpm: "10"
+      checks:
+        - node-installed
   dev:
-    run: pnpm dev
+    description: Start the local development server
+    env:
+      APP_ENV: local
+    run: pnpm dev --host 127.0.0.1 --port 3000
     depends_on:
       - setup
     requirements:
       tools:
         pnpm: "10"
+    runtime:
+      kind: service
+      surfaces:
+        - app
     notes: |
-      Use this when you are iterating locally.
+      Use this when you are iterating locally and want one declared service surface that Ota can prove.
   test:
+    description: Run the verification suite
     run: pnpm test
     depends_on:
       - setup
@@ -61,10 +109,21 @@ tasks:
 workflows:
   default: app
   app:
+    intent: local_development
+    description: Canonical Node service front door with explicit prepare, setup, and run phases
+    prepare:
+      task: setup:env:local
     setup:
       task: setup
     run:
       task: dev
+    readiness:
+      surfaces:
+        - app
+    exposes:
+      - surface: app
+    notes: |
+      Use this when you want Ota to create local env state, prepare dependencies, and prove the service URL.
 checks:
   - name: node-installed
     kind: precondition

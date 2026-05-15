@@ -118,8 +118,11 @@ tasks:
     requirements:
       tools:
         pnpm: "10"
+      env:
+        - DOCS_SITE_BASE_URL
     notes: |
       Run this only after `test` and `docs:check` are green.
+      Keep `DOCS_SITE_BASE_URL` explicit on the release path instead of assuming it exists everywhere.
       Keep release notes and operating guidance in sync with the repo docs.
 workflows:
   default: docs
