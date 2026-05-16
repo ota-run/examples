@@ -64,13 +64,30 @@ Use these as starting points when you want:
 - Service starter with `prepare` plus runtime proof: [`templates/node-service`](templates/node-service)
   Use this when the repo needs one honest `.env.local` bootstrap step before setup and one declared service URL that `ota proof runtime` can verify.
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)
-  This is the flagship adoption starter. It now includes a real Java/Maven repo shape, a local service example, a task-prerequisite example with `requires_services`, docs, and release-script companions so users can copy more than just `ota.yaml`.
+  This is the flagship adoption starter. It now includes a real Java/Maven repo shape with
+  `toolchains.java` as the Java owner, a local service example, a task-prerequisite example with
+  `requires_services`, docs, and release-script companions so users can copy more than just
+  `ota.yaml`.
 - Env policy plus task-scoped env requirements in a serious repo: [`reference/canonical-team-repo`](reference/canonical-team-repo)
   Use this when you want `env.vars`, ordered `env.sources`, reusable surfaces, probe-backed readiness, and one release-only env requirement in the same contract.
 - Tool acquisition through the contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
   Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when one explicit shell command is the honest `uv` acquisition lane.
 - Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)
   Use this when you want one compact example that isolates workflow-scoped Corepack and command acquisition without the rest of a larger flagship repo.
+- Managed Rust toolchain ownership: [`reference/rust-toolchain-flow`](reference/rust-toolchain-flow)
+  Use this when the repo needs Rust to behave as one provider-backed ecosystem through
+  `toolchains.rust` instead of duplicating the same truth under `runtimes`, `tools`, or setup
+  shell glue. The shipped pair is fixed: `toolchains.rust` with `provider: rustup`.
+- Managed Node runtime ownership with Corepack package-manager activation:
+  [`reference/node-corepack-toolchain-flow`](reference/node-corepack-toolchain-flow)
+  Use this when the repo wants `toolchains.node` to own the Node runtime, `node` executable, and
+  declared Corepack package-manager activation in one place. The shipped pair is fixed:
+  `toolchains.node` with `provider: corepack`.
+- Managed Java runtime ownership with SDKMAN:
+  [`reference/java-sdkman-toolchain-flow`](reference/java-sdkman-toolchain-flow)
+  Use this when the repo wants `toolchains.java` to own `java` and `javac`, while Maven stays
+  explicitly standalone under `tools`. The shipped pair is fixed: `toolchains.java` with
+  `provider: sdkman`, and it is check-only today.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)

@@ -25,14 +25,16 @@ version: 1
 project:
   name: adoption-flow
   description: Flagship Ota adoption starter for turning an existing Java repo into an explicit contract
+toolchains:
+  java:
+    provider: sdkman
+    version: "21"
 execution:
   default_context: host
   contexts:
     host:
       backend: native
       requirements:
-        runtimes:
-          java: ">=21"
         tools:
           docker: "*"
           maven: "*"
@@ -45,8 +47,6 @@ execution:
         compose:
           - local
       requirements:
-        runtimes:
-          java: ">=21"
         tools:
           maven: "*"
 services:
@@ -71,6 +71,11 @@ tasks:
     internal: true
     context: app
     run: mvn -q -DskipTests dependency:go-offline
+    requirements:
+      toolchains:
+        - java
+      tools:
+        maven: "*"
     notes: |
       Example: `ota up` or `ota run setup` after the contract has been written.
   build:
@@ -78,6 +83,11 @@ tasks:
     run: mvn package
     depends_on:
       - setup
+    requirements:
+      toolchains:
+        - java
+      tools:
+        maven: "*"
     notes: |
       Example: `ota run build` to compile and package the Java repo.
   test:
@@ -85,6 +95,11 @@ tasks:
     run: mvn test
     depends_on:
       - setup
+    requirements:
+      toolchains:
+        - java
+      tools:
+        maven: "*"
     safe_for_agent: true
     notes: |
       Example: `ota run test` before merging contract changes.
@@ -96,6 +111,11 @@ tasks:
     run: mvn test
     depends_on:
       - setup
+    requirements:
+      toolchains:
+        - java
+      tools:
+        maven: "*"
     requires_services:
       - postgres
     notes: |
@@ -109,6 +129,11 @@ tasks:
     env:
       DB_URL: jdbc:postgresql://postgres:5432/adoption_flow
     run: mvn spring-boot:run -Dspring-boot.run.arguments=--server.address=0.0.0.0,--server.port=8080
+    requirements:
+      toolchains:
+        - java
+      tools:
+        maven: "*"
     requires_services:
       - postgres
     runtime:
@@ -148,15 +173,6 @@ tasks:
       - docs:check
     notes: |
       Example: `ota run release` after validation, docs checks, and repository-specific publish configuration are ready.
-checks:
-  - name: java-installed
-    kind: precondition
-    severity: error
-    run: java --version
-  - name: maven-installed
-    kind: precondition
-    severity: error
-    run: mvn -v
 agent:
   entrypoint: setup
   default_task: test

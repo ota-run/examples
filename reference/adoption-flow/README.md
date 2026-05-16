@@ -51,7 +51,8 @@ This is the flagship public adoption starter. Use it when you are introducing ot
 ## What this teaches
 
 - how `ota doctor` surfaces readiness gaps first
-- how `checks` make `ota doctor` fail fast when the Java toolchain is missing
+- how `toolchains.java` makes the Java runtime owner explicit instead of hiding it under
+  `runtimes.java` or shell setup
 - how typed `services` make local dependencies explicit instead of hidden in README prose
 - how explicit host and app execution contexts keep repo work and containerized app work separate
 - how typed service managers make Postgres ownership and readiness honest instead of implied
@@ -113,9 +114,9 @@ Exact Java remediation:
 
 ```text
 Primary Blocker
-Version mismatch for runtime: java
-Why: java resolved to `23.0.2` but the contract requires `21-tem`
-Next: run `sdk install java 21-tem` and rerun `ota doctor ./reference/adoption-flow/ota.yaml`
+Version mismatch for toolchain-owned runtime: java
+Why: java resolved to `23.0.2` but the contract requires `21`
+Next: run `sdk install java 21` and rerun `ota doctor ./reference/adoption-flow/ota.yaml`
 ```
 
 Local service readiness:
@@ -146,6 +147,7 @@ Next:
 ## Edit first
 
 - `project.name` and `project.description`
+- `toolchains.java`
 - `execution.contexts.host` and `execution.contexts.app`
 - `services.postgres.manager`, `services.postgres.endpoints`, and `services.postgres.readiness`
 - `tasks.db:integration.requires_services`

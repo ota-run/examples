@@ -1,0 +1,119 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: rust-toolchain-flow
+  description: Focused example for Rustup-backed toolchain ownership without duplicate runtime or tool declarations
+toolchains:
+  rust:
+    provider: rustup
+    version: "1.94.0"
+    profile: minimal
+    components:
+      - rustfmt
+      - clippy
+    targets:
+      - x86_64-unknown-linux-musl
+    fulfillment: run
+tools:
+  git: "*"
+tasks:
+  setup:
+    run: cargo fetch
+    requirements:
+      toolchains:
+        - rust
+    notes: |
+      Use this when the repo should prepare Rust dependencies through the owned toolchain.
+      The Rust ecosystem is owned by `toolchains.rust`, so this task does not restate `runtimes.rust` or `tools.cargo`.
+  lint:
+    run: cargo fmt --check && cargo clippy --all-targets -- -D warnings
+    depends_on:
+      - setup
+    requirements:
+      toolchains:
+        - rust
+    notes: |
+      Use this when formatter and linter capabilities should come from the selected Rust toolchain.
+      Do not add duplicate `tools.rustfmt` or `tools.clippy` declarations here.
+  test:
+    run: cargo test --all-targets
+    depends_on:
+      - lint
+    requirements:
+      toolchains:
+        - rust
+    notes: |
+      Use this as the standard Rust verification path after setup.
+  release:tag:
+    run: git tag --list
+    depends_on:
+      - test
+    requirements:
+      toolchains:
+        - rust
+      tools:
+        git: "*"
+    notes: |
+      Use this when one selected path needs both the Rust toolchain and a genuinely standalone tool.
+      `git` stays under `tools` because it is not owned by the Rust toolchain.
+workflows:
+  default: contributor
+  contributor:
+    intent: local_development
+    description: Default contributor path for Rust setup, lint, and tests through one toolchain owner
+    setup:
+      task: setup
+    run:
+      task: test
+  release:
+    intent: release
+    description: Release-adjacent path that still uses the Rust toolchain but also requires standalone git
+    setup:
+      task: setup
+    run:
+      task: release:tag
+agent:
+  entrypoint: setup
+  default_task: test
+  safe_tasks:
+    - setup
+    - lint
+    - test
+    - release:tag
+  verify_after_changes:
+    - lint
+    - test
+  writable_paths:
+    - src
+    - tests
+    - benches
+    - examples
+    - docs
+    - scripts
+  protected_paths:
+    - ota.yaml
+  notes: |
+    Start with `ota doctor`, then `ota up --dry-run`, then `ota run test`.
+    The point of this example is that Rust capability ownership comes from `toolchains.rust`, not duplicate runtime or tool declarations.

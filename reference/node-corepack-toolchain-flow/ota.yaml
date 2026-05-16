@@ -1,0 +1,82 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: node-corepack-toolchain-flow
+  description: Focused example for a check-only Node toolchain that also owns Corepack package-manager activation
+  type: application
+toolchains:
+  node:
+    provider: corepack
+    version: "22"
+    package_managers:
+      pnpm: "10.0.0"
+tasks:
+  setup:
+    description: Install package-manager dependencies with one explicit Node owner
+    category: setup
+    run: pnpm install
+    requirements:
+      toolchains:
+        - node
+    notes: |
+      `toolchains.node` owns the Node runtime, `node` executable, and declared Corepack package
+      managers.
+  test:
+    description: Run the verification suite
+    category: test
+    run: pnpm test
+    depends_on:
+      - setup
+    requirements:
+      toolchains:
+        - node
+workflows:
+  default: app
+  app:
+    intent: local_development
+    description: Node front door with a managed Node runtime and provider-owned Corepack package-manager activation
+    setup:
+      task: setup
+    run:
+      task: test
+    notes: |
+      The point of this example is that `toolchains.node` owns the runtime, `node` executable,
+      and declared Corepack package-manager activation in one place.
+agent:
+  entrypoint: setup
+  default_task: test
+  safe_tasks:
+    - setup
+    - test
+  verify_after_changes:
+    - test
+  writable_paths:
+    - src
+    - tests
+    - docs
+  protected_paths:
+    - ota.yaml
+  notes: |
+    Use `ota doctor` and `ota up --dry-run` to inspect the Node toolchain boundary before editing.
