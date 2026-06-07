@@ -1,0 +1,44 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: task-prepare-dependency-hydration
+  description: Reference contract showing first-class task preparation for docker-backed image hydration
+  type: application
+
+tasks:
+  setup:docker:images:
+    description: Pre-pull registry-backed docker dependencies before startup
+    category: setup
+    prepare:
+      kind: dependency_hydration
+      medium: container_images
+      source:
+        kind: docker_compose
+        cwd: docker
+        file: docker-compose.dev.yml
+      targets:
+        - redis
+        - database
+    requirements:
+      tools:
+        docker: "*"
+    effects:
+      network: true
+      network_kind: dependency_hydration
+      external_state:
+        - docker
+
+  services:up:
+    description: Start the local stack after external images are hydrated
+    category: setup
+    depends_on:
+      - setup:docker:images
+    run: cd docker && docker compose -f ./docker-compose.dev.yml up -d redis database
+    requirements:
+      tools:
+        docker: "*"
+    effects:
+      external_state:
+        - docker

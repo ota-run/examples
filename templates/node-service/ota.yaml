@@ -26,15 +26,14 @@ project:
   name: node-service
   description: Real Node service template with explicit prepare, setup, runtime proof, and agent boundaries
   type: application
-runtimes:
-  node: "22"
-tools:
-  pnpm:
-    version: "10"
-    acquisition:
-      provider: corepack
-      package: pnpm
-      version: "10.0.0"
+toolchains:
+  node:
+    version: "22"
+    package_managers:
+      pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
 env:
   vars:
     APP_ENV:
@@ -74,10 +73,8 @@ tasks:
     depends_on:
       - setup:env:local
     requirements:
-      runtimes:
-        node: "22"
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
       checks:
         - node-installed
   dev:
@@ -88,8 +85,8 @@ tasks:
     depends_on:
       - setup
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
     runtime:
       kind: service
       surfaces:
@@ -102,8 +99,8 @@ tasks:
     depends_on:
       - setup
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
     notes: |
       Run this after code changes.
 workflows:
@@ -146,8 +143,8 @@ agent:
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
+      sh: curl -fsSL https://dist.ota.run/install.sh | OTA_VERSION=v1.6.19 sh
+      powershell: $env:OTA_VERSION='v1.6.19'; irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.

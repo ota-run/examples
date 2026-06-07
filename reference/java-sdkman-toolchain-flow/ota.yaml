@@ -28,8 +28,10 @@ project:
   type: application
 toolchains:
   java:
-    provider: sdkman
     version: "21"
+    fulfillment:
+      source: sdkman
+      mode: run
 tools:
   maven: "*"
 tasks:

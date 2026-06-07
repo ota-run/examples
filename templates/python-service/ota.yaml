@@ -25,28 +25,27 @@ version: 1
 project:
   name: python-service
   description: Real Python service template with explicit setup, test, and lint boundaries
-runtimes:
-  python: "3.12"
-tools:
-  uv:
-    version: "0.6"
-    acquisition:
-      provider: command
-      shell: sh
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+toolchains:
+  python:
+    version: "3.12"
+    package_managers:
+      uv: "0.6"
+    fulfillment:
+      source: uv
+      mode: run
 tasks:
   setup:
     run: uv sync
     requirements:
-      tools:
-        uv: "0.6"
+      toolchains:
+        - python
   test:
     run: uv run pytest
     depends_on:
       - setup
     requirements:
-      tools:
-        uv: "0.6"
+      toolchains:
+        - python
     notes: |
       Run this after code changes.
   lint:
@@ -54,8 +53,8 @@ tasks:
     depends_on:
       - setup
     requirements:
-      tools:
-        uv: "0.6"
+      toolchains:
+        - python
     notes: |
       Use this when you touch application code.
 workflows:
@@ -86,8 +85,8 @@ agent:
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
+      sh: curl -fsSL https://dist.ota.run/install.sh | OTA_VERSION=v1.6.19 sh
+      powershell: $env:OTA_VERSION='v1.6.19'; irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way uv is the default package workflow in a Python service.

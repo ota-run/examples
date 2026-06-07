@@ -26,15 +26,15 @@
 
 This is the dedicated public example for Rust toolchain ownership.
 
-Use it when the repo needs Rust to behave as one provider-backed ecosystem instead of splitting the
+Use it when the repo needs Rust to behave as one managed ecosystem instead of splitting the
 same truth across `runtimes`, `tools`, and setup shell glue.
 
 ## What this teaches
 
 - `toolchains.rust` is the owner for the managed Rust ecosystem
-- the shipped Rust toolchain contract is the fixed pair `toolchains.rust` plus `provider: rustup`
-- `provider: rustup` makes version, components, and targets explicit contract truth
-- Ota validates and interprets this contract through the shipped Rustup provider contract rather
+- `toolchains.rust.fulfillment` separates Rust capability truth from fulfillment truth
+- `fulfillment.source: rustup` is the canonical public way to say the selected path should use Rustup-backed fulfillment
+- Ota validates and interprets this contract through the shipped Rust ownership contract rather
   than treating those fields as a generic ecosystem schema
 - `requirements.toolchains` is the selected-path owner for Rust tasks
 - `cargo`, `rustfmt`, and `clippy` should not be restated under `tools` when the Rust toolchain
@@ -76,7 +76,7 @@ ota run release:tag
 
 - `ota doctor` should diagnose Rust through `toolchains.rust`, not through `runtimes.rust`
 - `ota up --dry-run` should talk about the Rust toolchain via `rustup` and say whether fulfillment
-  is check-only or run-path provisioning
+  is diagnosis-only or run-path provisioning
 - `ota run lint` should require the Rust toolchain and its owned capabilities without separate
   `tools.cargo`, `tools.rustfmt`, or `tools.clippy` declarations
 - `ota run release:tag` should still talk about `git` as a standalone tool, because the Rust

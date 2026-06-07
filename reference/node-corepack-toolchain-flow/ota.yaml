@@ -28,10 +28,12 @@ project:
   type: application
 toolchains:
   node:
-    provider: corepack
     version: "22"
     package_managers:
       pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
 tasks:
   setup:
     description: Install package-manager dependencies with one explicit Node owner
@@ -56,7 +58,7 @@ workflows:
   default: app
   app:
     intent: local_development
-    description: Node front door with a managed Node runtime and provider-owned Corepack package-manager activation
+    description: Node front door with a managed Node runtime and declared Corepack package-manager activation
     setup:
       task: setup
     run:

@@ -27,8 +27,10 @@ project:
   description: Flagship Ota adoption starter for turning an existing Java repo into an explicit contract
 toolchains:
   java:
-    provider: sdkman
     version: "21"
+    fulfillment:
+      source: sdkman
+      mode: run
 execution:
   default_context: host
   contexts:
@@ -160,16 +162,12 @@ tasks:
   docs:check:
     context: host
     run: test -f docs/first-week.md && test -f docs/release-checklist.md
-    depends_on:
-      - build
     notes: |
       Example: `ota run docs:check` when repo guidance or release steps change.
   release:
     context: host
     run: ./scripts/release.sh
     depends_on:
-      - build
-      - test
       - docs:check
     notes: |
       Example: `ota run release` after validation, docs checks, and repository-specific publish configuration are ready.
@@ -198,8 +196,8 @@ agent:
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
+      sh: curl -fsSL https://dist.ota.run/install.sh | OTA_VERSION=v1.6.19 sh
+      powershell: $env:OTA_VERSION='v1.6.19'; irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use Ota first for setup, validation, and task execution.
     Treat Ota as the default workflow when introducing it to an existing Java repo.

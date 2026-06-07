@@ -33,9 +33,9 @@ activation under one `toolchains.node` owner.
 
 - `toolchains.node` is the owner for the managed Node runtime, `node` executable, and declared
   Corepack package managers
-- the shipped Node toolchain contract is the fixed pair `toolchains.node` plus `provider: corepack`
-- `provider: corepack` now supports provider-scoped `package_managers`
-- Corepack-backed Node toolchains are check-only today; `fulfillment: run` is intentionally invalid
+- `toolchains.node.fulfillment` separates capability truth from fulfillment truth
+- `fulfillment.source: corepack` is the canonical public way to say the selected path should use Corepack activation
+- Corepack-backed Node toolchains support `package_managers` plus selected-path `fulfillment.mode: run`
 - `requirements.toolchains` now selects the Node runtime and declared Corepack package-manager lane
 - `runtimes.node` should not be declared alongside `toolchains.node`
 - `tools.node` should not be declared alongside `toolchains.node`
@@ -44,10 +44,10 @@ activation under one `toolchains.node` owner.
 
 ## Why this exists
 
-The Rust example proves a provider-managed ecosystem that owns extra fields and run-path
-fulfillment. This Node example proves the narrower second-provider shape: the provider contract is
-real, owns Node plus declared Corepack package-manager activation, and still keeps the whole
-toolchain check-only.
+The Rust example proves managed-surface ownership such as components and targets. This Node example
+proves the narrower Node shape: `toolchains.node` owns Node plus declared Corepack package-manager
+activation, while structured `fulfillment` says how ota may activate that toolchain on the selected
+path.
 
 ## Try this
 
@@ -71,8 +71,8 @@ ota run test
 
 - `ota doctor` should diagnose Node through `toolchains.node` and surface missing Corepack-managed
   package managers from that same owner
-- `ota up --dry-run` should show `toolchains.node` as diagnose-only and surface Corepack
-  activation actions for declared package managers from the selected workflow path
+- `ota up --dry-run` should show `toolchains.node` through structured fulfillment and surface
+  Corepack activation actions for declared package managers from the selected workflow path
 - `ota run setup` and `ota run test` should require the Node toolchain only
 - `ota` should reject duplicate `runtimes.node` or `tools.node` declarations, while also rejecting
   duplicate package-manager ownership such as `tools.pnpm` when `toolchains.node.package_managers`
@@ -83,4 +83,4 @@ ota run test
 - Node repos that want one owner for the Node runtime, `node` executable, and declared Corepack
   package-manager activation
 - repos that activate `pnpm` or `yarn` through Corepack instead of global installs
-- teams that want the current shipped Node toolchain boundary before broader provider expansion
+- teams that want the canonical public Node toolchain model

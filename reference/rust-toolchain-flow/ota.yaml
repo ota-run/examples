@@ -24,10 +24,9 @@
 version: 1
 project:
   name: rust-toolchain-flow
-  description: Focused example for Rustup-backed toolchain ownership without duplicate runtime or tool declarations
+  description: Focused example for Rust toolchain ownership without duplicate runtime or tool declarations
 toolchains:
   rust:
-    provider: rustup
     version: "1.94.0"
     profile: minimal
     components:
@@ -35,7 +34,9 @@ toolchains:
       - clippy
     targets:
       - x86_64-unknown-linux-musl
-    fulfillment: run
+    fulfillment:
+      source: rustup
+      mode: run
 tools:
   git: "*"
 tasks:

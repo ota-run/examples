@@ -75,19 +75,20 @@ Use these as starting points when you want:
 - Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)
   Use this when you want one compact example that isolates workflow-scoped Corepack and command acquisition without the rest of a larger flagship repo.
 - Managed Rust toolchain ownership: [`reference/rust-toolchain-flow`](reference/rust-toolchain-flow)
-  Use this when the repo needs Rust to behave as one provider-backed ecosystem through
-  `toolchains.rust` instead of duplicating the same truth under `runtimes`, `tools`, or setup
-  shell glue. The shipped pair is fixed: `toolchains.rust` with `provider: rustup`.
+  Use this when the repo needs Rust to behave as one managed ecosystem through `toolchains.rust`
+  instead of duplicating the same truth under `runtimes`, `tools`, or setup shell glue.
 - Managed Node runtime ownership with Corepack package-manager activation:
   [`reference/node-corepack-toolchain-flow`](reference/node-corepack-toolchain-flow)
   Use this when the repo wants `toolchains.node` to own the Node runtime, `node` executable, and
-  declared Corepack package-manager activation in one place. The shipped pair is fixed:
-  `toolchains.node` with `provider: corepack`.
+  declared Corepack package-manager activation in one place.
 - Managed Java runtime ownership with SDKMAN:
   [`reference/java-sdkman-toolchain-flow`](reference/java-sdkman-toolchain-flow)
   Use this when the repo wants `toolchains.java` to own `java` and `javac`, while Maven stays
-  explicitly standalone under `tools`. The shipped pair is fixed: `toolchains.java` with
-  `provider: sdkman`, and it is check-only today.
+  explicitly standalone under `tools`.
+- First-class dependency or image hydration:
+  [`reference/task-prepare-dependency-hydration`](reference/task-prepare-dependency-hydration)
+  Use this when one setup task is really finite dependency hydration and ota should model that
+  phase structurally through `tasks.<name>.prepare` instead of hiding it in a shell command.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)

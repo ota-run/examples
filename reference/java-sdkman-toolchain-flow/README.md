@@ -32,8 +32,8 @@ under `tools`.
 ## What this teaches
 
 - `toolchains.java` is the owner for the managed Java runtime and `javac`
-- the shipped Java toolchain contract is the fixed pair `toolchains.java` plus `provider: sdkman`
-- SDKMAN-backed Java toolchains are check-only today; `fulfillment: run` is intentionally invalid
+- `toolchains.java.fulfillment` separates Java capability truth from fulfillment truth
+- `fulfillment.source: sdkman` is the canonical public way to say the selected path should use SDKMAN-backed fulfillment
 - `requirements.toolchains` selects the Java runtime lane for the chosen task path
 - Maven should stay under `tools.maven` because the Java toolchain does not own it in v1
 - `runtimes.java`, `tools.java`, and `tools.javac` should not be declared alongside
@@ -41,8 +41,8 @@ under `tools`.
 
 ## Why this exists
 
-Rust proves the richer fulfillment-capable provider shape and Node proves the narrower Corepack
-shape. This example teaches the current Java boundary directly:
+Rust proves the richer managed-surface shape and Node proves the narrower Corepack shape. This
+example teaches the Java boundary directly:
 
 - one Java toolchain owner
 - one standalone Maven tool lane
@@ -69,8 +69,8 @@ ota run test
 ## Expected result
 
 - `ota doctor` should diagnose Java through `toolchains.java`
-- `ota up --dry-run` should show `toolchains.java` as diagnose-only and keep Maven separate as a
-  standalone tool requirement
+- `ota up --dry-run` should show `toolchains.java` through structured fulfillment and keep Maven
+  separate as a standalone tool requirement
 - `ota run build` and `ota run test` should require both the Java toolchain and Maven
 - ota should reject duplicate `runtimes.java`, `tools.java`, or `tools.javac` declarations
 
