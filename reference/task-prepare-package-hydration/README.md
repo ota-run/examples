@@ -22,24 +22,26 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Task prepare: dependency hydration
+# Task prepare: package hydration
 
-Use this when one setup task is really dependency or image hydration, not generic shell glue and not a long-running service.
+Use this when one setup task is really lockfile-backed package hydration, not generic shell glue and not a long-running service.
 
-This example shows the docker image-hydration `tasks.<name>.prepare` slice:
+This example shows the shipped node package-manager `tasks.<name>.prepare` slice:
 
 - `prepare.kind: dependency_hydration`
-- `medium: container_images`
-- `source.kind: docker_compose`
-- explicit `targets`
-- explicit `requirements.tools.docker`
+- `medium: package_dependencies`
+- `source.kind: node_package_manager`
+- `source.manager: pnpm`
+- `source.mode: install`
+- explicit `requirements.toolchains: [node]`
+- explicit `effects.writes`
 - explicit `effects.network_kind: dependency_hydration`
 
 Why this exists:
 
-- the repo truth is "hydrate these external images before startup"
+- the repo truth is "hydrate workspace dependencies before build or test"
 - that is finite setup work
 - it should not be modeled as a service
-- it should not be hidden in `run: cd ... && docker compose pull ...`
+- it should not be hidden in `run: pnpm install`
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
