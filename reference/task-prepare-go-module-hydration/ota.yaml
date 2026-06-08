@@ -1,0 +1,42 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: task-prepare-go-module-hydration
+  description: Canonical first-class Go module hydration through go mod download
+  type: service
+
+toolchains:
+  go:
+    version: "1.26.0"
+    fulfillment:
+      source: go
+      mode: none
+
+tasks:
+  setup:
+    description: Hydrate Go module dependencies structurally
+    category: setup
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: go_modules
+        cwd: .
+    requirements:
+      toolchains:
+        - go
+    effects:
+      network: true
+      network_kind: dependency_hydration
+
+  test:
+    description: Run tests after module hydration
+    category: test
+    run: go test ./...
+    depends_on:
+      - setup
+    requirements:
+      toolchains:
+        - go

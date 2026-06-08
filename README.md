@@ -94,6 +94,10 @@ Use these as starting points when you want:
   Use this when a repo's root install lane is really lockfile-backed package hydration and ota
   should own that setup phase structurally instead of teaching `pnpm install` or `npm ci` as
   shell glue.
+- First-class Go module hydration:
+  [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
+  Use this when a repo's setup lane is really `go mod download` and ota should own that finite
+  module-hydration phase structurally instead of hiding it in `run`.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)
