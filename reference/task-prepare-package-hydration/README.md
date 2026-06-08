@@ -31,8 +31,9 @@ This example shows the shipped node package-manager `tasks.<name>.prepare` slice
 - `prepare.kind: dependency_hydration`
 - `medium: package_dependencies`
 - `source.kind: node_package_manager`
-- `source.manager: pnpm`
+- `source.manager: yarn`
 - `source.mode: install`
+- `source.frozen_lockfile: true` for strict `yarn install --immutable`
 - explicit `requirements.toolchains: [node]`
 - explicit `effects.writes`
 - explicit `effects.network_kind: dependency_hydration`
@@ -42,6 +43,11 @@ Why this exists:
 - the repo truth is "hydrate workspace dependencies before build or test"
 - that is finite setup work
 - it should not be modeled as a service
-- it should not be hidden in `run: pnpm install`
+- it should not be hidden in `run: yarn install --immutable`
+
+The same structural lane also covers:
+
+- `manager: pnpm` with `frozen_lockfile: true` for strict `pnpm install --frozen-lockfile`
+- `manager: npm` with `mode: ci` for strict `npm ci`
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.

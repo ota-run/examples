@@ -11,14 +11,14 @@ toolchains:
   node:
     version: "24.15.0"
     package_managers:
-      pnpm: "10.33.4"
+      yarn: "4.11.0"
     fulfillment:
       source: corepack
       mode: run
 
 tasks:
   install:
-    description: Hydrate workspace dependencies through the declared pnpm install lane
+    description: Hydrate workspace dependencies through the declared Yarn install lane
     category: setup
     prepare:
       kind: dependency_hydration
@@ -26,7 +26,7 @@ tasks:
       source:
         kind: node_package_manager
         cwd: .
-        manager: pnpm
+        manager: yarn
         mode: install
         frozen_lockfile: true
     requirements:
@@ -35,13 +35,14 @@ tasks:
     effects:
       writes:
         - node_modules
+        - .yarn/install-state.gz
       network: true
       network_kind: dependency_hydration
 
   build:
     description: Build after dependency hydration
     category: build
-    run: pnpm build
+    run: yarn build
     depends_on:
       - install
     requirements:

@@ -92,8 +92,8 @@ Use these as starting points when you want:
 - First-class package hydration through a node package manager:
   [`reference/task-prepare-package-hydration`](reference/task-prepare-package-hydration)
   Use this when a repo's root install lane is really lockfile-backed package hydration and ota
-  should own that setup phase structurally instead of teaching `pnpm install` or `npm ci` as
-  shell glue.
+  should own that setup phase structurally instead of teaching `pnpm install --frozen-lockfile`,
+  `yarn install --immutable`, or `npm ci` as shell glue.
 - First-class Go module hydration:
   [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
   Use this when a repo's setup lane is really `go mod download` and ota should own that finite
