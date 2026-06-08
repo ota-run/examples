@@ -98,6 +98,11 @@ Use these as starting points when you want:
   [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
   Use this when a repo's setup lane is really `go mod download` and ota should own that finite
   module-hydration phase structurally instead of hiding it in `run`.
+- First-class Bundler hydration:
+  [`reference/task-prepare-bundler-hydration`](reference/task-prepare-bundler-hydration)
+  Use this when a repo's setup lane is really repo-local gem hydration and ota should own that
+  finite Bundler phase structurally instead of teaching `bundle install` as shell glue, with
+  Bundler version governance and selected-path fulfillment carried by `toolchains.ruby`.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)

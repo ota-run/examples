@@ -1,0 +1,48 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: task-prepare-bundler-hydration
+  description: Canonical first-class Bundler hydration through a repo-local bundle path
+  type: service
+
+toolchains:
+  ruby:
+    version: "3.3.11"
+    package_managers:
+      bundler: "2.5.3"
+    fulfillment:
+      source: ruby
+      mode: run
+
+tasks:
+  install:
+    description: Hydrate repo-local Ruby dependencies structurally
+    category: setup
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: bundler
+        cwd: .
+        path: vendor/bundle
+    requirements:
+      toolchains:
+        - ruby
+    effects:
+      writes:
+        - .bundle
+        - vendor/bundle
+      network: true
+      network_kind: dependency_hydration
+
+  test:
+    description: Run tests after Bundler hydration
+    category: test
+    run: bundle exec rake test
+    depends_on:
+      - install
+    requirements:
+      toolchains:
+        - ruby
