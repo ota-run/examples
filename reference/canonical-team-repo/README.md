@@ -39,6 +39,7 @@ This is the advanced example you fork when you want ota to be part of the repo o
 - how to keep a task-scoped env requirement on the release path instead of pretending every repo task needs the same env
 - how to make one canonical repo workflow explicit through `workflows.default`
 - how to attach one honest tool acquisition lane to `pnpm` and let workflow-selected task requirements decide when it applies
+- how to model one named verification entrypoint with `aggregate.tasks` instead of a fake no-op shell wrapper
 - how to declare one reusable runtime surface for the docs preview path instead of repeating listener and host URL truth
 - how to attach small operator-facing surface metadata such as `label`, `purpose`, and `visibility`
 - how to keep one reusable probe-backed readiness check separate from the workflow surface itself

@@ -66,7 +66,7 @@ Use this repo's workflow path to learn the surface model in the right order:
 1. read `ota.yaml`
 2. read `docs/workflows.md`
 3. run only safe tasks
-4. verify after changes
+4. verify after changes through `ota run verify`
 
 ## Principle
 

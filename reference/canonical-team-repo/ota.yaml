@@ -100,6 +100,12 @@ tasks:
     requirements:
       tools:
         pnpm: "10"
+  verify:
+    description: Run the canonical verification entrypoint
+    aggregate:
+      tasks:
+        - test
+        - docs:check
   docs:preview:
     launch:
       kind: command
@@ -124,6 +130,7 @@ tasks:
     run: pnpm run release
     depends_on:
       - test
+      - docs:check
     requirements:
       tools:
         pnpm: "10"
@@ -168,11 +175,11 @@ agent:
   safe_tasks:
     - setup
     - test
+    - verify
     - docs:check
     - docs:preview
   verify_after_changes:
-    - test
-    - docs:check
+    - verify
   writable_paths:
     - docs
     - src
@@ -180,11 +187,6 @@ agent:
   protected_paths:
     - ota.yaml
     - docs/decision-log.md
-  bootstrap:
-    ota:
-      note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.

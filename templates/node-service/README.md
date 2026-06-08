@@ -29,7 +29,7 @@ A copyable starting point for a real Node service repo that needs a clear contra
 ## Why this exists
 
 - gives the repo a clear readiness contract
-- keeps prepare, setup, dev, and test behavior explicit
+- keeps prepare, setup, dev, test, and aggregate verify behavior explicit
 - shows one honest tool acquisition lane for pnpm instead of assuming a global install
 - shows a real runtime surface and proof path instead of treating the service like a loose shell command
 - makes agent-safe paths and verification visible up front
@@ -53,7 +53,7 @@ ota doctor
 ota validate .
 ota up --dry-run
 ota up
-ota run test
+ota run verify
 ota proof runtime --workflow app
 ```
 
@@ -64,5 +64,6 @@ ota proof runtime --workflow app
 - `workflows.app.prepare` keeps deterministic host file preparation separate from normal setup and runtime work
 - `action.kind: copy_if_missing` lets the contract create `.env.local` without shell-specific glue
 - `tasks.dev.launch.kind: command` keeps the long-running service start structured, so Ota can reason about launch separately from the declared runtime surface
+- `tasks.verify.aggregate.tasks` gives the repo one named verification entrypoint without a fake `run: "true"` wrapper
 - `surfaces.app` gives the local Node path one declared URL and readiness contract instead of repeating host URLs in prose
 - `tasks.<name>.requirements.tools` scopes pnpm to the tasks that actually need it instead of turning every repo path into one flat prerequisite set
