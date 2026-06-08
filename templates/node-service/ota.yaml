@@ -81,7 +81,15 @@ tasks:
     description: Start the local development server
     env:
       APP_ENV: local
-    run: pnpm dev --host 127.0.0.1 --port 3000
+    launch:
+      kind: command
+      exe: pnpm
+      args:
+        - dev
+        - --host
+        - 127.0.0.1
+        - --port
+        - "3000"
     depends_on:
       - setup
     requirements:

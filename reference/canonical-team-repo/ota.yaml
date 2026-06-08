@@ -101,7 +101,16 @@ tasks:
       tools:
         pnpm: "10"
   docs:preview:
-    run: pnpm run docs:preview --host 127.0.0.1 --port 4173
+    launch:
+      kind: command
+      exe: pnpm
+      args:
+        - run
+        - docs:preview
+        - --host
+        - 127.0.0.1
+        - --port
+        - "4173"
     depends_on:
       - setup
     requirements:

@@ -63,5 +63,6 @@ ota proof runtime --workflow app
 - `workflows.default` makes the local app path explicit, so `ota up` and `ota proof runtime` target the same front door
 - `workflows.app.prepare` keeps deterministic host file preparation separate from normal setup and runtime work
 - `action.kind: copy_if_missing` lets the contract create `.env.local` without shell-specific glue
+- `tasks.dev.launch.kind: command` keeps the long-running service start structured, so Ota can reason about launch separately from the declared runtime surface
 - `surfaces.app` gives the local Node path one declared URL and readiness contract instead of repeating host URLs in prose
 - `tasks.<name>.requirements.tools` scopes pnpm to the tasks that actually need it instead of turning every repo path into one flat prerequisite set

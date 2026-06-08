@@ -91,6 +91,7 @@ This example now treats workflows as the first operational surface:
 - `tools.pnpm.acquisition` keeps the Corepack activation lane attached to the tool instead of leaving pnpm setup in docs-only guidance
 - `workflows.docs` runs `docs:preview`, proves the reusable `docs` surface, and resolves its
   host URL through `{ surface: docs }`
+- `tasks.docs:preview.launch.kind: command` keeps the docs preview server structured instead of hiding one long-running service behind a shell string
 - `checks.docs-preview-ready` reuses one named top-level probe instead of embedding another shell
   command
 - `tasks.release.requirements.env` keeps the release-only env contract explicit

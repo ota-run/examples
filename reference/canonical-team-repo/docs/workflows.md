@@ -53,11 +53,13 @@ flat task list.
 Use this repo's workflow path to learn the surface model in the right order:
 
 1. `docs:preview` attaches the `docs` surface in the simple native list form
-2. `workflows.docs.readiness.surfaces` proves that surface on the selected run task
-3. `workflows.docs.exposes` resolves `{ surface: docs }` into the host URL
-4. `checks.docs-preview-ready` shows when a reusable probe is the better fit than another inline
+2. `docs:preview.launch.kind: command` keeps the long-running preview server structured while
+   `runtime.surfaces` keeps the URL and readiness truth separate
+3. `workflows.docs.readiness.surfaces` proves that surface on the selected run task
+4. `workflows.docs.exposes` resolves `{ surface: docs }` into the host URL
+5. `checks.docs-preview-ready` shows when a reusable probe is the better fit than another inline
    runtime or workflow readiness block
-5. external endpoints should stay as literal URL probes, not surfaces
+6. external endpoints should stay as literal URL probes, not surfaces
 
 ## Agent workflow
 
