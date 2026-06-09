@@ -49,5 +49,6 @@ The same structural lane also covers:
 
 - `manager: pnpm` with `frozen_lockfile: true` for strict `pnpm install --frozen-lockfile`
 - `manager: npm` with `mode: ci` for strict `npm ci`
+- `source.kind: poetry` with repo-relative `cwd`, optional `groups`, optional `group_mode: with|only`, and optional `no_root` for structural `poetry install` hydration under `requirements.toolchains: [python]`
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.

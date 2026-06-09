@@ -4,7 +4,7 @@
 version: 1
 project:
   name: task-prepare-package-hydration
-  description: Canonical first-class package hydration through a node package manager
+  description: Canonical first-class package hydration through node and Python package managers
   type: service
 
 toolchains:
@@ -14,6 +14,13 @@ toolchains:
       yarn: "4.11.0"
     fulfillment:
       source: corepack
+      mode: run
+  python:
+    version: "3.12.11"
+    package_managers:
+      poetry: "2.1.4"
+    fulfillment:
+      source: uv
       mode: run
 
 tasks:
@@ -39,12 +46,35 @@ tasks:
       network: true
       network_kind: dependency_hydration
 
+  install:python:
+    description: Hydrate Python dependencies through the declared Poetry install lane
+    category: setup
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: poetry
+        cwd: .
+        groups:
+          - dev
+          - test
+        group_mode: with
+    requirements:
+      toolchains:
+        - python
+    effects:
+      writes:
+        - .venv
+      network: true
+      network_kind: dependency_hydration
+
   build:
     description: Build after dependency hydration
     category: build
     run: yarn build
     depends_on:
       - install
+      - install:python
     requirements:
       toolchains:
         - node

@@ -71,7 +71,7 @@ Use these as starting points when you want:
 - Env policy plus task-scoped env requirements in a serious repo: [`reference/canonical-team-repo`](reference/canonical-team-repo)
   Use this when you want `env.vars`, ordered `env.sources`, reusable surfaces, probe-backed readiness, and one release-only env requirement in the same contract.
 - Tool acquisition through the contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
-  Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when one explicit shell command is the honest `uv` acquisition lane.
+  Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when one explicit shell command is the honest `uv` acquisition lane; `toolchains.python` can now also own Poetry under `package_managers.poetry` when the repo is Poetry-first.
 - Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)
   Use this when you want one compact example that isolates workflow-scoped Corepack and command acquisition without the rest of a larger flagship repo.
 - Managed Rust toolchain ownership: [`reference/rust-toolchain-flow`](reference/rust-toolchain-flow)
