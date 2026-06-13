@@ -25,15 +25,15 @@ version: 1
 project:
   name: canonical-team-repo
   description: Advanced Ota example for a serious repo knowledge and workflow system
-runtimes:
-  node: "22"
+toolchains:
+  node:
+    version: "22"
+    package_managers:
+      pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
 tools:
-  pnpm:
-    version: "10"
-    acquisition:
-      provider: corepack
-      package: pnpm
-      version: "10.0.0"
   pwsh:
     version: "7.6.0"
     required: false
@@ -82,24 +82,39 @@ readiness:
       timeout: 5000
 tasks:
   setup:
-    run: pnpm install
+    description: Hydrate workspace dependencies through the declared pnpm lane
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: node_package_manager
+        cwd: .
+        manager: pnpm
+        mode: install
+        frozen_lockfile: true
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
+    effects:
+      writes:
+        - node_modules
+        - .pnpm-store
+      network: true
+      network_kind: dependency_hydration
   test:
     run: pnpm test
     depends_on:
       - setup
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
   docs:check:
     run: pnpm run docs:check
     depends_on:
       - setup
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
   verify:
     description: Run the canonical verification entrypoint
     aggregate:
@@ -120,8 +135,8 @@ tasks:
     depends_on:
       - setup
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
     runtime:
       kind: service
       surfaces:
@@ -132,8 +147,8 @@ tasks:
       - test
       - docs:check
     requirements:
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
       env:
         - DOCS_SITE_BASE_URL
     notes: |
@@ -181,6 +196,8 @@ agent:
   verify_after_changes:
     - verify
   writable_paths:
+    - node_modules
+    - .pnpm-store
     - docs
     - src
     - tests

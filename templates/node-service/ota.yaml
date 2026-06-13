@@ -68,15 +68,27 @@ tasks:
       from: .env.example
       to: .env.local
   setup:
-    description: Install Node dependencies
-    run: pnpm install
+    description: Hydrate Node dependencies through the declared pnpm lane
     depends_on:
       - setup:env:local
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: node_package_manager
+        cwd: .
+        manager: pnpm
+        mode: install
+        frozen_lockfile: true
     requirements:
       toolchains:
         - node
-      checks:
-        - node-installed
+    effects:
+      writes:
+        - node_modules
+        - .pnpm-store
+      network: true
+      network_kind: dependency_hydration
   dev:
     description: Start the local development server
     env:
@@ -152,6 +164,8 @@ agent:
   verify_after_changes:
     - verify
   writable_paths:
+    - node_modules
+    - .pnpm-store
     - src
     - tests
     - docs
@@ -160,8 +174,8 @@ agent:
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | OTA_VERSION=v1.6.19 sh
-      powershell: $env:OTA_VERSION='v1.6.19'; irm https://dist.ota.run/install.ps1 | iex
+      sh: curl -fsSL https://dist.ota.run/install.sh | OTA_VERSION=v1.6.20 sh
+      powershell: $env:OTA_VERSION='v1.6.20'; irm https://dist.ota.run/install.ps1 | iex
   notes: |
     Use the Ota workflow first for setup, validation, and task execution.
     Treat Ota as the default workflow for this repo, the way pnpm is the default package workflow in a Node service.

@@ -25,27 +25,39 @@ version: 1
 project:
   name: tool-acquisition-flow
   description: Focused example for workflow-scoped tool acquisition through Corepack and command activation
-tools:
-  pnpm:
-    version: "10"
-    acquisition:
-      provider: corepack
-      package: pnpm
-      version: "10.0.0"
-  uv:
-    version: "0.6"
-    acquisition:
-      provider: command
-      shell: sh
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+toolchains:
+  node:
+    version: "22"
+    package_managers:
+      pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
+  python:
+    version: "3.12"
+    provider: uv
+    package_managers:
+      uv: "0.6"
 tasks:
   setup:web:
-    run: pnpm install
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: node_package_manager
+        cwd: .
+        manager: pnpm
+        mode: install
+        frozen_lockfile: true
     requirements:
-      runtimes:
-        node: "22"
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
+    effects:
+      writes:
+        - node_modules
+        - .pnpm-store
+      network: true
+      network_kind: dependency_hydration
     notes: |
       Use this when the Node front door is the path you want to prepare.
       The selected acquisition lane is Corepack-managed pnpm.
@@ -54,31 +66,25 @@ tasks:
     depends_on:
       - setup:web
     requirements:
-      runtimes:
-        node: "22"
-      tools:
-        pnpm: "10"
+      toolchains:
+        - node
     notes: |
       Use this as the Node verification path after setup.
   setup:python:
     run: uv sync
     requirements:
-      runtimes:
-        python: "3.12"
-      tools:
-        uv: "0.6"
+      toolchains:
+        - python
     notes: |
       Use this when the Python front door is the path you want to prepare.
-      The selected acquisition lane is the declared uv install command.
+      The selected acquisition lane is the uv-backed Python toolchain.
   lint:python:
     run: uv run ruff check .
     depends_on:
       - setup:python
     requirements:
-      runtimes:
-        python: "3.12"
-      tools:
-        uv: "0.6"
+      toolchains:
+        - python
     notes: |
       Use this as the Python verification path after setup.
 workflows:
@@ -92,7 +98,7 @@ workflows:
       task: test:web
   python:
     intent: local_development
-    description: Python workflow that selects only the command-backed uv acquisition lane
+    description: Python workflow that selects only the uv-backed Python toolchain lane
     setup:
       task: setup:python
     run:
@@ -118,6 +124,8 @@ agent:
     - test:web
     - lint:python
   writable_paths:
+    - node_modules
+    - .pnpm-store
     - app
     - packages
     - src

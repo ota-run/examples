@@ -25,21 +25,51 @@ version: 1
 project:
   name: github-actions-ci
   description: GitHub Actions release example driven by ota orchestration
-runtimes:
-  node: "22"
-tools:
-  pnpm: "10"
+toolchains:
+  node:
+    version: "22"
+    package_managers:
+      pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
 tasks:
   setup:
-    run: pnpm install
+    description: Hydrate workspace dependencies through the declared pnpm lane
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: node_package_manager
+        cwd: .
+        manager: pnpm
+        mode: install
+        frozen_lockfile: true
+    requirements:
+      toolchains:
+        - node
+    effects:
+      writes:
+        - node_modules
+        - .pnpm-store
+      network: true
+      network_kind: dependency_hydration
   ci:
     run: pnpm run ci
+    depends_on:
+      - setup
+    requirements:
+      toolchains:
+        - node
   version:bump:
     inputs:
       version:
         description: Release bump target
         default: patch
     run: node scripts/bump-version.mjs
+    requirements:
+      toolchains:
+        - node
     notes: |
       Example: `ota run version:bump . --version patch`
       Use `patch` for routine releases.
@@ -48,6 +78,9 @@ tasks:
     run: pnpm run release
     depends_on:
       - ci
+    requirements:
+      toolchains:
+        - node
     notes: |
       Run this after CI is green and the version bump task has been applied.
 checks:
@@ -65,6 +98,8 @@ agent:
   verify_after_changes:
     - ci
   writable_paths:
+    - node_modules
+    - .pnpm-store
     - src
     - scripts
     - .github/workflows
