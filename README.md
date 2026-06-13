@@ -71,7 +71,7 @@ Use these as starting points when you want:
 - Env policy plus task-scoped env requirements in a serious repo: [`reference/canonical-team-repo`](reference/canonical-team-repo)
   Use this when you want `env.vars`, ordered `env.sources`, reusable surfaces, probe-backed readiness, and one release-only env requirement in the same contract.
 - Tool acquisition through the contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
-  Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when one explicit shell command is the honest `uv` acquisition lane; `toolchains.python` can now also own Poetry under `package_managers.poetry` when the repo is Poetry-first.
+  Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when `toolchains.python` should own the `uv` lane directly through first-class hydration; `toolchains.python` can also own Poetry under `package_managers.poetry` when the repo is Poetry-first.
 - Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)
   Use this when you want one compact example that isolates workflow-scoped Corepack and command acquisition without the rest of a larger flagship repo.
 - Managed Rust toolchain ownership: [`reference/rust-toolchain-flow`](reference/rust-toolchain-flow)
@@ -94,6 +94,10 @@ Use these as starting points when you want:
   Use this when a repo's root install lane is really lockfile-backed package hydration and ota
   should own that setup phase structurally instead of teaching `pnpm install --frozen-lockfile`,
   `yarn install --immutable`, or `npm ci` as shell glue.
+- First-class mixed setup sequencing:
+  [`reference/task-prepare-sequence`](reference/task-prepare-sequence)
+  Use this when one repo-level `setup` task honestly needs more than one structural finite step,
+  such as Node package hydration plus Python `uv` hydration in one ordered lane.
 - First-class Go module hydration:
   [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
   Use this when a repo's setup lane is really `go mod download` and ota should own that finite

@@ -24,7 +24,7 @@
 version: 1
 project:
   name: tool-acquisition-flow
-  description: Focused example for workflow-scoped tool acquisition through Corepack and command activation
+  description: Focused example for workflow-scoped tool acquisition through Corepack and structural Python hydration
 toolchains:
   node:
     version: "22"
@@ -71,10 +71,20 @@ tasks:
     notes: |
       Use this as the Node verification path after setup.
   setup:python:
-    run: uv sync
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: uv
+        cwd: .
     requirements:
       toolchains:
         - python
+    effects:
+      writes:
+        - .venv
+      network: true
+      network_kind: dependency_hydration
     notes: |
       Use this when the Python front door is the path you want to prepare.
       The selected acquisition lane is the uv-backed Python toolchain.
@@ -124,6 +134,7 @@ agent:
     - test:web
     - lint:python
   writable_paths:
+    - .venv
     - node_modules
     - .pnpm-store
     - app

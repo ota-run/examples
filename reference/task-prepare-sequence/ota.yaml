@@ -1,0 +1,51 @@
+version: 1
+project:
+  name: task-prepare-sequence
+  description: Canonical ordered mixed-ecosystem setup through first-class prepare sequencing
+toolchains:
+  node:
+    provider: corepack
+    version: "22"
+    package_managers:
+      pnpm: "10"
+  python:
+    provider: uv
+    version: "3.12"
+    package_managers:
+      uv: "*"
+tasks:
+  setup:
+    description: Hydrate frontend and backend dependencies
+    prepare:
+      kind: sequence
+      steps:
+        - kind: dependency_hydration
+          medium: package_dependencies
+          source:
+            kind: node_package_manager
+            cwd: .
+            manager: pnpm
+            mode: install
+            frozen_lockfile: true
+        - kind: dependency_hydration
+          medium: package_dependencies
+          source:
+            kind: uv
+            cwd: .
+    requirements:
+      toolchains:
+        - node
+        - python
+    effects:
+      writes:
+        - node_modules
+        - .venv
+      network: true
+      network_kind: dependency_hydration
+    safe_for_agent: true
+agent:
+  safe_tasks:
+    - setup
+  writable_paths:
+    - node_modules
+    - .venv
