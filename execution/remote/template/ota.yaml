@@ -64,7 +64,10 @@ tasks:
       Example: `ota run setup` to prepare dependencies on the remote context.
   test:
     context: app
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup
     requirements:

@@ -62,7 +62,10 @@ tasks:
       Use this when the Node front door is the path you want to prepare.
       The selected acquisition lane is Corepack-managed pnpm.
   test:web:
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup:web
     requirements:
@@ -89,7 +92,13 @@ tasks:
       Use this when the Python front door is the path you want to prepare.
       The selected acquisition lane is the uv-backed Python toolchain.
   lint:python:
-    run: uv run ruff check .
+    command:
+      exe: uv
+      args:
+        - run
+        - ruff
+        - check
+        - .
     depends_on:
       - setup:python
     requirements:

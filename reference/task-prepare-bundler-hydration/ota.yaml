@@ -40,7 +40,12 @@ tasks:
   test:
     description: Run tests after Bundler hydration
     category: test
-    run: bundle exec rake test
+    command:
+      exe: bundle
+      args:
+        - exec
+        - rake
+        - test
     depends_on:
       - install
     requirements:

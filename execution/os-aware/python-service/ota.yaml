@@ -29,21 +29,45 @@ runtimes:
   python: "3.12"
 tasks:
   setup:
-    run: python3 -m pip install -r requirements.txt
+    command:
+      exe: python3
+      args:
+        - -m
+        - pip
+        - install
+        - -r
+        - requirements.txt
     variants:
       - when:
           os: windows
-        run: py -3 -m pip install -r requirements.txt
+        command:
+          exe: py
+          args:
+            - -3
+            - -m
+            - pip
+            - install
+            - -r
+            - requirements.txt
     notes: |
       Example: `ota run setup`
       Use this when the same Python workflow needs a different launcher on Windows.
       Keep the task name stable and let Ota choose the launcher per operating system.
   test:
-    run: python3 -m pytest
+    command:
+      exe: python3
+      args:
+        - -m
+        - pytest
     variants:
       - when:
           os: windows
-        run: py -3 -m pytest
+        command:
+          exe: py
+          args:
+            - -3
+            - -m
+            - pytest
     depends_on:
       - setup
     notes: |

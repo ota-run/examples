@@ -51,7 +51,11 @@ tasks:
       network: true
       network_kind: dependency_hydration
   test:
-    run: uv run pytest
+    command:
+      exe: uv
+      args:
+        - run
+        - pytest
     depends_on:
       - setup
     requirements:
@@ -60,7 +64,13 @@ tasks:
     notes: |
       Run this after code changes.
   lint:
-    run: uv run ruff check .
+    command:
+      exe: uv
+      args:
+        - run
+        - ruff
+        - check
+        - .
     depends_on:
       - setup
     requirements:

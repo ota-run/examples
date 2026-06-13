@@ -55,7 +55,11 @@ tasks:
       network: true
       network_kind: dependency_hydration
   ci:
-    run: pnpm run ci
+    command:
+      exe: pnpm
+      args:
+        - run
+        - ci
     depends_on:
       - setup
     requirements:

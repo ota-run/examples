@@ -57,7 +57,11 @@ tasks:
     notes: |
       Run this before either matrix target.
   test:web:
-    run: pnpm run test:web
+    command:
+      exe: pnpm
+      args:
+        - run
+        - test:web
     depends_on:
       - setup
     requirements:
@@ -66,7 +70,11 @@ tasks:
     notes: |
       Use this for the web split.
   test:api:
-    run: pnpm run test:api
+    command:
+      exe: pnpm
+      args:
+        - run
+        - test:api
     depends_on:
       - setup
     requirements:
@@ -75,7 +83,11 @@ tasks:
     notes: |
       Use this for the API split.
   ci:
-    run: pnpm run ci
+    command:
+      exe: pnpm
+      args:
+        - run
+        - ci
     depends_on:
       - test:web
       - test:api

@@ -173,7 +173,10 @@ tasks:
       Ota injects `OTA_PUBLIC_URL` before the process starts and prints the same URL after startup.
   test:
     context: app
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup
     requirements:

@@ -102,14 +102,21 @@ tasks:
       network: true
       network_kind: dependency_hydration
   test:
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup
     requirements:
       toolchains:
         - node
   docs:check:
-    run: pnpm run docs:check
+    command:
+      exe: pnpm
+      args:
+        - run
+        - docs:check
     depends_on:
       - setup
     requirements:

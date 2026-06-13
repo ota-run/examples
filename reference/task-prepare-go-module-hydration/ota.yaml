@@ -34,7 +34,11 @@ tasks:
   test:
     description: Run tests after module hydration
     category: test
-    run: go test ./...
+    command:
+      exe: go
+      args:
+        - test
+        - ./...
     depends_on:
       - setup
     requirements:

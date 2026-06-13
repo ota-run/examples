@@ -62,7 +62,10 @@ tasks:
   test:
     description: Run the verification suite
     category: test
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup
     requirements:

@@ -57,7 +57,11 @@ tasks:
     notes: |
       Run this before the scheduled checks.
   ci:
-    run: pnpm run ci
+    command:
+      exe: pnpm
+      args:
+        - run
+        - ci
     depends_on:
       - setup
     requirements:
@@ -66,7 +70,11 @@ tasks:
     notes: |
       Use this for the scheduled validation job.
   docs:check:
-    run: pnpm run docs:check
+    command:
+      exe: pnpm
+      args:
+        - run
+        - docs:check
     depends_on:
       - setup
     requirements:

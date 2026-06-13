@@ -62,7 +62,10 @@ tasks:
       Example: `ota run setup` to install dependencies inside the container context.
   test:
     context: app
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup
     requirements:

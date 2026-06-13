@@ -115,7 +115,10 @@ tasks:
       Use this when you are iterating locally and want one declared service surface that Ota can prove.
   test:
     description: Run the verification suite
-    run: pnpm test
+    command:
+      exe: pnpm
+      args:
+        - test
     depends_on:
       - setup
     requirements:
