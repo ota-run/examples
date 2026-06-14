@@ -1,0 +1,17 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+services:
+  api:
+    image: nginx:1.29-alpine
+    ports:
+      - "3000:80"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: compose_adapter_inputs
+      POSTGRES_USER: ota
+      POSTGRES_PASSWORD: ota

@@ -107,6 +107,25 @@ Use these as starting points when you want:
   Use this when a repo's setup lane is really repo-local gem hydration and ota should own that
   finite Bundler phase structurally instead of teaching `bundle install` as shell glue, with
   Bundler version governance and selected-path fulfillment carried by `toolchains.ruby`.
+- Compose adapter-owned env/file/profile/project truth:
+  [`reference/compose-adapter-inputs`](reference/compose-adapter-inputs)
+  Use this when the repo's real Docker Compose lane owns interpolation files, file-stack
+  selection, profile selection, or project naming and those inputs should stay in
+  `adapter_inputs.compose.*` plus workflow-owned overlays instead of shell `--env-file`, `-f`,
+  `--profile`, or `-p` glue.
+- Bake adapter-owned file-stack truth:
+  [`reference/bake-adapter-inputs`](reference/bake-adapter-inputs)
+  Use this when the repo's real `docker buildx bake` lane owns one base Bake file stack plus
+  task- or workflow-scoped overlays and that truth should stay in `adapter_inputs.bake.files`
+  instead of shell `-f` / `--file` flags.
+- Deterministic env bootstrap without shell glue:
+  [`reference/action-ensure-env-file`](reference/action-ensure-env-file)
+  Use this when `.env` preparation is really governed host-file mutation and ota should own key
+  replacement, secret generation, and stale-key removal through `action.kind: ensure_env_file`.
+- Bundled deterministic host file preparation:
+  [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
+  Use this when setup needs more than one ordered host mutation and ota should own that finite
+  bundle through `action.kind: ensure_bundle` instead of a shell script wrapper.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)

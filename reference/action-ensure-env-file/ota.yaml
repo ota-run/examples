@@ -1,0 +1,49 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: action-ensure-env-file
+  description: Canonical deterministic env bootstrap reference using action.kind ensure_env_file
+  type: application
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+
+env:
+  vars:
+    DATABASE_URL:
+      required: true
+
+tasks:
+  setup:env:
+    description: Create and normalize the local env overlay without shell copy or sed glue
+    category: setup
+    context: host
+    action:
+      kind: ensure_env_file
+      path: .env.local
+      template: .env.example
+      vars:
+        APP_ENV:
+          value: local
+          mode: replace
+        DATABASE_URL:
+          from_env: DATABASE_URL
+          mode: replace
+        APP_SECRET:
+          random:
+            bytes: 24
+            encoding: hex
+        LEGACY_FLAG:
+          mode: remove
+
+workflows:
+  default: local-env
+  local-env:
+    intent: local_development
+    description: Use one finite workflow prepare lane when local env bootstrap is governed host preparation
+    prepare:
+      task: setup:env

@@ -1,0 +1,7 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+services:
+  api:
+    environment:
+      API_MODE: runtime

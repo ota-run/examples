@@ -1,0 +1,84 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: bake-adapter-inputs
+  description: Canonical Bake adapter ownership reference for workflow-owned overlays plus task-owned Bake inputs
+  type: application
+
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        tools:
+          docker: "*"
+
+tasks:
+  bake:image:
+    description: Build the default image through task-owned Bake file selection
+    category: build
+    context: host
+    adapter_inputs:
+      bake:
+        files:
+          - docker-bake.hcl
+    command:
+      exe: docker
+      args:
+        - buildx
+        - bake
+        - app
+    requirements:
+      tools:
+        docker: "*"
+
+  bake:ci:
+    description: Build the CI image through task-owned base Bake truth plus one task-local overlay
+    category: build
+    context: host
+    adapter_inputs:
+      bake:
+        files:
+          - docker-bake.hcl
+          - docker-bake.ci.hcl
+    command:
+      exe: docker
+      args:
+        - buildx
+        - bake
+        - app
+    requirements:
+      tools:
+        docker: "*"
+
+  bake:workflow:
+    description: Build the workflow-selected image with workflow-owned Bake file truth
+    category: build
+    context: host
+    command:
+      exe: docker
+      args:
+        - buildx
+        - bake
+        - app
+    requirements:
+      tools:
+        docker: "*"
+
+workflows:
+  default: release
+  release:
+    intent: release
+    description: Prepend workflow-owned Bake file truth into the selected task path instead of hard-coding shell `docker buildx bake -f` flags
+    env:
+      adapter_inputs:
+        bake:
+          files:
+            - docker-bake.hcl
+            - docker-bake.platform.hcl
+            - docker-bake.release.hcl
+    run:
+      task: bake:workflow

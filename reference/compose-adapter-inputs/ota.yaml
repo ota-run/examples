@@ -1,0 +1,132 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: compose-adapter-inputs
+  description: Canonical compose adapter ownership reference for workflow-owned overlays plus task-owned compose inputs
+  type: application
+
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        tools:
+          docker: "*"
+
+env:
+  vars:
+    DATABASE_URL:
+      required: true
+  profiles:
+    runtime:
+      sources:
+        - kind: dotenv
+          path: .env.local
+      env:
+        REDIS_HOST: redis
+      render:
+        dotenv:
+          path: .env.compose
+          template: .env.example
+          include:
+            - DATABASE_URL
+
+services:
+  api:
+    manager:
+      kind: compose
+      name: local
+      file: docker-compose.yml
+      service: api
+  postgres:
+    manager:
+      kind: compose
+      name: local
+      file: docker-compose.yml
+      service: postgres
+
+tasks:
+  compose:up:
+    description: Start the Compose stack with task-owned env-file, file-stack, and profile truth
+    category: dev
+    context: host
+    adapter_inputs:
+      compose:
+        env_files:
+          - .env.task
+    launch:
+      kind: command
+      exe: docker
+      args:
+        - compose
+        - up
+    requirements:
+      tools:
+        docker: "*"
+
+  compose:down:
+    description: Stop the Compose stack with task-owned Compose file and profile truth
+    category: setup
+    context: host
+    adapter_inputs:
+      compose:
+        env_files:
+          - .env.task
+        files:
+          - docker-compose.yml
+        profiles:
+          - app
+    command:
+      exe: docker
+      args:
+        - compose
+        - down
+    requirements:
+      tools:
+        docker: "*"
+
+  compose:debug:up:
+    description: Start a debug lane with task-owned Compose project naming
+    category: dev
+    context: host
+    adapter_inputs:
+      compose:
+        env_files:
+          - .env.task
+        files:
+          - docker-compose.yml
+        profiles:
+          - debug
+        project_name: compose-adapter-inputs-debug
+    launch:
+      kind: command
+      exe: docker
+      args:
+        - compose
+        - up
+    requirements:
+      tools:
+        docker: "*"
+
+workflows:
+  default: runtime
+  runtime:
+    intent: packaged_runtime
+    description: Render workflow-owned dotenv truth and project compose overlays into the selected compose task path
+    env:
+      profile: runtime
+      compose_env_file_services:
+        - api
+        - postgres
+      adapter_inputs:
+        compose:
+          files:
+            - docker-compose.override.yml
+          profiles:
+            - runtime
+          project_name: compose-adapter-inputs
+    run:
+      task: compose:up
