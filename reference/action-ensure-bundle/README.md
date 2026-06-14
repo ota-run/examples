@@ -35,7 +35,7 @@ This example shows:
 - bundled `ensure_env_file`
 - bundled `ensure_directory`
 - bundled `ensure_file`
-- `workflows.<name>.prepare.task`
+- `workflows.<name>.prepare.action`
 
 Why this exists:
 

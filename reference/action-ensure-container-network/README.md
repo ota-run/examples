@@ -32,12 +32,12 @@ This example shows:
 - `action.kind: ensure_container_network`
 - explicit host `requirements.tools.docker`
 - one finite native setup lane
-- `workflows.<name>.prepare.task`
+- `workflows.<name>.prepare.action`
 
 Why this exists:
 
 - some real repos need one shared Docker network before Compose-managed projects can attach
 - that ownership should stay declarative and inspectable instead of being hidden in shell
-- workflow-owned host preparation should point at a finite action task instead of a script wrapper
+- workflow-owned host preparation can stay inline through `prepare.action` instead of forcing a helper task
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.

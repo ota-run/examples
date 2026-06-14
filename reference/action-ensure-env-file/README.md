@@ -36,13 +36,13 @@ This example shows:
 - `action.vars.<KEY>.random`
 - `action.vars.<KEY>.mode: replace`
 - `action.vars.<KEY>.mode: remove`
-- `workflows.<name>.prepare.task`
+- `workflows.<name>.prepare.action`
 
 Why this exists:
 
 - `.env` bootstrap is one of the most common places repos hide shell glue
 - env key replacement, deletion, and secret generation should be governed and inspectable
-- workflow-owned host preparation should point at a finite action task instead of a script wrapper
+- workflow-owned host preparation can stay inline through `prepare.action` instead of forcing a helper task
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
 

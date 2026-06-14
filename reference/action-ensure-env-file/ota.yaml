@@ -46,4 +46,20 @@ workflows:
     intent: local_development
     description: Use one finite workflow prepare lane when local env bootstrap is governed host preparation
     prepare:
-      task: setup:env
+      action:
+        kind: ensure_env_file
+        path: .env.local
+        template: .env.example
+        vars:
+          APP_ENV:
+            value: local
+            mode: replace
+          DATABASE_URL:
+            from_env: DATABASE_URL
+            mode: replace
+          APP_SECRET:
+            random:
+              bytes: 24
+              encoding: hex
+          LEGACY_FLAG:
+            mode: remove
