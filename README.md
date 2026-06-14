@@ -122,10 +122,10 @@ Use these as starting points when you want:
   [`reference/action-ensure-env-file`](reference/action-ensure-env-file)
   Use this when `.env` preparation is really governed host-file mutation and ota should own key
   replacement, secret generation, and stale-key removal through `action.kind: ensure_env_file`.
-- Bundled deterministic host file preparation:
+- Bundled deterministic setup bootstrap:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
-  Use this when setup needs more than one ordered host mutation and ota should own that finite
-  bundle through `action.kind: ensure_bundle` instead of a shell script wrapper.
+  Use this when setup needs more than one ordered deterministic setup action and ota should own
+  that finite bundle through `action.kind: ensure_bundle` instead of a shell script wrapper.
 - Container network bootstrap:
   [`reference/action-ensure-container-network`](reference/action-ensure-container-network)
   Use this when one setup lane owns shared external Docker network readiness and ota should own

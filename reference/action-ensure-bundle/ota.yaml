@@ -4,7 +4,7 @@
 version: 1
 project:
   name: action-ensure-bundle
-  description: Canonical bundled deterministic host bootstrap reference using action.kind ensure_bundle
+  description: Canonical bundled deterministic setup bootstrap reference using action.kind ensure_bundle
   type: application
 execution:
   default_context: host
@@ -14,12 +14,14 @@ execution:
 
 tasks:
   bootstrap:local:
-    description: Prepare the local repo state through one ordered bundle of deterministic file mutations
+    description: Prepare the local repo state through one ordered bundle of deterministic setup actions
     category: setup
     context: host
     action:
       kind: ensure_bundle
       steps:
+        - kind: ensure_container_network
+          name: local-dev
         - kind: copy_if_missing
           from: .env.example
           to: .env.local
@@ -45,6 +47,9 @@ workflows:
   default: local-bootstrap
   local-bootstrap:
     intent: local_development
-    description: Use one finite workflow prepare lane when repo bootstrap needs more than one deterministic host mutation
+    description: Use one finite workflow prepare lane when repo bootstrap needs more than one deterministic setup action
     prepare:
       task: bootstrap:local
+metadata:
+  ota:
+    minimum_version: "1.6.21"

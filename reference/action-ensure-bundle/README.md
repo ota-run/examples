@@ -24,12 +24,13 @@
 
 # Action ensure_bundle
 
-Use this when one setup step needs more than one deterministic host mutation and you do not want
+Use this when one setup step needs more than one deterministic setup action and you do not want
 to fall back to shell orchestration.
 
 This example shows:
 
 - `action.kind: ensure_bundle`
+- bundled `ensure_container_network`
 - bundled `copy_if_missing`
 - bundled `ensure_env_file`
 - bundled `ensure_directory`
@@ -38,9 +39,9 @@ This example shows:
 
 Why this exists:
 
-- some repos need a small bundle of file prep, not one isolated env mutation
+- some repos need a small bundle of setup actions, not one isolated env mutation
 - that should still be one governed, ordered, idempotent contract body
-- workflow host preparation should stay finite and inspectable
+- workflow preparation should stay finite and inspectable
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
 
