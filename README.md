@@ -126,6 +126,11 @@ Use these as starting points when you want:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
   Use this when setup needs more than one ordered host mutation and ota should own that finite
   bundle through `action.kind: ensure_bundle` instead of a shell script wrapper.
+- Deterministic container network bootstrap:
+  [`reference/action-ensure-container-network`](reference/action-ensure-container-network)
+  Use this when one setup lane owns shared external Docker network readiness and ota should own
+  that truth through `action.kind: ensure_container_network` instead of shell
+  `docker network inspect/create` glue.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)
