@@ -126,7 +126,7 @@ Use these as starting points when you want:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
   Use this when setup needs more than one ordered host mutation and ota should own that finite
   bundle through `action.kind: ensure_bundle` instead of a shell script wrapper.
-- Deterministic container network bootstrap:
+- Container network bootstrap:
   [`reference/action-ensure-container-network`](reference/action-ensure-container-network)
   Use this when one setup lane owns shared external Docker network readiness and ota should own
   that truth through `action.kind: ensure_container_network` instead of shell
