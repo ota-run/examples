@@ -39,13 +39,13 @@ services:
     manager:
       kind: compose
       name: local
-      file: docker-compose.yml
+      file: docker/docker-compose.yml
       service: api
   postgres:
     manager:
       kind: compose
       name: local
-      file: docker-compose.yml
+      file: docker/docker-compose.yml
       service: postgres
 
 tasks:
@@ -55,8 +55,9 @@ tasks:
     context: host
     adapter_inputs:
       compose:
+        cwd: docker
         env_files:
-          - .env.task
+          - docker/.env.task
     launch:
       kind: command
       exe: docker
@@ -73,10 +74,11 @@ tasks:
     context: host
     adapter_inputs:
       compose:
+        cwd: docker
         env_files:
-          - .env.task
+          - docker/.env.task
         files:
-          - docker-compose.yml
+          - docker/docker-compose.yml
         profiles:
           - app
     command:
@@ -94,13 +96,28 @@ tasks:
     context: host
     adapter_inputs:
       compose:
+        cwd: docker
         env_files:
-          - .env.task
+          - docker/.env.task
         files:
-          - docker-compose.yml
+          - docker/docker-compose.yml
         profiles:
           - debug
         project_name: compose-adapter-inputs-debug
+    launch:
+      kind: command
+      exe: docker
+      args:
+        - compose
+        - up
+    requirements:
+      tools:
+        docker: "*"
+
+  compose:workflow:up:
+    description: Start the Compose stack with workflow-owned adapter root and overlays
+    category: dev
+    context: host
     launch:
       kind: command
       exe: docker
@@ -123,10 +140,11 @@ workflows:
         - postgres
       adapter_inputs:
         compose:
+          cwd: docker
           files:
-            - docker-compose.override.yml
+            - docker/docker-compose.override.yml
           profiles:
             - runtime
           project_name: compose-adapter-inputs
     run:
-      task: compose:up
+      task: compose:workflow:up

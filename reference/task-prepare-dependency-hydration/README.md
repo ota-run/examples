@@ -32,6 +32,8 @@ This example shows the docker image-hydration `tasks.<name>.prepare` slice:
 - `medium: container_images`
 - `source.kind: docker_compose`
 - explicit `targets`
+- `adapter_inputs.compose.cwd`
+- `adapter_inputs.compose.files`
 - explicit `requirements.tools.docker`
 - explicit `effects.network_kind: dependency_hydration`
 
@@ -41,5 +43,6 @@ Why this exists:
 - that is finite setup work
 - it should not be modeled as a service
 - it should not be hidden in `run: cd ... && docker compose pull ...`
+- the follow-on setup task should keep compose root and file selection in `adapter_inputs.compose.*`
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.

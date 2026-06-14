@@ -28,10 +28,12 @@ Use this when a task or workflow really owns Docker Compose adapter truth and th
 
 This example shows the newer Compose surfaces together:
 
+- `tasks.<name>.adapter_inputs.compose.cwd`
 - `tasks.<name>.adapter_inputs.compose.env_files`
 - `tasks.<name>.adapter_inputs.compose.files`
 - `tasks.<name>.adapter_inputs.compose.profiles`
 - `tasks.<name>.adapter_inputs.compose.project_name`
+- `workflows.<name>.env.adapter_inputs.compose.cwd`
 - `workflows.<name>.env.adapter_inputs.compose.files`
 - `workflows.<name>.env.adapter_inputs.compose.profiles`
 - `workflows.<name>.env.adapter_inputs.compose.project_name`
@@ -41,14 +43,16 @@ This example shows the newer Compose surfaces together:
 Why this exists:
 
 - the repo truth is not only `docker compose up`
+- the truthful Compose root may be a repo subdirectory
 - the env interpolation file, compose file stack, profile selection, and project naming all matter
-- those inputs should not be hidden in `--env-file`, `-f`, `--profile`, or `-p` shell glue
+- those inputs should not be hidden in `cd docker && ...`, `--project-directory`, `--env-file`,
+  `-f`, `--profile`, or `-p` shell glue
 - workflow-owned overlays and task-owned compose additions should stay separate and inspectable
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
 
 The companion files:
 
-- [`docker-compose.yml`](docker-compose.yml) are the task-owned base Compose services
-- [`docker-compose.override.yml`](docker-compose.override.yml) is the workflow-owned overlay
-- [`.env.example`](.env.example) is the immutable template rendered into `.env.compose`
+- [`docker/docker-compose.yml`](docker/docker-compose.yml) are the task-owned base Compose services
+- [`docker/docker-compose.override.yml`](docker/docker-compose.override.yml) is the workflow-owned overlay
+- [`docker/.env.example`](docker/.env.example) is the immutable template rendered into `.env.compose`

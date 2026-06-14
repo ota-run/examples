@@ -29,21 +29,25 @@ should stay in the contract instead of shell `-f` flags.
 
 This example shows the Bake surfaces together:
 
+- `tasks.<name>.adapter_inputs.bake.cwd`
 - `tasks.<name>.adapter_inputs.bake.files`
+- `workflows.<name>.env.adapter_inputs.bake.cwd`
 - `workflows.<name>.env.adapter_inputs.bake.files`
 
 Why this exists:
 
 - the repo truth is not only `docker buildx bake app`
+- the truthful Bake root may be a repo subdirectory
 - Bake file selection often has a base file plus workflow or task overlays
-- those inputs should not be hidden in `docker buildx bake -f ... -f ...` shell glue
+- those inputs should not be hidden in `cd docker && docker buildx bake ...` or
+  `docker buildx bake -f ... -f ...` shell glue
 - workflow-owned base Bake files and task-owned narrower overlays should stay separate
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
 
 The companion files:
 
-- [`docker-bake.hcl`](docker-bake.hcl) is the base Bake file
-- [`docker-bake.ci.hcl`](docker-bake.ci.hcl) is a task-owned CI overlay
-- [`docker-bake.platform.hcl`](docker-bake.platform.hcl) is a workflow-owned platform overlay
-- [`docker-bake.release.hcl`](docker-bake.release.hcl) is a workflow-owned release overlay
+- [`docker/docker-bake.hcl`](docker/docker-bake.hcl) is the base Bake file
+- [`docker/docker-bake.ci.hcl`](docker/docker-bake.ci.hcl) is a task-owned CI overlay
+- [`docker/docker-bake.platform.hcl`](docker/docker-bake.platform.hcl) is a workflow-owned platform overlay
+- [`docker/docker-bake.release.hcl`](docker/docker-bake.release.hcl) is a workflow-owned release overlay

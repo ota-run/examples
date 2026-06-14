@@ -23,8 +23,9 @@ tasks:
     context: host
     adapter_inputs:
       bake:
+        cwd: docker
         files:
-          - docker-bake.hcl
+          - docker/docker-bake.hcl
     command:
       exe: docker
       args:
@@ -41,9 +42,10 @@ tasks:
     context: host
     adapter_inputs:
       bake:
+        cwd: docker
         files:
-          - docker-bake.hcl
-          - docker-bake.ci.hcl
+          - docker/docker-bake.hcl
+          - docker/docker-bake.ci.hcl
     command:
       exe: docker
       args:
@@ -76,9 +78,10 @@ workflows:
     env:
       adapter_inputs:
         bake:
+          cwd: docker
           files:
-            - docker-bake.hcl
-            - docker-bake.platform.hcl
-            - docker-bake.release.hcl
+            - docker/docker-bake.hcl
+            - docker/docker-bake.platform.hcl
+            - docker/docker-bake.release.hcl
     run:
       task: bake:workflow

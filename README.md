@@ -109,15 +109,15 @@ Use these as starting points when you want:
   Bundler version governance and selected-path fulfillment carried by `toolchains.ruby`.
 - Compose adapter-owned env/file/profile/project truth:
   [`reference/compose-adapter-inputs`](reference/compose-adapter-inputs)
-  Use this when the repo's real Docker Compose lane owns interpolation files, file-stack
-  selection, profile selection, or project naming and those inputs should stay in
-  `adapter_inputs.compose.*` plus workflow-owned overlays instead of shell `--env-file`, `-f`,
-  `--profile`, or `-p` glue.
+  Use this when the repo's real Docker Compose lane owns a repo-subdirectory adapter root,
+  interpolation files, file-stack selection, profile selection, or project naming and those
+  inputs should stay in `adapter_inputs.compose.*` plus workflow-owned overlays instead of shell
+  `cd`, `--project-directory`, `--env-file`, `-f`, `--profile`, or `-p` glue.
 - Bake adapter-owned file-stack truth:
   [`reference/bake-adapter-inputs`](reference/bake-adapter-inputs)
-  Use this when the repo's real `docker buildx bake` lane owns one base Bake file stack plus
-  task- or workflow-scoped overlays and that truth should stay in `adapter_inputs.bake.files`
-  instead of shell `-f` / `--file` flags.
+  Use this when the repo's real `docker buildx bake` lane owns a repo-subdirectory adapter root,
+  one base Bake file stack, plus task- or workflow-scoped overlays and that truth should stay in
+  `adapter_inputs.bake.*` instead of shell `cd` or `-f` / `--file` flags.
 - Deterministic env bootstrap without shell glue:
   [`reference/action-ensure-env-file`](reference/action-ensure-env-file)
   Use this when `.env` preparation is really governed host-file mutation and ota should own key

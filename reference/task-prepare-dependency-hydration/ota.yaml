@@ -35,7 +35,19 @@ tasks:
     category: setup
     depends_on:
       - setup:docker:images
-    run: cd docker && docker compose -f ./docker-compose.dev.yml up -d redis database
+    adapter_inputs:
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.dev.yml
+    command:
+      exe: docker
+      args:
+        - compose
+        - up
+        - -d
+        - redis
+        - database
     requirements:
       tools:
         docker: "*"
