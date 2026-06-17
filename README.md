@@ -61,6 +61,9 @@ Use these as starting points when you want:
 
 - First contract: [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service)
   These are now the cleanest copyable examples for workflow-first setup plus tool acquisition truth.
+  They also match the starter direction `ota init` now prefers when Ota can model the repo honestly:
+  toolchain-owned ecosystems, `prepare.kind: dependency_hydration` for setup, and `command` for
+  simple finite task bodies.
 - Service starter with `prepare` plus runtime proof: [`templates/node-service`](templates/node-service)
   Use this when the repo needs one honest `.env.local` bootstrap step before setup and one declared service URL that `ota proof runtime` can verify.
 - Existing messy repo: [`reference/adoption-flow`](reference/adoption-flow)

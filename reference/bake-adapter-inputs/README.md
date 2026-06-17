@@ -31,8 +31,8 @@ This example shows the Bake surfaces together:
 
 - `tasks.<name>.adapter_inputs.bake.cwd`
 - `tasks.<name>.adapter_inputs.bake.files`
-- `workflows.<name>.env.adapter_inputs.bake.cwd`
-- `workflows.<name>.env.adapter_inputs.bake.files`
+- `workflows.<name>.adapter_inputs.bake.cwd`
+- `workflows.<name>.adapter_inputs.bake.files`
 
 Why this exists:
 

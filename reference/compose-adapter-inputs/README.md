@@ -33,10 +33,10 @@ This example shows the newer Compose surfaces together:
 - `tasks.<name>.adapter_inputs.compose.files`
 - `tasks.<name>.adapter_inputs.compose.profiles`
 - `tasks.<name>.adapter_inputs.compose.project_name`
-- `workflows.<name>.env.adapter_inputs.compose.cwd`
-- `workflows.<name>.env.adapter_inputs.compose.files`
-- `workflows.<name>.env.adapter_inputs.compose.profiles`
-- `workflows.<name>.env.adapter_inputs.compose.project_name`
+- `workflows.<name>.adapter_inputs.compose.cwd`
+- `workflows.<name>.adapter_inputs.compose.files`
+- `workflows.<name>.adapter_inputs.compose.profiles`
+- `workflows.<name>.adapter_inputs.compose.project_name`
 - `workflows.<name>.env.compose_env_file_services`
 - `env.profiles.<name>.render.dotenv`
 
