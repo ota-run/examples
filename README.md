@@ -116,6 +116,11 @@ Use these as starting points when you want:
   interpolation files, file-stack selection, profile selection, or project naming and those
   inputs should stay in `adapter_inputs.compose.*` plus workflow-owned overlays instead of shell
   `cd`, `--project-directory`, `--env-file`, `-f`, `--profile`, or `-p` glue.
+- Podman compose adapter-owned env/file/profile/project truth:
+  [`reference/podman-compose-adapter-inputs`](reference/podman-compose-adapter-inputs)
+  Use this when the repo's real compose lane is `podman compose` and the adapter root,
+  interpolation files, file-stack selection, profile selection, and project naming should stay on
+  first-class compose surfaces instead of shell `cd`, `--env-file`, `-f`, or `-p` glue.
 - Bake adapter-owned file-stack truth:
   [`reference/bake-adapter-inputs`](reference/bake-adapter-inputs)
   Use this when the repo's real `docker buildx bake` lane owns a repo-subdirectory adapter root,
