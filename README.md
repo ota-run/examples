@@ -139,6 +139,10 @@ Use these as starting points when you want:
   Use this when one setup lane owns shared external Docker network readiness and ota should own
   that truth through `action.kind: ensure_container_network` instead of shell
   `docker network inspect/create` glue.
+- Typed systemd host-service ownership:
+  [`reference/systemd-host-service`](reference/systemd-host-service)
+  Use this when the repo's real service owner is `systemd` and ota should derive start, stop, and
+  active-state readiness from a declared unit instead of shell `systemctl` glue.
 - Container app URL projection: [`execution/container/node-service`](execution/container/node-service)
   Use this when one canonical app task should support container and native execution modes, bind to fixed internal ports (`3000` app + `9090` metrics), let ota pick free host ports, inject `OTA_PUBLIC_URL` and listener-specific env values before startup, and print the same reachable primary URL for users.
 - Fixed host URL + one-run override: [`reference/adoption-flow`](reference/adoption-flow)
