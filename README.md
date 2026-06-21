@@ -130,6 +130,15 @@ Use these as starting points when you want:
   [`reference/action-ensure-env-file`](reference/action-ensure-env-file)
   Use this when `.env` preparation is really governed host-file mutation and ota should own key
   replacement, secret generation, and stale-key removal through `action.kind: ensure_env_file`.
+- Service-derived env values:
+  [`reference/service-env-bindings`](reference/service-env-bindings)
+  Use this when a task should receive `DB_HOST`, `DATABASE_URL`, or similar values from declared
+  service endpoint truth instead of freezing `localhost`, `host.docker.internal`, or handwritten
+  DSNs into task shells.
+- Workflow-owned rendered env artifacts:
+  [`reference/workflow-rendered-env`](reference/workflow-rendered-env)
+  Use this when one workflow should render a dotenv artifact from repo template truth plus
+  workflow-specific overlays and then project that file into Compose-managed service startup.
 - Bundled deterministic setup bootstrap:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
   Use this when setup needs more than one ordered deterministic setup action and ota should own
