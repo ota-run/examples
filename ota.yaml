@@ -114,16 +114,17 @@ agent:
     - reference
     - templates
     - workspace
-    - .github/workflows
     - scripts
   protected_paths:
     - ota.yaml
     - LICENSE
+    - .github/workflows
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
+      source:
+        kind: version
+        version: v1.6.21
   notes: |
     Use Ota first for validation and task execution.
     Treat the README files as the adoption surface and ota.yaml as the contract.

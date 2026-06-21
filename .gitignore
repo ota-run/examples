@@ -3,3 +3,5 @@
 
 # Ota local runtime state
 .ota/state/
+.ota/receipts/
+.ota/proof/
