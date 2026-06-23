@@ -139,6 +139,11 @@ Use these as starting points when you want:
   [`reference/workflow-rendered-env`](reference/workflow-rendered-env)
   Use this when one workflow should render a dotenv artifact from repo template truth plus
   workflow-specific overlays and then project that file into Compose-managed service startup.
+- Workflow-scoped receipt archive and baseline truth:
+  [`reference/receipt-workflow-history`](reference/receipt-workflow-history)
+  Use this when a repo has more than one workflow and receipt archive, baseline, or snapshot
+  history must stay inside the selected workflow lane instead of drifting to whichever receipt ran
+  last.
 - Bundled deterministic setup bootstrap:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
   Use this when setup needs more than one ordered deterministic setup action and ota should own
