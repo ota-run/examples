@@ -117,7 +117,9 @@ Use these as starting points when you want:
   Use this when the repo's real Docker Compose lane owns a repo-subdirectory adapter root,
   interpolation files, file-stack selection, profile selection, or project naming and those
   inputs should stay in `adapter_inputs.compose.*` plus workflow-owned overlays instead of shell
-  `cd`, `--project-directory`, `--env-file`, `-f`, `--profile`, or `-p` glue.
+  `cd`, `--project-directory`, `--env-file`, `-f`, `--profile`, or `-p` glue. It also shows the
+  right lane for host-derived compose interpolation such as `${OTA_HOST_WORKSPACE}` and
+  `${OTA_HOST_UID}` when the runtime truth depends on the real host repo root or host uid.
 - Podman compose adapter-owned env/file/profile/project truth:
   [`reference/podman-compose-adapter-inputs`](reference/podman-compose-adapter-inputs)
   Use this when the repo's real compose lane is `podman compose` and the adapter root,
@@ -155,6 +157,11 @@ Use these as starting points when you want:
   Use this when one setup lane owns shared external Docker network readiness and ota should own
   that truth through `action.kind: ensure_container_network` instead of shell
   `docker network inspect/create` glue.
+- Compose-managed service volume reset:
+  [`reference/action-reset-compose-service-volume`](reference/action-reset-compose-service-volume)
+  Use this when one destructive local recovery lane truthfully owns resetting a Compose-managed
+  service volume such as local Postgres data and ota should own the stop/rm/volume-reset/restart
+  sequence through `action.kind: reset_compose_service_volume` instead of shell glue.
 - Typed systemd host-service ownership:
   [`reference/systemd-host-service`](reference/systemd-host-service)
   Use this when the repo's real service owner is `systemd` and ota should derive start, stop, and

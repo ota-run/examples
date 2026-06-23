@@ -1,0 +1,65 @@
+# 
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with that License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+project:
+  name: action-reset-compose-service-volume
+  description: Focused public example for deterministic Compose-managed service volume reset
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        tools:
+          docker: "*"
+tasks:
+  postgres:reset:
+    context: host
+    description: Reset the local Postgres data volume and restart the Compose-managed service
+    notes: Use this when a fresh local Postgres state is the truthful owner boundary.
+    action:
+      kind: reset_compose_service_volume
+      service: postgres
+      volume: app_postgres-data
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.yml
+        project_name: app
+    requirements:
+      tools:
+        docker: "*"
+    effects:
+      external_state:
+        - docker
+        - postgres
+    safe_for_agent: false
+workflows:
+  default: local-reset
+  local-reset:
+    prepare:
+      task: postgres:reset
+metadata:
+  ota:
+    minimum_version: "1.6.22"

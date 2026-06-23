@@ -47,7 +47,29 @@ Why this exists:
 - the env interpolation file, compose file stack, profile selection, and project naming all matter
 - those inputs should not be hidden in `cd docker && ...`, `--project-directory`, `--env-file`,
   `-f`, `--profile`, or `-p` shell glue
+- when a native compose lane also needs the real host repo path or host uid, prefer ota-owned
+  env templates such as `${OTA_HOST_WORKSPACE}` and `${OTA_HOST_UID}` over shell `pwd` or
+  `id -u` glue
 - workflow-owned overlays and task-owned compose additions should stay separate and inspectable
+- if the lane also owns destructive service-data reset, keep that as
+  `action.kind: reset_compose_service_volume` instead of burying `docker compose stop/rm` plus
+  `docker volume rm` in the task body
+
+Host-derived env example:
+
+```yaml
+tasks:
+  compose:up:
+    env:
+      SOURCE_ROOT: ${OTA_HOST_WORKSPACE}
+      HOST_UID: ${OTA_HOST_UID}
+    launch:
+      kind: command
+      exe: docker
+      args:
+        - compose
+        - up
+```
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
 
