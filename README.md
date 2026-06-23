@@ -77,6 +77,8 @@ Use these as starting points when you want:
   Use the Node template when `pnpm` should activate through Corepack only on selected workflow paths. Use the Python template when `toolchains.python` should own the `uv` lane directly through first-class hydration; `toolchains.python` can also own Poetry under `package_managers.poetry` when the repo is Poetry-first.
 - Focused acquisition behavior: [`reference/tool-acquisition-flow`](reference/tool-acquisition-flow)
   Use this when you want one compact example that isolates workflow-scoped Corepack and command acquisition without the rest of a larger flagship repo.
+- Focused live or staging verification effect truth: [`reference/task-effect-integration-test`](reference/task-effect-integration-test)
+  Use this when the verification lane depends on real services or non-local credentials and should be classified as `effects.network_kind: integration_test` instead of a vague broad network task.
 - Managed Rust toolchain ownership: [`reference/rust-toolchain-flow`](reference/rust-toolchain-flow)
   Use this when the repo needs Rust to behave as one managed ecosystem through `toolchains.rust`
   instead of duplicating the same truth under `runtimes`, `tools`, or setup shell glue.
