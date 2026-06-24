@@ -1,0 +1,136 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: workflow-instance-runtime-overlays
+  description: Canonical workflow-instance runtime overlay example for service listeners and selected-instance readiness truth
+  type: application
+
+toolchains:
+  node:
+    version: "22"
+    package_managers:
+      pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
+
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        tools:
+          docker: "*"
+
+surfaces:
+  ui:
+    kind: http
+    port: 3000
+    path: /
+
+tasks:
+  setup:
+    description: Hydrate dependencies before the selected instance starts
+    category: setup
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: node_package_manager
+        cwd: .
+        manager: pnpm
+        mode: install
+        frozen_lockfile: true
+    requirements:
+      toolchains:
+        - node
+    effects:
+      writes:
+        - node_modules
+        - .pnpm-store
+      network: true
+      network_kind: dependency_hydration
+
+  app:up:
+    description: Start the app with explicit runtime listener truth
+    category: dev
+    launch:
+      kind: command
+      exe: pnpm
+      args:
+        - dev
+    depends_on:
+      - setup
+    runtime:
+      kind: service
+      listeners:
+        ui:http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 3000
+          project:
+            host:
+              address: 127.0.0.1
+              port:
+                mode: fixed
+                value: 3000
+              primary: true
+              path: /
+      surfaces:
+        - ui
+      readiness:
+        kind: http
+        listener: ui:http
+        path: /
+
+workflows:
+  default: app
+  app:
+    intent: local_development
+    description: One workflow family with selected-instance listener publication owned on the task runtime boundary
+    setup:
+      task: setup
+    run:
+      task: app:up
+    instances:
+      default: ws0
+      ws0:
+        description: Base local instance using the base runtime listener ports
+      ws1:
+        description: Second local instance with its own projected listener ports
+        tasks:
+          app:up:
+            runtime:
+              listeners:
+                ui:http:
+                  bind:
+                    port:
+                      mode: fixed
+                      value: 13000
+                  project:
+                    host:
+                      port:
+                        mode: fixed
+                        value: 13000
+      ws2:
+        description: Third local instance with another selected-instance listener projection
+        tasks:
+          app:up:
+            runtime:
+              listeners:
+                ui:http:
+                  bind:
+                    port:
+                      mode: fixed
+                      value: 23000
+                  project:
+                    host:
+                      port:
+                        mode: fixed
+                        value: 23000
