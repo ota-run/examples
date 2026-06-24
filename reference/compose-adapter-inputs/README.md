@@ -39,6 +39,7 @@ This example shows the newer Compose surfaces together:
 - `workflows.<name>.adapter_inputs.compose.project_name`
 - `workflows.<name>.env.compose_env_file_services`
 - `env.profiles.<name>.render.dotenv`
+- `prepare.source.compose`
 
 Why this exists:
 
@@ -51,6 +52,11 @@ Why this exists:
   env templates such as `${OTA_HOST_WORKSPACE}` and `${OTA_HOST_UID}` over shell `pwd` or
   `id -u` glue
 - workflow-owned overlays and task-owned compose additions should stay separate and inspectable
+- when dependency hydration truthfully runs inside a Compose service, keep the typed package lane
+  under `prepare.source.kind: ...` and use `prepare.source.compose` only as the service wrapper
+- in that shape the host prerequisite is still the Compose engine, so keep
+  `requirements.tools.docker` explicit and do not add fake host `requirements.toolchains.node`
+  just because the in-service command is `npm ci`
 - if the lane also owns destructive service-data reset, keep that as
   `action.kind: reset_compose_service_volume` instead of burying `docker compose stop/rm` plus
   `docker volume rm` in the task body

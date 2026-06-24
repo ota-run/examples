@@ -119,7 +119,10 @@ Use these as starting points when you want:
   inputs should stay in `adapter_inputs.compose.*` plus workflow-owned overlays instead of shell
   `cd`, `--project-directory`, `--env-file`, `-f`, `--profile`, or `-p` glue. It also shows the
   right lane for host-derived compose interpolation such as `${OTA_HOST_WORKSPACE}` and
-  `${OTA_HOST_UID}` when the runtime truth depends on the real host repo root or host uid.
+  `${OTA_HOST_UID}` when the runtime truth depends on the real host repo root or host uid. The
+  same example also shows `prepare.source.compose` for typed dependency hydration inside a Compose
+  service, where the host prerequisite stays `requirements.tools.docker` instead of duplicating a
+  host Node toolchain just because the in-service command is `npm ci`.
 - Podman compose adapter-owned env/file/profile/project truth:
   [`reference/podman-compose-adapter-inputs`](reference/podman-compose-adapter-inputs)
   Use this when the repo's real compose lane is `podman compose` and the adapter root,

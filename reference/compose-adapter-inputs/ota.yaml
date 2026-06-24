@@ -172,7 +172,7 @@ tasks:
         docker: "*"
 
   compose:setup:deps:
-    description: Hydrate app dependencies through a declared Compose service instead of shell glue
+    description: Hydrate app dependencies through a declared Compose service while keeping npm truth typed and the host prerequisite on Docker
     category: setup
     context: host
     adapter_inputs:
