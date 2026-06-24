@@ -49,6 +49,44 @@ services:
       service: postgres
 
 tasks:
+  compose:staged:up:
+    description: Start a finite staged Compose service group through first-class compose ownership
+    category: setup
+    context: host
+    adapter_inputs:
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.yml
+        profiles:
+          - runtime
+    compose:
+      kind: up
+      detach: true
+      services:
+        - postgres
+        - api
+    requirements:
+      tools:
+        docker: "*"
+
+  compose:build:
+    description: Build selected Compose services through first-class compose ownership
+    category: build
+    context: host
+    adapter_inputs:
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.yml
+    compose:
+      kind: build
+      services:
+        - api
+    requirements:
+      tools:
+        docker: "*"
+
   compose:up:
     description: Start the Compose stack with task-owned env-file, file-stack, and profile truth
     category: dev
@@ -81,11 +119,9 @@ tasks:
           - docker/docker-compose.yml
         profiles:
           - app
-    command:
-      exe: docker
-      args:
-        - compose
-        - down
+    compose:
+      kind: down
+      remove_volumes: true
     requirements:
       tools:
         docker: "*"
