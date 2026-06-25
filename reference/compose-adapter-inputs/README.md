@@ -40,6 +40,7 @@ This example shows the newer Compose surfaces together:
 - `workflows.<name>.env.compose_env_file_services`
 - `env.profiles.<name>.render.dotenv`
 - `prepare.source.compose`
+- `runtime.listeners.<name>.project.publication.compose.service`
 
 Why this exists:
 
@@ -60,6 +61,57 @@ Why this exists:
 - if the lane also owns destructive service-data reset, keep that as
   `action.kind: reset_compose_service_volume` instead of burying `docker compose stop/rm` plus
   `docker volume rm` in the task body
+- if a native structured Docker Compose lane owns the published host URL for one service, declare
+  that mapping under `runtime.listeners.<name>.project.publication.compose.service` so one-run
+  `ota run <task> --host-port <port>` can remap the published host port without changing the
+  workload's internal bind port or editing compose YAML
+
+Native publication example:
+
+```yaml
+tasks:
+  compose:native:published:
+    adapter_inputs:
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.yml
+    compose:
+      kind: up
+      detach: true
+      services:
+        - published
+    runtime:
+      kind: service
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 3000
+          project:
+            host:
+              address: 127.0.0.1
+              primary: true
+              port:
+                mode: fixed
+                value: 3000
+              path: /
+            publication:
+              compose:
+                service: published
+```
+
+That shape lets ota rewrite the published Docker Compose host port for one run:
+
+```bash
+ota run compose:native:published --host-port 4000
+```
+
+The service still binds internally to `3000`; ota only remaps the published host port for that
+run.
 
 Host-derived env example:
 

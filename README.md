@@ -160,6 +160,12 @@ Use these as starting points when you want:
   Use this when one setup lane owns shared external Docker network readiness and ota should own
   that truth through `action.kind: ensure_container_network` instead of shell
   `docker network inspect/create` glue.
+- Compose adapter-owned publication remap:
+  [`reference/compose-adapter-inputs`](reference/compose-adapter-inputs)
+  Use this when a native structured Docker Compose lane owns the published host URL for one
+  Compose service and ota should map `--host-port` through
+  `runtime.listeners.<name>.project.publication.compose.service` instead of asking operators to
+  patch compose files or kill ports by hand.
 - Compose-managed service volume reset:
   [`reference/action-reset-compose-service-volume`](reference/action-reset-compose-service-volume)
   Use this when one destructive local recovery lane truthfully owns resetting a Compose-managed

@@ -112,6 +112,45 @@ tasks:
       tools:
         docker: "*"
 
+  compose:native:published:
+    description: Start one native Docker Compose service with task-owned publication truth so ota can remap the published host port per run
+    category: dev
+    context: host
+    adapter_inputs:
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.yml
+    compose:
+      kind: up
+      detach: true
+      services:
+        - published
+    runtime:
+      kind: service
+      listeners:
+        http:
+          protocol: http
+          bind:
+            address: 0.0.0.0
+            port:
+              mode: fixed
+              value: 3000
+          project:
+            host:
+              address: 127.0.0.1
+              primary: true
+              port:
+                mode: fixed
+                value: 3000
+              path: /
+            publication:
+              compose:
+                service: published
+    requirements:
+      tools:
+        docker: "*"
+
   compose:down:
     description: Stop the Compose stack with task-owned Compose file and profile truth
     category: setup

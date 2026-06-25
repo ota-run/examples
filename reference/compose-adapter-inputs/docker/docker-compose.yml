@@ -9,6 +9,16 @@ services:
     depends_on:
       - postgres
 
+  published:
+    image: python:3.12-alpine
+    command:
+      - python
+      - -m
+      - http.server
+      - "3000"
+    ports:
+      - "3000:3000"
+
   postgres:
     image: postgres:17-alpine
     environment:
