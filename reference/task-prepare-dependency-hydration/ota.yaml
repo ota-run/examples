@@ -17,7 +17,11 @@ tasks:
       source:
         kind: docker_compose
         cwd: docker
-        file: docker-compose.dev.yml
+        files:
+          - docker-compose.base.yml
+          - docker-compose.dev.yml
+        env_files:
+          - .env.compose
       targets:
         - redis
         - database

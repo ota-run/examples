@@ -176,6 +176,10 @@ tasks:
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
 
+The teardown example now also shows `compose.timeout_seconds: 2`, which is the structured
+replacement for a raw `docker compose down -t 2` lane when a repo needs graceful shutdown timeout
+truth under `compose.kind: down`.
+
 The companion files:
 
 - [`docker/docker-compose.yml`](docker/docker-compose.yml) are the task-owned base Compose services

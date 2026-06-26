@@ -31,6 +31,8 @@ This example shows the docker image-hydration `tasks.<name>.prepare` slice:
 - `prepare.kind: dependency_hydration`
 - `medium: container_images`
 - `source.kind: docker_compose`
+- `prepare.source.files`
+- `prepare.source.env_files`
 - explicit `targets`
 - `adapter_inputs.compose.cwd`
 - `adapter_inputs.compose.files`

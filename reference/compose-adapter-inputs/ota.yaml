@@ -173,6 +173,24 @@ tasks:
     compose:
       kind: down
       remove_volumes: true
+      timeout_seconds: 2
+    requirements:
+      tools:
+        docker: "*"
+
+  compose:ps:
+    description: Inspect selected Compose services through first-class Compose ownership
+    category: setup
+    context: host
+    adapter_inputs:
+      compose:
+        cwd: docker
+        files:
+          - docker/docker-compose.yml
+    compose:
+      kind: ps
+      services:
+        - api
     requirements:
       tools:
         docker: "*"
