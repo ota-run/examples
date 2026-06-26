@@ -44,13 +44,19 @@ services:
     manager:
       kind: compose
       name: local
-      file: docker/docker-compose.yml
+      files:
+        - docker/docker-compose.yml
+      env_files:
+        - .env.compose
       service: api
   postgres:
     manager:
       kind: compose
       name: local
-      file: docker/docker-compose.yml
+      files:
+        - docker/docker-compose.yml
+      env_files:
+        - .env.compose
       service: postgres
 
 tasks:

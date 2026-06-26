@@ -38,6 +38,8 @@ This example shows the newer Compose surfaces together:
 - `workflows.<name>.adapter_inputs.compose.profiles`
 - `workflows.<name>.adapter_inputs.compose.project_name`
 - `workflows.<name>.env.compose_env_file_services`
+- `services.<name>.manager.files`
+- `services.<name>.manager.env_files`
 - `env.profiles.<name>.render.dotenv`
 - `prepare.source.compose`
 - `runtime.listeners.<name>.project.publication.compose.service`
@@ -55,6 +57,9 @@ Why this exists:
   env templates such as `${OTA_HOST_WORKSPACE}`, `${OTA_HOST_UID}`, and `${OTA_HOST_GID}` over
   shell `pwd`, `id -u`, or `id -g` glue
 - workflow-owned overlays and task-owned compose additions should stay separate and inspectable
+- when a managed Compose service itself depends on a stable Compose file or env-file stack, keep
+  that ownership on `services.<name>.manager.files` / `.env_files` instead of pushing it back into
+  shell or pretending every Compose input belongs to the runnable task path
 - when one OS keeps the same task body but needs different host-derived env or a different Compose
   file, env-file, or profile set, use `tasks.<name>.variants.<i>.env` and/or
   `tasks.<name>.variants.<i>.adapter_inputs` instead of cloning the whole task body into
