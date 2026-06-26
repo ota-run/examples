@@ -155,6 +155,11 @@ Use these as starting points when you want:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
   Use this when setup needs more than one ordered deterministic setup action and ota should own
   that finite bundle through `action.kind: ensure_bundle` instead of a shell script wrapper.
+- Deterministic Git checkout bootstrap:
+  [`reference/action-ensure-git-checkout`](reference/action-ensure-git-checkout)
+  Use this when one setup lane owns clone-if-missing materialization of a sibling or vendored
+  checkout and ota should own that truth through `action.kind: ensure_git_checkout` instead of
+  shell `git clone` glue.
 - Container network bootstrap:
   [`reference/action-ensure-container-network`](reference/action-ensure-container-network)
   Use this when one setup lane owns shared external Docker network readiness and ota should own

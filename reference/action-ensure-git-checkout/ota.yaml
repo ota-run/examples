@@ -1,0 +1,44 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: action-ensure-git-checkout
+  description: Canonical deterministic git checkout bootstrap reference using action.kind ensure_git_checkout
+  type: application
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        tools:
+          git: "*"
+
+tasks:
+  bootstrap:deps:
+    description: Materialize one vendored checkout when the repo-local path is missing
+    category: setup
+    context: host
+    action:
+      kind: ensure_bundle
+      steps:
+        - kind: ensure_directory
+          path: vendor
+        - kind: ensure_git_checkout
+          path: vendor/wagtail
+          source:
+            git: https://github.com/wagtail/wagtail.git
+            ref: main
+
+workflows:
+  default: local-bootstrap
+  local-bootstrap:
+    intent: local_development
+    description: Use one finite workflow prepare lane when local readiness depends on a deterministic sibling checkout
+    prepare:
+      task: bootstrap:deps
+
+metadata:
+  ota:
+    minimum_version: "1.6.22"

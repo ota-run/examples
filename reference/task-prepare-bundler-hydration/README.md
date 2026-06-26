@@ -45,4 +45,12 @@ Why this exists:
 - it should not be modeled as a service
 - it should not be hidden in `run: bundle config set path ... && bundle install`
 
+Important boundary:
+
+- this example shows the repo-local Bundler lane, so `source.path` is present
+- compose-wrapped Bundler hydration may omit `source.path` when the truthful durable state lives in
+  a Compose volume and Bundler should use the container-default install path
+- in that Compose-backed shape, durability should be declared under `effects.adapter_state`
+  instead of faking repo writes
+
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.

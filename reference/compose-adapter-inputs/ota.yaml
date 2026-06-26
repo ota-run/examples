@@ -196,6 +196,42 @@ tasks:
       tools:
         docker: "*"
 
+  compose:linux:up:
+    description: Start one shared Compose lane with a Linux-only adapter overlay
+    category: dev
+    context: host
+    adapter_inputs:
+      overlays:
+        compose:
+          cwd: docker
+          files:
+            - docker/docker-compose.yml
+          project_name: compose-adapter-inputs
+    launch:
+      kind: compose
+      action: up
+      services:
+        - api
+    variants:
+      - when:
+          os: linux
+        env:
+          CURRENT_UID: ${OTA_HOST_UID}:${OTA_HOST_GID}
+        adapter_inputs:
+          overlays:
+            compose:
+              env_files:
+                - docker/.env.linux
+              files:
+                - docker/docker-compose.linux.yml
+    runtime:
+      kind: service
+      surfaces:
+        - api
+    requirements:
+      tools:
+        docker: "*"
+
   compose:exec:command:
     description: Run a direct argv command inside the api service through first-class compose execution
     category: dev
@@ -218,7 +254,7 @@ tasks:
         docker: "*"
 
   compose:setup:deps:
-    description: Hydrate app dependencies through a declared Compose service while keeping npm truth typed and the host prerequisite on Docker
+    description: Hydrate volume-backed app dependencies through a declared Compose service while keeping npm truth typed and the host prerequisite on Docker
     category: setup
     context: host
     adapter_inputs:
@@ -242,8 +278,8 @@ tasks:
       tools:
         docker: "*"
     effects:
-      writes:
-        - app/node_modules
+      adapter_state:
+        - compose_volume:node_modules
       network: true
       network_kind: dependency_hydration
 

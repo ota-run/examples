@@ -41,6 +41,8 @@ This example shows the newer Compose surfaces together:
 - `env.profiles.<name>.render.dotenv`
 - `prepare.source.compose`
 - `runtime.listeners.<name>.project.publication.compose.service`
+- `tasks.<name>.variants.<i>.env`
+- `tasks.<name>.variants.<i>.adapter_inputs.overlays.compose.*`
 
 Why this exists:
 
@@ -49,15 +51,22 @@ Why this exists:
 - the env interpolation file, compose file stack, profile selection, and project naming all matter
 - those inputs should not be hidden in `cd docker && ...`, `--project-directory`, `--env-file`,
   `-f`, `--profile`, or `-p` shell glue
-- when a native compose lane also needs the real host repo path or host uid, prefer ota-owned
-  env templates such as `${OTA_HOST_WORKSPACE}` and `${OTA_HOST_UID}` over shell `pwd` or
-  `id -u` glue
+- when a native compose lane also needs the real host repo path or host uid/gid, prefer ota-owned
+  env templates such as `${OTA_HOST_WORKSPACE}`, `${OTA_HOST_UID}`, and `${OTA_HOST_GID}` over
+  shell `pwd`, `id -u`, or `id -g` glue
 - workflow-owned overlays and task-owned compose additions should stay separate and inspectable
+- when one OS keeps the same task body but needs different host-derived env or a different Compose
+  file, env-file, or profile set, use `tasks.<name>.variants.<i>.env` and/or
+  `tasks.<name>.variants.<i>.adapter_inputs` instead of cloning the whole task body into
+  shell-only OS variants
 - when dependency hydration truthfully runs inside a Compose service, keep the typed package lane
   under `prepare.source.kind: ...` and use `prepare.source.compose` only as the service wrapper
 - in that shape the host prerequisite is still the Compose engine, so keep
   `requirements.tools.docker` explicit and do not add fake host `requirements.toolchains.node`
   just because the in-service command is `npm ci`
+- when the durable install state lives in a Compose volume instead of a repo path, declare it
+  under `effects.adapter_state` with a token such as `compose_volume:node_modules` instead of
+  faking repo writes under `effects.writes`
 - if the lane also owns destructive service-data reset, keep that as
   `action.kind: reset_compose_service_volume` instead of burying `docker compose stop/rm` plus
   `docker volume rm` in the task body
@@ -121,12 +130,43 @@ tasks:
     env:
       SOURCE_ROOT: ${OTA_HOST_WORKSPACE}
       HOST_UID: ${OTA_HOST_UID}
+      HOST_GID: ${OTA_HOST_GID}
     launch:
       kind: command
       exe: docker
       args:
         - compose
         - up
+```
+
+OS-scoped adapter overlay example:
+
+```yaml
+tasks:
+  compose:linux:up:
+    adapter_inputs:
+      overlays:
+        compose:
+          cwd: docker
+          files:
+            - docker/docker-compose.yml
+    launch:
+      kind: compose
+      action: up
+      services:
+        - api
+    variants:
+      - when:
+          os: linux
+        env:
+          CURRENT_UID: ${OTA_HOST_UID}:${OTA_HOST_GID}
+        adapter_inputs:
+          overlays:
+            compose:
+              env_files:
+                - docker/.env.linux
+              files:
+                - docker/docker-compose.linux.yml
 ```
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
