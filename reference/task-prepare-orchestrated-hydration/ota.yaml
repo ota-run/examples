@@ -1,0 +1,86 @@
+# <!--
+#                 █████
+#                ░░███
+#        ██████  ███████    ██████
+#       ███░░███░░░███░    ░░░░░███
+#      ░███ ░███  ░███      ███████
+#      ░███ ░███  ░███ ███ ███░░███
+#      ░░██████   ░░█████ ░░████████
+#       ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#    Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#    Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#    You may not use this file except in compliance with that License.
+#    Unless required by applicable law or agreed to in writing, software distributed under the
+#    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#    either express or implied. See the License for the specific language governing permissions
+#    and limitations under the License.
+#
+#    If you need additional information or have any questions, please email: os@ota.run
+# -->
+
+version: 1
+project:
+  name: task-prepare-orchestrated-hydration
+  description: Command-backed dependency hydration mediated by a declared devbox orchestrator
+  type: application
+
+toolchains:
+  node:
+    version: "*"
+    package_managers:
+      pnpm: "*"
+
+orchestrators:
+  devbox:
+    kind: devbox
+    required: true
+    config_files:
+      - devbox.json
+    prepare:
+      install: true
+
+tasks:
+  setup:
+    description: Hydrate Node dependencies through pnpm inside the declared devbox environment
+    category: setup
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: node_package_manager
+        cwd: .
+        manager: pnpm
+        mode: install
+    requirements:
+      toolchains:
+        - node
+    effects:
+      writes:
+        - node_modules
+      network: true
+      network_kind: dependency_hydration
+    execution:
+      orchestrator:
+        ref: devbox
+        mode: exec
+
+  test:
+    description: Run tests through the same devbox-mediated environment
+    category: test
+    command:
+      exe: pnpm
+      args:
+        - test
+    depends_on:
+      - setup
+    requirements:
+      toolchains:
+        - node
+    execution:
+      orchestrator:
+        ref: devbox
+        mode: exec

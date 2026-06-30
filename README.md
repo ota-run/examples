@@ -103,6 +103,10 @@ Use these as starting points when you want:
   [`reference/task-prepare-sequence`](reference/task-prepare-sequence)
   Use this when one repo-level `setup` task honestly needs more than one structural finite step,
   such as Node package hydration plus Python `uv` hydration in one ordered lane.
+- First-class orchestrated dependency hydration:
+  [`reference/task-prepare-orchestrated-hydration`](reference/task-prepare-orchestrated-hydration)
+  Use this when the truthful setup lane is still first-class dependency hydration, but the
+  selected environment is mediated by a declared orchestrator such as `devbox`.
 - First-class Go module hydration:
   [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
   Use this when a repo's setup lane is really `go mod download` and ota should own that finite
