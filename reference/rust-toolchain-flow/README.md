@@ -64,6 +64,10 @@ ota up --dry-run .
 ota tasks --use .
 ```
 
+Here `ota tasks --use .` should be read as the runnable governance surface, not just task
+discovery: it shows the command preview, mode branches, safety posture, declared effects, and the
+follow-up dry-run / receipt commands for each lane.
+
 Then compare the selected task paths:
 
 ```bash

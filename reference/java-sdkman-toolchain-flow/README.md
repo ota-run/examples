@@ -59,6 +59,10 @@ ota up --dry-run .
 ota tasks --use .
 ```
 
+Use `ota tasks --use .` to inspect the runnable task surface before execution: command preview,
+mode selection, safety posture, declared effects, and the matching dry-run / receipt follow-up
+commands stay visible in one place.
+
 Then compare the selected task paths:
 
 ```bash

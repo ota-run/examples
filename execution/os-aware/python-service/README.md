@@ -54,6 +54,10 @@ This example shows how ota keeps one repo contract stable while selecting the ri
 6. Run `ota run setup`
 7. Run `ota run test`
 
+`ota tasks --use` is the key inspection step here: it shows the OS-selected command preview, any
+alternate runnable modes, the task safety posture, declared effects, and the matching dry-run /
+receipt follow-up commands before you execute anything.
+
 ## What to expect
 
 - ota keeps the task names stable

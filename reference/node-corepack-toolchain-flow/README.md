@@ -60,6 +60,10 @@ ota up --dry-run .
 ota tasks --use .
 ```
 
+`ota tasks --use .` is the quickest way to inspect the runnable lane itself before execution:
+command preview, default versus alternate modes, safety posture, declared effects, and the matching
+dry-run / receipt follow-up commands.
+
 Then compare the task paths:
 
 ```bash
