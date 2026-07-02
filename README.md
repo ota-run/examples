@@ -164,6 +164,11 @@ Use these as starting points when you want:
   Use this when one setup lane owns clone-if-missing materialization of a sibling or vendored
   checkout and ota should own that truth through `action.kind: ensure_git_checkout` instead of
   shell `git clone` glue.
+- Deterministic Git template bootstrap:
+  [`reference/action-ensure-git-template`](reference/action-ensure-git-template)
+  Use this when one setup lane owns scaffold/factory materialization from a Git-backed template
+  and ota should own that truth through `action.kind: ensure_git_template` instead of shell
+  `git clone`, `rm -rf .git`, and `git init` glue.
 - Container network bootstrap:
   [`reference/action-ensure-container-network`](reference/action-ensure-container-network)
   Use this when one setup lane owns shared external Docker network readiness and ota should own

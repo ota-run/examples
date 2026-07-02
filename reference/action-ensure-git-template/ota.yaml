@@ -1,0 +1,44 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+
+version: 1
+project:
+  name: action-ensure-git-template
+  description: Canonical deterministic git template bootstrap reference using action.kind ensure_git_template
+  type: application
+execution:
+  default_context: host
+  contexts:
+    host:
+      backend: native
+      requirements:
+        tools:
+          git: "*"
+
+tasks:
+  scaffold:sample:
+    description: Materialize one fresh local sample repo from a Git-backed scaffold when the destination is missing
+    category: setup
+    context: host
+    action:
+      kind: ensure_bundle
+      steps:
+        - kind: ensure_directory
+          path: .ota-pressure
+        - kind: ensure_git_template
+          path: .ota-pressure/sample-extension
+          source:
+            git: https://github.com/codyhxyz/create-chrome-extension.git
+            ref: main
+
+workflows:
+  default: local-bootstrap
+  local-bootstrap:
+    intent: local_development
+    description: Use one finite workflow prepare lane when local readiness depends on deterministic scaffold materialization
+    prepare:
+      task: scaffold:sample
+
+metadata:
+  ota:
+    minimum_version: "1.6.23"
