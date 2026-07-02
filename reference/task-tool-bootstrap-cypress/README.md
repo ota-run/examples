@@ -22,23 +22,22 @@
    If you need additional information or have any questions, please email: os@ota.run
 -->
 
-# Task prepare: sequence
+# Task tool bootstrap: Cypress browsers
 
-Use this when one honest repo-level setup lane needs more than one structural finite step.
+Use this when the repo truth is contract-owned Cypress browser/bootstrap installation rather than
+dependency hydration.
 
-This example shows the shipped `tasks.<name>.prepare.kind: sequence` slice:
+This example shows the shipped `tasks.<name>.prepare.kind: tool_bootstrap` slice for:
 
-- ordered `prepare.steps`
-- deterministic env-file materialization
-- first-class Playwright browser bootstrap
-- shared task-level `requirements`
-- shared task-level `effects`
+- `prepare.tool: cypress_browsers`
+- `prepare.source.kind: node_package_manager`
+- `prepare.source.manager: pnpm`
+- explicit `effects.network_kind: tool_bootstrap`
 
 Why this exists:
 
-- the repo truth is one user-facing `setup` lane, not two unrelated setup tasks
-- one step is deterministic local prep and one step is networked browser bootstrap
-- both steps are still finite preparation, not runtime startup
-- ota should keep each step structural instead of collapsing back to shell glue
+- the repo truth is `pnpm cypress install`, not generic shell glue
+- Cypress browser/bootstrap ownership should stay distinct from package dependency hydration
+- validator, dry-run, and receipts should all understand this lane structurally
 
 Open [`ota.yaml`](ota.yaml) for the exact contract shape.
