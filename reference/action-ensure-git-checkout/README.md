@@ -30,6 +30,7 @@ Git checkout and should not fall back to shell `git clone` glue.
 This example shows:
 
 - `action.kind: ensure_git_checkout`
+- optional `remotes[]` reconciliation for deterministic upstream wiring
 - bundled `ensure_directory`
 - explicit host `requirements.tools.git`
 - one finite native setup lane
