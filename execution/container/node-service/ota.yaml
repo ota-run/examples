@@ -44,6 +44,9 @@ execution:
       container:
         image: node:22
       attachments:
+        # Same logical path names only conflict when they resolve to the same
+        # effective isolation namespace. Distinct container contexts can now
+        # coexist truthfully when Ota proves the isolation planes are different.
         isolated_paths:
           - node_modules
 tasks:
