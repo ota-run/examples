@@ -62,6 +62,7 @@ services:
       name: local
       file: compose/compose.yml
       service: api
+      env_file: .env.compose
   postgres:
     manager:
       kind: compose
@@ -69,6 +70,7 @@ services:
       name: local
       file: compose/compose.yml
       service: postgres
+      env_file: .env.compose
 
 tasks:
   compose:up:
