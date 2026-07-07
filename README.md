@@ -99,6 +99,11 @@ Use these as starting points when you want:
   Use this when a repo's root install lane is really lockfile-backed package hydration and ota
   should own that setup phase structurally instead of teaching `pnpm install --frozen-lockfile`,
   `yarn install --immutable`, or `npm ci` as shell glue.
+- First-class Python virtualenv plus uv requirements hydration:
+  [`reference/task-prepare-uv-requirements`](reference/task-prepare-uv-requirements)
+  Use this when Python setup truthfully owns both deterministic `.venv` creation and a separate
+  `uv pip install -r ...` dependency-hydration lane instead of collapsing both into one shell
+  body.
 - First-class mixed setup sequencing:
   [`reference/task-prepare-sequence`](reference/task-prepare-sequence)
   Use this when one repo-level `setup` task honestly needs more than one structural finite step,
