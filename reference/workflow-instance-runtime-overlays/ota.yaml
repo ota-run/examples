@@ -93,7 +93,7 @@ workflows:
   default: app
   app:
     intent: local_development
-    description: One workflow family with selected-instance listener publication owned on the task runtime boundary
+    description: One workflow family with one explicit default instance plus generated listener projections owned on the task runtime boundary
     setup:
       task: setup
     run:
@@ -102,35 +102,26 @@ workflows:
       default: ws0
       ws0:
         description: Base local instance using the base runtime listener ports
-      ws1:
-        description: Second local instance with its own projected listener ports
-        tasks:
-          app:up:
-            runtime:
-              listeners:
-                ui:http:
-                  bind:
-                    port:
-                      mode: fixed
-                      value: 13000
-                  project:
-                    host:
-                      port:
-                        mode: fixed
-                        value: 13000
-      ws2:
-        description: Third local instance with another selected-instance listener projection
-        tasks:
-          app:up:
-            runtime:
-              listeners:
-                ui:http:
-                  bind:
-                    port:
-                      mode: fixed
-                      value: 23000
-                  project:
-                    host:
-                      port:
-                        mode: fixed
-                        value: 23000
+      generated:
+        local-workspaces:
+          prefix: ws
+          start: 1
+          end: 2
+          template:
+            description: Generated local instance with deterministic projected listener ports
+            tasks:
+              app:up:
+                runtime:
+                  listeners:
+                    ui:http:
+                      bind:
+                        port:
+                          mode: fixed
+                          value: 3000
+                          stride: 10000
+                      project:
+                        host:
+                          port:
+                            mode: fixed
+                            value: 3000
+                            stride: 10000
