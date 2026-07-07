@@ -132,6 +132,11 @@ Use these as starting points when you want:
   same example also shows `prepare.source.compose` for typed dependency hydration inside a Compose
   service, where the host prerequisite stays `requirements.tools.docker` instead of duplicating a
   host Node toolchain just because the in-service command is `npm ci`.
+- Runtime-owned bind projection for supported server launch adapters:
+  [`reference/launch-runtime-projection`](reference/launch-runtime-projection)
+  Use this when one long-running command launch should keep host/port truth under explicit
+  `runtime.listeners` and let ota project bind argv for a supported adapter like `uvicorn`
+  instead of duplicating `--host` / `--port` in `launch.args`.
 - Podman compose adapter-owned env/file/profile/project truth:
   [`reference/podman-compose-adapter-inputs`](reference/podman-compose-adapter-inputs)
   Use this when the repo's real compose lane is `podman compose` and the adapter root,
