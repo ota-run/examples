@@ -112,6 +112,12 @@ Use these as starting points when you want:
   [`reference/task-prepare-orchestrated-hydration`](reference/task-prepare-orchestrated-hydration)
   Use this when the truthful setup lane is still first-class dependency hydration, but the
   selected environment is mediated by a declared orchestrator such as `devbox`.
+- First-class Compose-wrapped dependency hydration:
+  [`reference/task-prepare-compose-hydration`](reference/task-prepare-compose-hydration)
+  Use this when the truthful setup lane is still first-class package hydration, but the execution
+  owner is a declared Compose service. Keep package-manager truth under
+  `prepare.source.kind: ...`, service truth under `prepare.source.compose`, and durable
+  service-side state under `effects.adapter_state`.
 - First-class Go module hydration:
   [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
   Use this when a repo's setup lane is really `go mod download` and ota should own that finite
