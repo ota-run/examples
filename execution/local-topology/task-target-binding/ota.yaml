@@ -145,8 +145,9 @@ agent:
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
+      source:
+        kind: version
+        version: v1.6.23
   notes: |
     Start with `ota doctor`, then `ota validate`, then `ota run dev`.
     Keep service identity in `targets` and reserve task inputs for explicit operator overrides.

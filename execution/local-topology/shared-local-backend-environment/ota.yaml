@@ -83,8 +83,9 @@ agent:
   bootstrap:
     ota:
       note: Only install ota if it is missing and installation is approved.
-      sh: curl -fsSL https://dist.ota.run/install.sh | sh
-      powershell: irm https://dist.ota.run/install.ps1 | iex
+      source:
+        kind: version
+        version: v1.6.23
   notes: |
     Start with `ota validate`, inspect `ota execution plan`, then run `ota run dev`.
     This example keeps the shared backend explicit while policy selects the approved effective image.
