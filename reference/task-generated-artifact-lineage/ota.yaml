@@ -51,6 +51,10 @@ tasks:
   sdk:verify:
     description: Verify the generated TypeScript SDK after its producer materializes it
     category: test
+    replay_inputs:
+      - id: api_schema
+        kind: static_file
+        path: schema/api.graphql
     command:
       exe: npm
       args:
