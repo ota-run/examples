@@ -29,4 +29,7 @@ and list the artifact under `requires_artifacts`.
 Ota checks output presence after the producer closure and records lineage in task JSON and
 receipts. Existing files are not treated as fresh without later derivation evidence.
 
+If the generator lives in one pnpm workspace package, pair this with typed dependency hydration
+using `prepare.source.filter` and `manager: pnpm` so Ota owns the exact package scope.
+
 Open [`ota.yaml`](ota.yaml) for the copy-ready shape.
