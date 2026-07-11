@@ -118,6 +118,11 @@ Use these as starting points when you want:
   owner is a declared Compose service. Keep package-manager truth under
   `prepare.source.kind: ...`, service truth under `prepare.source.compose`, and durable
   service-side state under `effects.adapter_state`.
+- First-class generated artifact lineage:
+  [`reference/task-generated-artifact-lineage`](reference/task-generated-artifact-lineage)
+  Use this when one generator produces named source files that a downstream task consumes. Keep
+  producer and output/input truth at top-level `artifacts`, require the artifact from each
+  consumer task, and do not over-read output presence as freshness.
 - First-class Go module hydration:
   [`reference/task-prepare-go-module-hydration`](reference/task-prepare-go-module-hydration)
   Use this when a repo's setup lane is really `go mod download` and ota should own that finite
