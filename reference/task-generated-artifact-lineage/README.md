@@ -33,3 +33,25 @@ If the generator lives in one pnpm workspace package, pair this with typed depen
 using `prepare.source.filter` and `manager: pnpm` so Ota owns the exact package scope.
 
 Open [`ota.yaml`](ota.yaml) for the copy-ready shape.
+
+## Witnessed query evidence
+
+When a deterministic verification lane consumes a recorded query trace from an earlier run, keep
+the file as a `replay_inputs` static file and declare its observed query identities separately:
+
+```yaml
+tasks:
+  verify:
+    replay_inputs:
+      - id: recorded_queries
+        kind: static_file
+        path: evidence/queries.jsonl
+    witnessed_observations:
+      query_traces:
+        - id: recorded_queries
+          path: evidence/queries.jsonl
+```
+
+Each JSONL record uses `id`, `run`, and `sql`. Ota emits the trace under receipt
+`witnessed_observations`, not `evaluated_inputs`: stable repeated SQL retains one identity across
+runs, and divergent identities show observed query variation without claiming a model cause.
