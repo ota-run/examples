@@ -41,6 +41,9 @@ This example shows how ota keeps one repo contract stable while selecting the ri
 ## What is included
 
 - `ota.yaml` with OS-specific task variants
+- task-level `only_on` is available when a task body is genuinely unsupported on a host; use it
+  instead of a variant when there is no truthful body for that platform. Ota will show the lane as
+  unavailable and refuse its selected dependency closure before setup or execution.
 - `requirements.txt` with the test dependency set
 - `tests/test_smoke.py` as a minimal verification example
 
