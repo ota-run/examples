@@ -34,24 +34,37 @@ using `prepare.source.filter` and `manager: pnpm` so Ota owns the exact package 
 
 Open [`ota.yaml`](ota.yaml) for the copy-ready shape.
 
-## Witnessed query evidence
+## Replay-input kinds plus witnessed query evidence
 
-When a deterministic verification lane consumes a recorded query trace from an earlier run, keep
-the file as a `replay_inputs` static file and declare its observed query identities separately:
+This example now shows all three replay-input kinds plus the separate witnessed query-trace lane:
 
 ```yaml
 tasks:
-  verify:
+  sdk:verify:
     replay_inputs:
-      - id: recorded_queries
+      - id: api_schema
         kind: static_file
-        path: evidence/queries.jsonl
+        path: schema/api.graphql
+      - id: runtime-presentation
+        kind: presentation_profile
+        path: replay/presentation-profile.yaml
+      - id: equivalence
+        kind: comparator_profile
+        path: replay/comparator-profile.yaml
     witnessed_observations:
       query_traces:
         - id: recorded_queries
-          path: evidence/queries.jsonl
+          path: evidence/sdk-queries.jsonl
 ```
 
-Each JSONL record uses `id`, `run`, and `sql`. Ota emits the trace under receipt
+Use them this way:
+
+- `static_file` for immutable repo inputs the deterministic lane consumes directly
+- `presentation_profile` for declared output-shaping or normalization policy
+- `comparator_profile` for declared equivalence, tolerance, or threshold policy
+- `witnessed_observations.query_traces` for prior-run JSONL query evidence that must stay attested
+  execution output rather than current-run replay input
+
+Each query-trace JSONL record uses `id`, `run`, and `sql`. Ota emits the trace under receipt
 `witnessed_observations`, not `evaluated_inputs`: stable repeated SQL retains one identity across
 runs, and divergent identities show observed query variation without claiming a model cause.
