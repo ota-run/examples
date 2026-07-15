@@ -195,6 +195,11 @@ Use these as starting points when you want:
   Use this when one setup lane owns shared external Docker network readiness and ota should own
   that truth through `action.kind: ensure_container_network` instead of shell
   `docker network inspect/create` glue.
+- Dockerfile image materialization:
+  [`reference/action-build-container-image`](reference/action-build-container-image)
+  Use this when a direct task owns a local Dockerfile image required by a declared container or
+  Compose lane and ota should own that truth through `action.kind: build_container_image` instead
+  of shell `docker build` glue.
 - Compose adapter-owned publication remap:
   [`reference/compose-adapter-inputs`](reference/compose-adapter-inputs)
   Use this when a native structured Docker Compose lane owns the published host URL for one
