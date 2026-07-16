@@ -176,6 +176,10 @@ Use these as starting points when you want:
   Use this when a repo has more than one workflow and receipt archive, baseline, or snapshot
   history must stay inside the selected workflow lane instead of drifting to whichever receipt ran
   last.
+- Marker-bound runtime proof evidence:
+  [`reference/runtime-proof-evidence`](reference/runtime-proof-evidence)
+  Use this when readiness alone is insufficient and Ota must distinguish a reachable dependency
+  from transaction-bound exercise and a separately attested same-obligation fault control.
 - Bundled deterministic setup bootstrap:
   [`reference/action-ensure-bundle`](reference/action-ensure-bundle)
   Use this when setup needs more than one ordered deterministic setup action and ota should own

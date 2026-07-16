@@ -3,5 +3,6 @@
 
 # Ota local runtime state
 .ota/state/
+.ota/contracts/
 .ota/receipts/
 .ota/proof/
