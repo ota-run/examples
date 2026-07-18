@@ -45,6 +45,7 @@ This matters when pipeline steps drift across providers, release behavior gets c
 - `github-actions/action-readiness/` - GitHub Action readiness receipt, annotations, and PR comment example
 - `github-actions/matrix-tests/` - GitHub Actions matrix example
 - `github-actions/scheduled-validation/` - GitHub Actions schedule example
+- `github-actions/managed-projection/` - Ota-owned reusable GitHub verification workflow with a thin caller
 - `jenkins/` - Jenkins pipeline example
 - `jenkins/readiness-gate/` - Jenkins readiness receipt and artifact-gate example
 - `circleci/` - CircleCI pipeline example
