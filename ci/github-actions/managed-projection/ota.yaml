@@ -43,5 +43,5 @@ agent:
   bootstrap:
     ota:
       source:
-        kind: version
-        version: v1.6.24
+        kind: git_rev
+        rev: fe3d4789e768b43bf6dea2bc4850c14d78f1a4be
