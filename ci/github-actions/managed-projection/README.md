@@ -46,3 +46,8 @@ ota ci github check --workflow verify \
 provider scheduling and the immutable projection reference. The caller binds the exact
 `ota_projection_identity` and `ota_target_os`. Runner labels remain
 provider-owned; Ota performs the projection identity check without relying on a provider shell.
+
+This example's `verify` task is finite. Its generated workflow prepares the selected workflow with
+`ota up`, then executes `verify` through `ota run --agent`; it does not treat readiness-only
+preparation as verification proof. Service-runtime and proof lanes retain their own authoritative
+runtime execution path.
