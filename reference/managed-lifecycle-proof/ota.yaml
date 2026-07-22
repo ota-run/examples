@@ -1,0 +1,38 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+version: 1
+project:
+  name: managed-lifecycle-proof
+  description: Bounded Compose lifecycle transition proof with runner-owned cleanup.
+services:
+  database:
+    manager:
+      kind: compose
+      name: managed-lifecycle-proof
+      file: compose.yaml
+      service: database
+    lifecycle:
+      teardown_assertion: manager_inactive
+tasks:
+  build:
+    command:
+      exe: sh
+      args: ["-lc", "echo build"]
+  assert-database:
+    command:
+      exe: sh
+      args: ["-lc", "echo database-ready"]
+    requires_services: [database]
+workflows:
+  default: smoke
+  smoke:
+    run:
+      task: build
+    proof:
+      lifecycle:
+        services: [database]
+        assertion:
+          task: assert-database
