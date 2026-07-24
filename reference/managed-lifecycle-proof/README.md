@@ -16,4 +16,6 @@ ota proof lifecycle --workflow smoke --json --archive .
 
 Ota leases only services observed inactive by the declared manager and finalizes them in reverse
 order after failure or interruption. The archive is local, scope-bound lifecycle evidence; read
-its `not_proved[]` boundaries and do not treat it as application, CI, or repo-global proof.
+its `not_proved[]` boundaries and do not treat it as application, CI, or repo-global proof. When
+the finite assertion fails, the typed `assertion` result includes its exit code and bounded output
+tails so the transaction can be diagnosed without widening its proof claim.
