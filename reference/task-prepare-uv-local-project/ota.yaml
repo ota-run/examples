@@ -1,0 +1,60 @@
+# Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0. See LICENSE for the specific
+# language governing permissions and limitations under the License.
+
+version: 1
+project:
+  name: task-prepare-uv-local-project
+  description: Canonical editable Python package hydration through uv
+  type: application
+
+toolchains:
+  python:
+    version: "3.12.11"
+    package_managers:
+      uv: ">=0.7.0"
+
+tasks:
+  setup:venv:
+    description: Materialize the local Python virtualenv deterministically
+    category: setup
+    action:
+      kind: ensure_virtualenv
+      path: .venv
+      python: "3.12"
+    requirements:
+      toolchains:
+        - python
+    effects:
+      writes:
+        - .venv
+
+  setup:sdk:
+    description: Install the checked-out SDK with its declared CLI and test dependencies
+    category: setup
+    depends_on:
+      - setup:venv
+    prepare:
+      kind: dependency_hydration
+      medium: package_dependencies
+      source:
+        kind: uv
+        cwd: apps/api
+        mode: pip_local_project
+        local_project:
+          path: ../../packages/sdk
+          editable: true
+          extras:
+            - cli
+          groups:
+            - test
+          lockfile: ../../packages/sdk/uv.lock
+        default_index: https://pypi.org/simple
+    requirements:
+      toolchains:
+        - python
+    effects:
+      writes:
+        - .venv
+      network: true
+      network_kind: dependency_hydration

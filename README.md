@@ -82,6 +82,7 @@ underlying contract shape; this page is a map, not a second contract reference.
 | Generic dependency or image hydration | [`reference/task-prepare-dependency-hydration`](reference/task-prepare-dependency-hydration) | A finite setup phase belongs in `tasks.<name>.prepare`. |
 | Lockfile-backed Node package hydration | [`reference/task-prepare-package-hydration`](reference/task-prepare-package-hydration) | Ota should own `pnpm`, Yarn, or npm installation rather than a shell body. |
 | Python `.venv` plus uv requirements | [`reference/task-prepare-uv-requirements`](reference/task-prepare-uv-requirements) | Setup owns deterministic virtualenv creation and requirements hydration. |
+| Editable local Python project with uv | [`reference/task-prepare-uv-local-project`](reference/task-prepare-uv-local-project) | One checked-out package needs explicit extras, groups, source identity, and lockfile-aware replay truth. |
 | Mixed ordered setup | [`reference/task-prepare-sequence`](reference/task-prepare-sequence) | One setup lane needs several structural finite steps. |
 | Orchestrator-owned hydration | [`reference/task-prepare-orchestrated-hydration`](reference/task-prepare-orchestrated-hydration) | Hydration is mediated by a declared orchestrator such as Devbox. |
 | Compose-owned hydration | [`reference/task-prepare-compose-hydration`](reference/task-prepare-compose-hydration) | A declared Compose service owns typed package hydration. |
