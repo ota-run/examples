@@ -123,8 +123,8 @@ agent:
     ota:
       note: Only install ota if it is missing and installation is approved.
       source:
-        kind: version
-        version: v1.6.23
+        kind: git_rev
+        rev: 195097546ede4f06792a91eb84115689d34ee6d7
   notes: |
     Use Ota first for validation and task execution.
     Treat the README files as the adoption surface and ota.yaml as the contract.
