@@ -25,13 +25,28 @@ version: 1
 project:
   name: ota-run-examples
   description: Public examples repo for copyable, real-world Ota adoption patterns
+toolchains:
+  python:
+    version: ">=3.10"
 tasks:
   validate:
-    run: python3 scripts/validate_examples.py "$PWD"
+    command:
+      exe: python3
+      args:
+        - scripts/validate_examples.py
+        - .
     variants:
       - when:
           os: windows
-        run: py -3 scripts/validate_examples.py "$PWD"
+        command:
+          exe: py
+          args:
+            - -3
+            - scripts/validate_examples.py
+            - .
+    requirements:
+      toolchains:
+        - python
     notes: |
       Example: `ota run validate`
       Use this before opening a pull request.
@@ -39,11 +54,23 @@ tasks:
       Set `OTA_BIN` when you need to dogfood unreleased local ota changes against this repo instead of the installed binary.
       On Unix-like systems, Ota uses `python3`; on Windows, it uses `py -3`.
   dogfood:
-    run: python3 scripts/dogfood_examples.py "$PWD"
+    command:
+      exe: python3
+      args:
+        - scripts/dogfood_examples.py
+        - .
     variants:
       - when:
           os: windows
-        run: py -3 scripts/dogfood_examples.py "$PWD"
+        command:
+          exe: py
+          args:
+            - -3
+            - scripts/dogfood_examples.py
+            - .
+    requirements:
+      toolchains:
+        - python
     after_success:
       - dogfood:summary
     after_failure:
@@ -90,10 +117,6 @@ checks:
     kind: precondition
     severity: error
     run: ota --version
-  - name: python-installed
-    kind: precondition
-    severity: error
-    run: python --version
 agent:
   entrypoint: validate
   default_task: validate
@@ -124,7 +147,7 @@ agent:
       note: Only install ota if it is missing and installation is approved.
       source:
         kind: git_rev
-        rev: 195097546ede4f06792a91eb84115689d34ee6d7
+        rev: 6538cc074a78b3a0471f976a415238d13307a699
   notes: |
     Use Ota first for validation and task execution.
     Treat the README files as the adoption surface and ota.yaml as the contract.

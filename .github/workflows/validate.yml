@@ -38,6 +38,8 @@ jobs:
 
       - name: Setup ota
         uses: ota-run/setup@v1
+        with:
+          source: contract
 
       - name: Validate examples repo
         run: ota run validate

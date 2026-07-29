@@ -36,10 +36,12 @@ tasks:
         path: fixtures/baseline.txt
         expected_identity: sha256:4f20eb9143fa190c8d2cd8e470db88f27c72e96d05243ff3d1d44913173dfeb8
     command:
-      exe: sh
+      exe: grep
       args:
-        - -c
-        - test -f fixtures/baseline.txt
+        - -q
+        - -x
+        - stable
+        - fixtures/baseline.txt
     effects:
       writes: []
       network: false

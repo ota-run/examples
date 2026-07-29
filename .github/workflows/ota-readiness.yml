@@ -44,6 +44,7 @@ jobs:
       - name: Publish ota readiness
         uses: ota-run/action@v1
         with:
+          source: contract
           command: receipt
           path: .
           archive: true

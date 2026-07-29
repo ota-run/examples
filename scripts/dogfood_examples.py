@@ -90,7 +90,7 @@ def main() -> None:
         assert_contains(
             f"{label} detect",
             detect,
-            ["DETECT PREVIEW", "Existing contract comparison:", "Contract:", "Next:"],
+            ["DETECT PREVIEW", "Existing contract comparison:", "Agent boundary", "Next:"],
         )
 
         agents = run_plain(root, ["agents", rel_path], {0})

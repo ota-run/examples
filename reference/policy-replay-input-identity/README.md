@@ -25,13 +25,15 @@
 Use this when an organization requires selected replay-sensitive tasks or workflows to declare and
 match immutable replay-input identities.
 
-The repo contract names the input and expected digest. `.ota/org-policy.yaml` decides which
-selected closures require complete pins. Doctor, dry-run, run, up, admission-produced
-execution/refusal receipts consume one command-scoped observation set. Refusal happens before
-native provisioning, dependency hydration, or task startup; unavailable observations fail closed,
-and hard-pin refusals retain the active policy record. CI carries the requirement but recomputes
-observed identities after checkout. Generic readiness receipts do not reconstruct policy after
-execution. Neither Ota nor an agent updates the digest automatically.
+The repo contract names the input and expected digest, and the selected verification task reads
+the governed fixture rather than merely checking that its path exists. `.ota/org-policy.yaml`
+decides which selected closures require complete pins. Doctor, dry-run, run, up, and
+admission-produced execution/refusal receipts consume one command-scoped observation set. Both
+`deny` and `review` refuse before native provisioning, dependency hydration, or task startup.
+Unavailable policy fails closed, and a missing, unreadable, or mismatched hard pin cannot be
+weakened to review. CI carries the requirement but recomputes observed identities after checkout.
+Generic readiness receipts do not reconstruct policy after execution. Neither Ota nor an agent
+updates the digest automatically.
 
 Open [`ota.yaml`](ota.yaml) and [`.ota/org-policy.yaml`](.ota/org-policy.yaml) for the copy-ready
 shape.
