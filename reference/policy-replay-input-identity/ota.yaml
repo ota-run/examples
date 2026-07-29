@@ -1,0 +1,57 @@
+# <!--
+#                 █████
+#                ░░███
+#        ██████  ███████    ██████
+#       ███░░███░░░███░    ░░░░░███
+#      ░███ ░███  ░███      ███████
+#      ░███ ░███  ░███ ███ ███░░███
+#      ░░██████   ░░█████ ░░████████
+#       ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#    Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    Unless required by applicable law or agreed to in writing, software distributed under the
+#    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#    either express or implied. See the License for the specific language governing permissions
+#    and limitations under the License.
+# -->
+
+version: 1
+
+project:
+  name: policy-replay-input-identity
+  description: Require immutable replay-input pins through org policy
+  type: reference
+
+tasks:
+  verify:
+    description: Verify the policy-governed frozen baseline
+    replay_inputs:
+      - id: baseline
+        kind: static_file
+        path: fixtures/baseline.txt
+        expected_identity: sha256:4f20eb9143fa190c8d2cd8e470db88f27c72e96d05243ff3d1d44913173dfeb8
+    command:
+      exe: sh
+      args:
+        - -c
+        - test -f fixtures/baseline.txt
+    effects:
+      writes: []
+      network: false
+
+agent:
+  default_task: verify
+  safe_tasks:
+    - verify
+  verify_after_changes:
+    - verify
+  writable_paths: []
+  protected_paths:
+    - ota.yaml
+    - .ota/org-policy.yaml
+    - fixtures/baseline.txt

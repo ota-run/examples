@@ -122,6 +122,7 @@ underlying contract shape; this page is a map, not a second contract reference.
 | Problem | Example | Use it when |
 | --- | --- | --- |
 | Generated artifact lineage | [`reference/task-generated-artifact-lineage`](reference/task-generated-artifact-lineage) | A generator produces named source files consumed by downstream tasks. |
+| Policy-governed replay inputs | [`reference/policy-replay-input-identity`](reference/policy-replay-input-identity) | Selected replay-sensitive closures must declare and match immutable input identities. |
 | Bundled deterministic setup | [`reference/action-ensure-bundle`](reference/action-ensure-bundle) | Setup owns several ordered deterministic actions. |
 | Clone a required sibling checkout | [`reference/action-ensure-git-checkout`](reference/action-ensure-git-checkout) | A setup lane owns clone-if-missing checkout materialization. |
 | Materialize a Git template | [`reference/action-ensure-git-template`](reference/action-ensure-git-template) | A scaffold or factory comes from a Git-backed template. |
