@@ -99,6 +99,7 @@ underlying contract shape; this page is a map, not a second contract reference.
 | Workflow-rendered dotenv artifact | [`reference/workflow-rendered-env`](reference/workflow-rendered-env) | A workflow renders an environment file and projects it into Compose startup. |
 | Live or staging verification effects | [`reference/task-effect-integration-test`](reference/task-effect-integration-test) | Verification uses real services or credentials and needs `effects.network_kind: integration_test`. |
 | Runtime seam evidence | [`reference/runtime-proof-evidence`](reference/runtime-proof-evidence) | Readiness is insufficient; distinguish reachable, exercised, and fault-controlled dependencies. |
+| Enforced OCI sandbox | [`reference/enforced-oci-sandbox`](reference/enforced-oci-sandbox) | An explicit-platform ephemeral container lane needs provider-attested read-only filesystem and bounded network-denial enforcement. |
 | Human-only OAuth or terminal prompt | [`reference/command-interaction`](reference/command-interaction) | A finite structured command requires a real native terminal and refuses for agents or CI. |
 | Workflow-scoped receipt history | [`reference/receipt-workflow-history`](reference/receipt-workflow-history) | Archive, baseline, and snapshot history must stay in the selected workflow lane. |
 | Fixed public URL override | [`reference/adoption-flow`](reference/adoption-flow) | Operators need a one-run `--host-port` without changing the internal bind. |

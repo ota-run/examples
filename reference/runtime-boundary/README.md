@@ -41,4 +41,17 @@ The shipped slice is intentionally honest:
 - filesystem posture can compile from canonical `runtime_boundary`
 - network posture can compile either as broad effect-owned `allow`/`deny`, or as targeted
   `outbound_targets[]` when the contract declares them
-- `enforcement` stays `advisory_only` until Ota ships a real sandbox compilation target
+- `codex_local` remains a compiled advisory profile; publication does not prove application
+- `oci_local` can enforce the compatible subset for an explicit-platform, ephemeral container
+  lane: a read-only repository root, existing writable carve-outs, protected-path write refusal,
+  bounded external IP-network denial, and cleanup of Ota's exact container boundary
+- `container.platform` applies to ordinary and provider-enforced container creation; the enforcing
+  target requires it rather than inferring execution architecture from the runner host
+- targeted egress, native execution, inherited service networks, managed isolated paths,
+  runtime-control sockets, and unsupported filesystem aliases refuse rather than degrading to
+  advisory behavior
+- the first provider admits finite command bodies only; requirements, services, conditional
+  checks, and typed prepare/action/Compose/launch/attach bodies refuse until an adapter can contain
+  and attest their work
+
+See [`../enforced-oci-sandbox`](../enforced-oci-sandbox) for the provider-backed execution shape.

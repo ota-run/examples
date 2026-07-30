@@ -1,0 +1,86 @@
+{
+  "agent": {
+    "posture": "readiness_strict",
+    "protected_paths": [
+      "ota.yaml",
+      ".github/workflows"
+    ],
+    "safe_tasks": [
+      "verify"
+    ],
+    "verify_after_changes": [
+      "verify"
+    ],
+    "writable_paths": [
+      "reports"
+    ]
+  },
+  "execution": {
+    "contexts": {
+      "verify": {
+        "backend": "container",
+        "container": {
+          "engines": [
+            "docker"
+          ],
+          "image": "debian:bookworm-slim",
+          "platform": "linux/amd64"
+        },
+        "lifecycle": "ephemeral"
+      }
+    },
+    "default_context": "verify",
+    "lifecycle": "ephemeral",
+    "supported": [
+      "container"
+    ]
+  },
+  "project": {
+    "description": "Provider-enforced selected-lane runtime boundary",
+    "name": "enforced-oci-sandbox"
+  },
+  "tasks": {
+    "verify": {
+      "command": {
+        "args": [
+          "-lc",
+          "printf verified > reports/result.txt"
+        ],
+        "exe": "bash"
+      },
+      "context": "verify",
+      "description": "Write only to the declared report boundary without external network access",
+      "effects": {
+        "writes": [
+          "reports"
+        ]
+      },
+      "runtime_boundary": {
+        "filesystem": {
+          "protected_paths": [
+            "ota.yaml",
+            ".github/workflows"
+          ],
+          "repo_root_mode": "read_only",
+          "writable_paths": [
+            "reports"
+          ]
+        },
+        "network": {
+          "default": "deny"
+        }
+      },
+      "safe_for_agent": true
+    }
+  },
+  "version": 1,
+  "workflows": {
+    "default": "verify",
+    "verify": {
+      "intent": "ci_validation",
+      "run": {
+        "task": "verify"
+      }
+    }
+  }
+}
