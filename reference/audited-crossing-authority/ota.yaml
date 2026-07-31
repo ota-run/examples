@@ -1,0 +1,61 @@
+#
+#                 █████
+#                ░░███
+#        ██████  ███████    ██████
+#       ███░░███░░░███░    ░░░░░███
+#      ░███ ░███  ░███      ███████
+#      ░███ ░███  ░███ ███ ███░░███
+#      ░░██████   ░░█████ ░░████████
+#       ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#    Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#    Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#    You may not use this file except in compliance with the License.
+#    Unless required by applicable law or agreed to in writing, software distributed under the
+#    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#    either express or implied. See the License for the specific language governing permissions
+#    and limitations under the License.
+#
+#    If you need additional information or have any questions, please email: os@ota.run
+#
+
+version: 1
+
+project:
+  name: audited-crossing-authority
+  description: Exact signed authority for a heavier non-agent execution closure
+
+governance:
+  crossing_authority:
+    authority_id: platform-release-authority
+
+tasks:
+  verify:
+    description: Run routine verification without crossing authority
+    command:
+      exe: sh
+      args:
+        - -c
+        - printf verified
+    safe_for_agent: true
+
+  publish:
+    description: Demonstrate a heavier lane that requires exact signed authority
+    command:
+      exe: sh
+      args:
+        - -c
+        - printf publish
+    safe_for_agent: false
+
+agent:
+  safe_tasks:
+    - verify
+  writable_paths: []
+  protected_paths:
+    - ota.yaml
+  verify_after_changes:
+    - verify

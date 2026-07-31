@@ -62,6 +62,21 @@ Use these as starting points when you want:
 Start with the smallest example that names your problem. Each example README explains the
 underlying contract shape; this page is a map, not a second contract reference.
 
+### Execution-governance capability map
+
+Use the public reference for the governing model, then copy the nearest example:
+
+| Capability | Public reference | Example or operator path |
+| --- | --- | --- |
+| Safe agent execution and refusal | [Safe Agent Execution and Refusal](https://ota.run/docs/reference/safe-agent-execution-and-refusal) | [`reference/safe-agent-execution`](reference/safe-agent-execution) |
+| Contract-to-CI governance | [Contract-to-CI Governance](https://ota.run/docs/reference/contract-to-ci-governance) | [`ci/github-actions`](ci/github-actions) |
+| Sandbox policy and runtime enforcement | [Sandbox Policy and Runtime Enforcement](https://ota.run/docs/reference/sandbox-policy-and-runtime-enforcement) | [`reference/enforced-oci-sandbox`](reference/enforced-oci-sandbox) |
+| Proof evidence and honest boundaries | [Proof Evidence and Honest Boundaries](https://ota.run/docs/reference/proof-evidence-and-honest-boundaries) | [`reference/runtime-proof-evidence`](reference/runtime-proof-evidence) and [`reference/managed-lifecycle-proof`](reference/managed-lifecycle-proof) |
+| Replay inputs and trusted baselines | [Replay Inputs and Trusted Baselines](https://ota.run/docs/reference/replay-inputs-and-trusted-baselines) | [`reference/policy-replay-input-identity`](reference/policy-replay-input-identity) and [`reference/replay-baseline-regeneration`](reference/replay-baseline-regeneration) |
+| Contract-claim assurance | [Contract-Claim Assurance](https://ota.run/docs/reference/contract-claim-assurance) | Use the runtime-proof and receipt-history examples together; assurance is derived from selected contract and evidence truth, not a second author-authored verdict. |
+| Audited execution boundary crossings | [Audited Execution Boundary Crossings](https://ota.run/docs/reference/audited-execution-boundary-crossings) | [`reference/audited-crossing-authority`](reference/audited-crossing-authority), an unreleased V11.7 preview that deliberately ships no usable authority material |
+| Semantic snapshots and correlation | [Semantic Snapshots and Correlation](https://ota.run/docs/reference/semantic-snapshots-and-correlation) | [`reference/receipt-workflow-history`](reference/receipt-workflow-history) |
+
 | If you need to... | Start here | Why |
 | --- | --- | --- |
 | Write a first contract | [`templates/node-service`](templates/node-service) or [`templates/python-service`](templates/python-service) | Copyable workflow-first setup, toolchain ownership, hydration, and finite tasks. |
@@ -100,6 +115,7 @@ underlying contract shape; this page is a map, not a second contract reference.
 | Live or staging verification effects | [`reference/task-effect-integration-test`](reference/task-effect-integration-test) | Verification uses real services or credentials and needs `effects.network_kind: integration_test`. |
 | Runtime seam evidence | [`reference/runtime-proof-evidence`](reference/runtime-proof-evidence) | Readiness is insufficient; distinguish reachable, exercised, and fault-controlled dependencies. |
 | Enforced OCI sandbox | [`reference/enforced-oci-sandbox`](reference/enforced-oci-sandbox) | An explicit-platform ephemeral container lane needs provider-attested read-only filesystem and bounded network-denial enforcement. |
+| Audited crossing authority | [`reference/audited-crossing-authority`](reference/audited-crossing-authority) | A heavier non-agent lane requires an exact signed grant from an independently managed system authority. |
 | Human-only OAuth or terminal prompt | [`reference/command-interaction`](reference/command-interaction) | A finite structured command requires a real native terminal and refuses for agents or CI. |
 | Workflow-scoped receipt history | [`reference/receipt-workflow-history`](reference/receipt-workflow-history) | Archive, baseline, and snapshot history must stay in the selected workflow lane. |
 | Fixed public URL override | [`reference/adoption-flow`](reference/adoption-flow) | Operators need a one-run `--host-port` without changing the internal bind. |
