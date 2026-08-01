@@ -68,3 +68,15 @@ This example intentionally does not ship usable authority material. A repository
 bundle would be self-issued authority and would defeat the boundary. The signed-file carrier is
 bounded offline authority with a bounded local transaction carrier; broker-backed, independently
 authenticated one-use work-unit grants remain a later V11.7 surface.
+
+## Operator layout
+
+The repository is only the consumer. A system administrator installs the fixed trust store at
+`/etc/ota/crossing-authorities.json` on Linux; the binding then points to separately protected,
+root-owned bundle and sequence-state files, commonly under `/var/lib/ota/`. Run Ota as an
+unprivileged user and keep the signing key outside the runner.
+
+Read the [Prebound Crossing Authority Operations guide](https://github.com/ota-run/ota/blob/1.6.26-implementation/docs/spec/crossing-authority-operations.md)
+before provisioning this preview carrier. It defines the exact file roles, record shapes, and the
+important limitation: root-owned files protect only against Ota's current process, not a CI job
+with administrative escalation. Do not self-provision the authority in a GitHub-hosted workflow.
