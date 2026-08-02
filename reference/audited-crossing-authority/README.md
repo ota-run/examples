@@ -41,11 +41,15 @@ path. The first `prebound_file` carrier resolves those from a fixed root-owned s
 Expected behavior:
 
 ```sh
+ota authority inspect --json
 ota run verify
 ota run publish --dry-run
 ota run publish --grant approved-publish
 ```
 
+- `authority inspect` checks the fixed prebound-file hardening profile without selecting a grant,
+  creating a crossing transaction, or writing authority state. Its strongest claim remains
+  `current_process_filesystem_guarded`; informational unknowns are not provider attestation.
 - `verify` is routine and rejects an inapplicable grant.
 - `publish` refuses before execution when the exact grant is missing, stale, revoked, or out of
   scope.
@@ -76,7 +80,8 @@ The repository is only the consumer. A system administrator installs the fixed t
 root-owned bundle and sequence-state files, commonly under `/var/lib/ota/`. Run Ota as an
 unprivileged user and keep the signing key outside the runner.
 
-Read the [Prebound Crossing Authority Operations guide](https://github.com/ota-run/ota/blob/1.6.26-implementation/docs/spec/crossing-authority-operations.md)
-before provisioning this preview carrier. It defines the exact file roles, record shapes, and the
-important limitation: root-owned files protect only against Ota's current process, not a CI job
-with administrative escalation. Do not self-provision the authority in a GitHub-hosted workflow.
+Read [Prebound Crossing Authority (Preview)](https://ota.run/docs/reference/prebound-crossing-authority)
+before provisioning this carrier. It defines the operator flow, fixed file roles, record shapes,
+and the important limitation: root-owned files protect only against Ota's current process, not a
+CI job with administrative escalation. Do not self-provision the authority in a GitHub-hosted
+workflow.
