@@ -68,10 +68,10 @@ ota run publish --grant approved-publish
   potentially secret values to manufacture a scope identity.
 - `--grant` never bypasses `ota run --agent` safety refusal.
 
-This example intentionally does not ship usable authority material. A repository-controlled key or
-bundle would be self-issued authority and would defeat the boundary. The signed-file carrier is
-bounded offline authority with a bounded local transaction carrier; broker-backed, independently
-authenticated one-use work-unit grants remain a later V11.7 surface.
+This example intentionally does not ship usable authority material. A repository-controlled key,
+bundle, broker binding, launcher credential, or lease would be self-issued authority and would
+defeat the boundary. The same repository contract works with either protected carrier; the fixed
+system store, not `ota.yaml`, selects which carrier supplies authority.
 
 ## Operator layout
 
@@ -85,3 +85,27 @@ before provisioning this carrier. It defines the operator flow, fixed file roles
 and the important limitation: root-owned files protect only against Ota's current process, not a
 CI job with administrative escalation. Do not self-provision the authority in a GitHub-hosted
 workflow.
+
+## Broker carrier
+
+On Linux, an administrator may instead install the protected broker binding at
+`/etc/ota/crossing-brokers.json` and start Ota through a hardened launcher that supplies the fixed
+connected Unix descriptor. The repository does not change:
+
+```sh
+ota run publish --dry-run --json
+ota run publish
+```
+
+The preview reports `authority_carrier: authority_broker` and
+`decision: requires_live_authorization` without contacting the launcher. Real `run`/`up` freezes
+the exact semantic work unit, verifies challenge-bound launcher attestation and signed broker
+authorization, durably creates the pending crossing transaction, and atomically consumes one lease
+after deterministic admission succeeds and before provisioning or work. Ordinary workflow
+readiness timeout is authority-significant. Receipts carry runner-derived closure/effect/resource
+breadth using counts and hashed resource identities, not raw resource values. Optional
+`--grant platform-release-authority` only checks the non-secret authority
+label; it is not a lease ID.
+
+Read [Broker Crossing Authority (Preview)](https://ota.run/docs/reference/broker-crossing-authority)
+for the protected binding, launcher protocol, receipt evidence, and current proof/pressure limits.
