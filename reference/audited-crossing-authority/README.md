@@ -58,6 +58,10 @@ ota run publish --grant approved-publish
 - real execution creates a runner-owned crossing transaction under `.ota/state/crossings` before
   the selected lane mutates state, then binds its terminal outcome to the fresh receipt and archive;
   refusal and dry-run perform admission only and create no transaction or crossing record.
+- governed `ota proof runtime` and `ota proof lifecycle` retain one proof-owned transaction
+  across their complete invocation set and cleanup. Their archives embed and re-derive the exact
+  terminal carrier admission; nested task environments do not receive the runner-private authority
+  capability.
 - refused dry-run and admission-produced execution receipts carry typed `prebound_file` authority
   source, selected authority/grant when present, stable refusal reason, and
   `execution_started: false`; that refusal evidence is not crossing authority.
