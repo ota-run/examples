@@ -116,5 +116,15 @@ invocation first obtains fresh launcher attestation, re-queries the exact durabl
 and closes the old transaction as incomplete whether the broker reports consumed, not consumed,
 or unknown. Any new work requires fresh authorization and a new lease.
 
+Existing broker attestation v1 evidence remains bounded to
+`launcher_attested_one_use`: it proves the challenge-bound launcher protocol and atomic one-use
+consumption, not a complete runtime-separation profile. A v2 protected-launcher binding selects one
+exact protocol-published profile and requires every ordered observation, including non-root
+principal, protected authority/attestor state, credential and session isolation, host-control and
+privilege posture, plus content-addressed launcher and configuration identities. Only complete v2
+evidence emits `protected_launcher_attested_one_use`. The two branches are mutually exclusive and
+neither implies provider-attested separation. The v2 marker is explicit on the protected binding
+as `schema_version: 2`; an unversioned binding remains v1 and cannot be upgraded from nested fields.
+
 Read [Broker Crossing Authority (Preview)](https://ota.run/docs/reference/broker-crossing-authority)
 for the protected binding, launcher protocol, receipt evidence, and current proof/pressure limits.
