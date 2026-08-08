@@ -111,5 +111,10 @@ breadth using counts and hashed resource identities, not raw resource values. Op
 `--grant platform-release-authority` only checks the non-secret authority
 label; it is not a lease ID.
 
+If consumption acknowledgement is lost, Ota never starts or resumes the abandoned work. A later
+invocation first obtains fresh launcher attestation, re-queries the exact durable consume intent,
+and closes the old transaction as incomplete whether the broker reports consumed, not consumed,
+or unknown. Any new work requires fresh authorization and a new lease.
+
 Read [Broker Crossing Authority (Preview)](https://ota.run/docs/reference/broker-crossing-authority)
 for the protected binding, launcher protocol, receipt evidence, and current proof/pressure limits.
