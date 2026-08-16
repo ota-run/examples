@@ -84,7 +84,7 @@ The repository is only the consumer. A system administrator installs the fixed t
 root-owned bundle and sequence-state files, commonly under `/var/lib/ota/`. Run Ota as an
 unprivileged user and keep the signing key outside the runner.
 
-Read [Prebound Crossing Authority (Preview)](https://ota.run/docs/reference/prebound-crossing-authority)
+Read [Prebound Crossing Authority](https://ota.run/docs/reference/prebound-crossing-authority)
 before provisioning this carrier. It defines the operator flow, fixed file roles, record shapes,
 and the important limitation: root-owned files protect only against Ota's current process, not a
 CI job with administrative escalation. Do not self-provision the authority in a GitHub-hosted
@@ -126,5 +126,5 @@ evidence emits `protected_launcher_attested_one_use`. The two branches are mutua
 neither implies provider-attested separation. The v2 marker is explicit on the protected binding
 as `schema_version: 2`; an unversioned binding remains v1 and cannot be upgraded from nested fields.
 
-Read [Broker Crossing Authority (Preview)](https://ota.run/docs/reference/broker-crossing-authority)
+Read [Broker Crossing Authority](https://ota.run/docs/reference/broker-crossing-authority)
 for the protected binding, launcher protocol, receipt evidence, and current proof/pressure limits.
