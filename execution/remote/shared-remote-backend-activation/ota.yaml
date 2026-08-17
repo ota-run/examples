@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.23"
+
 project:
   name: shared-remote-backend-activation
   description: Shared remote backend activation example with a helper task asking ota to start or reuse the remote producer truthfully

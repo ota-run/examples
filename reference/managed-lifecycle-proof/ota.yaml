@@ -4,6 +4,10 @@
 # you may not use this file except in compliance with the License.
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: managed-lifecycle-proof
   description: Bounded Compose lifecycle transition proof with runner-owned cleanup.

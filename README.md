@@ -57,6 +57,11 @@ Use these as starting points when you want:
 - `workspace/adoption-flow/` - workspace onboarding and first-week adoption pattern
 - `reference/` - canonical, production-adjacent repo examples
 
+Every example contract declares `metadata.ota.minimum_version`. That floor is the oldest Ota
+version the example is intended to run with; examples using the current v1.6.26 authority and
+execution surfaces require Ota v1.6.26 or later. Ota refuses a contract whose minimum exceeds the
+installed binary before validation, setup, or task execution.
+
 ## Choose by problem
 
 Start with the smallest example that names your problem. Each example README explains the
@@ -74,7 +79,7 @@ Use the public reference for the governing model, then copy the nearest example:
 | Proof evidence and honest boundaries | [Proof Evidence and Honest Boundaries](https://ota.run/docs/reference/proof-evidence-and-honest-boundaries) | [`reference/runtime-proof-evidence`](reference/runtime-proof-evidence) and [`reference/managed-lifecycle-proof`](reference/managed-lifecycle-proof) |
 | Replay inputs and trusted baselines | [Replay Inputs and Trusted Baselines](https://ota.run/docs/reference/replay-inputs-and-trusted-baselines) | [`reference/policy-replay-input-identity`](reference/policy-replay-input-identity) and [`reference/replay-baseline-regeneration`](reference/replay-baseline-regeneration) |
 | Contract-claim assurance | [Contract-Claim Assurance](https://ota.run/docs/reference/contract-claim-assurance) | Use the runtime-proof and receipt-history examples together; assurance is derived from selected contract and evidence truth, not a second author-authored verdict. |
-| Audited execution boundary crossings | [Audited Execution Boundary Crossings](https://ota.run/docs/reference/audited-execution-boundary-crossings) | [`reference/audited-crossing-authority`](reference/audited-crossing-authority), an unreleased V11.7 preview with an operator-owned `/etc/ota` trust-store layout; it deliberately ships no usable authority material |
+| Audited execution boundary crossings | [Audited Execution Boundary Crossings](https://ota.run/docs/reference/audited-execution-boundary-crossings) | [`reference/audited-crossing-authority`](reference/audited-crossing-authority), available with Ota v1.6.26 and later; it deliberately ships no usable authority material |
 | Semantic snapshots and correlation | [Semantic Snapshots and Correlation](https://ota.run/docs/reference/semantic-snapshots-and-correlation) | [`reference/receipt-workflow-history`](reference/receipt-workflow-history) |
 
 | If you need to... | Start here | Why |

@@ -2,6 +2,10 @@
 # Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: task-prepare-go-module-hydration
   description: Canonical first-class Go module hydration through go mod download

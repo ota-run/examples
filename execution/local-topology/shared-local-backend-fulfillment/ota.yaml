@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.23"
+
 project:
   name: shared-local-backend-fulfillment
   description: Advanced shared backend example where ota prepares the effective runtime and tool union on the run path

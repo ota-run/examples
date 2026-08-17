@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.23"
+
 project:
   name: shared-remote-backend-minimal
   description: Minimal shared remote backend example with two long-running services intentionally reusing one persistent remote boundary

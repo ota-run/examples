@@ -23,6 +23,10 @@
 #
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: runtime-boundary
   description: Reference contract showing canonical runtime sandbox ownership across execution, workflow, and task lanes

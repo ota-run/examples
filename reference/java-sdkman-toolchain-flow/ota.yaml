@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: java-sdkman-toolchain-flow
   description: Focused example for a check-only Java toolchain that keeps Maven standalone

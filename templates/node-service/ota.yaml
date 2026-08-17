@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.23"
+
 project:
   name: node-service
   description: Real Node service template with explicit prepare, setup, runtime proof, and agent boundaries

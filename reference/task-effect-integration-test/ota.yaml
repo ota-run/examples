@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: integration-test-effect
   description: Focused example for live or staging-backed verification with first-class integration_test effect truth

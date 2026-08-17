@@ -21,6 +21,10 @@
 # -->
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: task-generated-artifact-lineage
   description: Canonical generated source producer and consumer lineage

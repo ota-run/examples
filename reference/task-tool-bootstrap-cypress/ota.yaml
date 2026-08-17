@@ -20,6 +20,10 @@
 #
 #   If you need additional information or have any questions, please email: os@ota.run
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: task-tool-bootstrap-cypress
   description: Canonical Cypress browser bootstrap through first-class tool bootstrap

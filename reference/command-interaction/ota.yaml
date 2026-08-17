@@ -23,6 +23,10 @@
 # -->
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 
 project:
   name: command-interaction-reference

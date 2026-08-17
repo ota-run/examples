@@ -22,6 +22,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.23"
+
 project:
   name: shared-local-backend
   description: Advanced shared local backend example with one producer service and one co-located helper app intentionally reusing one container boundary

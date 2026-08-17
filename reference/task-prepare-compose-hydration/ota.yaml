@@ -23,6 +23,10 @@
 # -->
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: task-prepare-compose-hydration
   description: Canonical first-class Compose-wrapped package hydration

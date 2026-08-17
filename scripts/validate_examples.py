@@ -33,6 +33,9 @@ from pathlib import Path
 
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+MINIMUM_VERSION_RE = re.compile(
+    r"(?ms)^metadata:\n(?:[ \t]+[^\n]*\n)*?  ota:\n    minimum_version:\s*[\"']?(\d+\.\d+\.\d+)[\"']?\s*$"
+)
 SKIP_PREFIXES = ("http://", "https://", "mailto:", "tel:", "#", "file://")
 
 
@@ -106,6 +109,24 @@ def check_markdown_links(root: Path) -> tuple[int, list[str]]:
     return checked, errors
 
 
+def check_minimum_versions(root: Path) -> int:
+    checked = 0
+    errors: list[str] = []
+    for contract in sorted(root.rglob("ota.yaml")):
+        checked += 1
+        text = contract.read_text(encoding="utf-8")
+        if MINIMUM_VERSION_RE.search(text) is None:
+            errors.append(
+                f"{contract.relative_to(root)}: missing metadata.ota.minimum_version"
+            )
+    if errors:
+        print("Example contracts without a minimum Ota version:")
+        for error in errors:
+            print(f"- {error}")
+        raise SystemExit(1)
+    return checked
+
+
 def main() -> None:
     root = Path(sys.argv[1]).resolve()
 
@@ -145,8 +166,11 @@ def main() -> None:
             print(f"- {error}")
         raise SystemExit(1)
 
+    minimum_version_count = check_minimum_versions(root)
+
     print("Examples validation complete")
     print(f"Repo contracts: {repo_contract_count + 1} valid")
+    print(f"Minimum Ota versions: {minimum_version_count} declared")
     print(f"Workspace contracts: {workspace_contract_count} valid")
     print(f"Policy packs: {policy_pack_count} valid")
     print(f"Markdown files: {markdown_count} checked")

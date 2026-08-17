@@ -3,6 +3,10 @@
 # language governing permissions and limitations under the License.
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: task-prepare-uv-local-project
   description: Canonical editable Python package hydration through uv

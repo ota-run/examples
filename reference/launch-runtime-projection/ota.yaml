@@ -23,6 +23,10 @@
 #
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: launch-runtime-projection
   description: Reference contract showing runtime-owned bind truth projected into a supported launch adapter

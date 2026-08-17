@@ -28,6 +28,10 @@ project:
   name: audited-crossing-authority
   description: Exact signed authority for a heavier non-agent execution closure
 
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 governance:
   crossing_authority:
     authority_id: platform-release-authority

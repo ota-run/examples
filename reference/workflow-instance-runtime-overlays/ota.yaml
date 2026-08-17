@@ -2,6 +2,10 @@
 # Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: workflow-instance-runtime-overlays
   description: Canonical workflow-instance runtime overlay example for service listeners and selected-instance readiness truth

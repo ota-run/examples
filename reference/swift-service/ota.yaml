@@ -21,6 +21,10 @@
 #   If you need additional information or have any questions, please email: os@ota.run
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.23"
+
 project:
   name: swift-service-reference
   description: Advanced Swift service example with explicit setup, build, test, and agent boundaries

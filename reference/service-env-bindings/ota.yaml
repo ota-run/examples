@@ -2,6 +2,10 @@
 # Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: service-env-bindings
   description: Canonical service-derived env binding reference where a task receives database URL truth from the declared Postgres service

@@ -27,6 +27,14 @@
 Use this shape when routine verification should remain available, but a heavier non-agent lane
 must be admitted by an independently managed signed authority.
 
+## Ota version requirement
+
+This example requires Ota **v1.6.26 or later**. The requirement is declared in `ota.yaml` through
+`metadata.ota.minimum_version`, so an older Ota binary refuses the contract before validation,
+setup, or task execution. The current public example is maintained at:
+
+https://github.com/ota-run/examples/tree/main/reference/audited-crossing-authority
+
 The repository declares only the authority identity:
 
 ```yaml
@@ -37,6 +45,9 @@ governance:
 
 It must not contain the public key, signed bundle path, sequence state, or a caller-selectable trust
 path. The first `prebound_file` carrier resolves those from a fixed root-owned system trust store.
+
+The minimum-version declaration controls Ota compatibility only. It does not supply authority and
+does not replace the administrator-owned trust store, signed bundle, broker, launcher, or lease.
 
 Expected behavior:
 

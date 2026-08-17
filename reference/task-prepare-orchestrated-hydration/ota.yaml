@@ -23,6 +23,10 @@
 # -->
 
 version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.26"
+
 project:
   name: task-prepare-orchestrated-hydration
   description: Command-backed dependency hydration mediated by a declared devbox orchestrator
