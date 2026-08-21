@@ -37,6 +37,20 @@ The shortest public first-run lane is now:
 5. `ota up`
 6. `ota run <task>` or `ota proof runtime --workflow <name>`
 
+When a maintainer needs a durable review record before considering inferred changes, create the
+output directory and write a source-bound candidate without touching `ota.yaml`:
+
+```bash
+mkdir -p .ota/candidates
+ota detect --candidate-out .ota/candidates/detect.json --json .
+```
+
+The candidate is review evidence, not a contract write or agent-safety approval. Ota refuses
+output aliases and derives the artifact from one immutable source snapshot. Its current durable
+publication path requires Unix no-follow directory support and refuses on other platforms. Each
+change binds an ordered structured contract path and canonical semantic value; equivalent existing
+truth is omitted and real disagreement is reported as `conflict`.
+
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a first-week adoption flow for an existing repo
