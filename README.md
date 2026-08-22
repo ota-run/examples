@@ -47,9 +47,13 @@ ota detect --candidate-out .ota/candidates/detect.json --json .
 
 The candidate is review evidence, not a contract write or agent-safety approval. Ota refuses
 output aliases and derives the artifact from one immutable source snapshot. Its current durable
-publication path requires Unix no-follow directory support and refuses on other platforms. Each
+publication path requires Linux or macOS atomic no-replace rename plus no-follow directory support
+and refuses on other platforms. Each
 change binds an ordered structured contract path and canonical semantic value; equivalent existing
 truth is omitted and real disagreement is reported as `conflict`.
+In JSON, inspect `candidate_published` and `candidate_publication` for the review artifact;
+`written` continues to describe whether `ota.yaml` changed. If publication durability is
+uncertain, inspect the exact candidate path before retrying.
 
 After review, verify that current repository and contract truth still reproduce that artifact:
 
@@ -69,6 +73,18 @@ Ota takes a no-follow repository lock, repeats source and evidence admission, an
 creates only a previously absent `ota.yaml` from the shared evaluator's validated result. It never
 overwrites an existing contract. This writer currently requires Linux or macOS atomic no-replace
 rename support; a matching repeat is a no-op.
+
+For an existing contract that uses a registered legacy representation, publish a separate upgrade
+candidate and verify it without changing `ota.yaml`:
+
+```bash
+ota contract upgrade --candidate-out .ota/candidates/upgrade.json --json .
+ota contract apply-candidate .ota/candidates/upgrade.json --json .
+```
+
+The first registered migration converts flat `toolchains.<name>.fulfillment: run|none` values into
+structured `fulfillment.mode` values while proving unchanged contract semantics. Upgrade writes
+remain disabled until Ota has a safe owned carrier for replacing an existing contract.
 
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
