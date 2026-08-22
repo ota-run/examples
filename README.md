@@ -51,6 +51,25 @@ publication path requires Unix no-follow directory support and refuses on other 
 change binds an ordered structured contract path and canonical semantic value; equivalent existing
 truth is omitted and real disagreement is reported as `conflict`.
 
+After review, verify that current repository and contract truth still reproduce that artifact:
+
+```bash
+ota contract apply-candidate .ota/candidates/detect.json --json .
+```
+
+This is a dry-run admission check only. Use `--require-complete` when residual `unknown` or
+`unsupported` candidate entries must block the review. To apply the reviewed candidate, use the
+explicit writer:
+
+```bash
+ota contract apply-candidate .ota/candidates/detect.json --write --json .
+```
+
+Ota takes a no-follow repository lock, repeats source and evidence admission, and atomically
+creates only a previously absent `ota.yaml` from the shared evaluator's validated result. It never
+overwrites an existing contract. This writer currently requires Linux or macOS atomic no-replace
+rename support; a matching repeat is a no-op.
+
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
 - a first-week adoption flow for an existing repo
