@@ -85,6 +85,11 @@ It requires a non-detached checkout where `ota.yaml` matches `HEAD` in both inde
 commits only that path with expected-HEAD compare-and-swap, verifies the materialized worktree, and reports the branch plus prior/resulting
 commit identities. It never pushes, rebases, amends, or changes unrelated paths.
 
+Repo-level `ota detect --merge`, `--apply`, `--apply-all`, `--rewrite`, and `--yes` are removed.
+They refuse before repository access and do not provide a second mutation path. Workspace
+merge/rewrite commands remain available only for `ota.workspace.yaml`, whose mutation model is
+separate.
+
 For an existing contract that uses a registered legacy representation, publish a separate upgrade
 candidate and verify it without changing `ota.yaml`:
 
