@@ -74,6 +74,17 @@ creates only a previously absent `ota.yaml` from the shared evaluator's validate
 overwrites an existing contract. This writer currently requires Linux or macOS atomic no-replace
 rename support; a matching repeat is a no-op.
 
+For an existing tracked contract, use the explicit Git carrier after review. It currently requires
+Linux or macOS and a non-detached checkout with a clean tracked `ota.yaml`:
+
+```bash
+ota contract apply-candidate .ota/candidates/detect.json --write --carrier git --json .
+```
+
+It requires a non-detached checkout where `ota.yaml` matches `HEAD` in both index and worktree,
+commits only that path with expected-HEAD compare-and-swap, verifies the materialized worktree, and reports the branch plus prior/resulting
+commit identities. It never pushes, rebases, amends, or changes unrelated paths.
+
 For an existing contract that uses a registered legacy representation, publish a separate upgrade
 candidate and verify it without changing `ota.yaml`:
 
@@ -83,8 +94,12 @@ ota contract apply-candidate .ota/candidates/upgrade.json --json .
 ```
 
 The first registered migration converts flat `toolchains.<name>.fulfillment: run|none` values into
-structured `fulfillment.mode` values while proving unchanged contract semantics. Upgrade writes
-remain disabled until Ota has a safe owned carrier for replacing an existing contract.
+structured `fulfillment.mode` values while proving unchanged contract semantics. Apply an approved
+upgrade only through the explicit Git carrier:
+
+```bash
+ota contract apply-candidate .ota/candidates/upgrade.json --write --carrier git --json .
+```
 
 Use these as starting points when you want:
 - a repo contract you can adapt quickly
