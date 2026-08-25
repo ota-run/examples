@@ -1,0 +1,78 @@
+#
+#                █████
+#               ░░███
+#       ██████  ███████    ██████
+#      ███░░███░░░███░    ░░░░░███
+#     ░███ ░███  ░███      ███████
+#     ░███ ░███  ░███ ███ ███░░███
+#     ░░██████   ░░█████ ░░████████
+#      ░░░░░░     ░░░░░   ░░░░░░░░
+#
+#   Copyright (C) 2026 — 2026, Ota. All Rights Reserved.
+#
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#   Licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+#   You may not use this file except in compliance with the License.
+#   Unless required by applicable law or agreed to in writing, software distributed under the
+#   License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+#   either express or implied. See the License for the specific language governing permissions
+#   and limitations under the License.
+#
+#   If you need additional information or have any questions, please email: os@ota.run
+
+version: 1
+metadata:
+  ota:
+    minimum_version: "1.6.27"
+
+project:
+  name: typed-effect-schema-mutation
+  description: Review-only V12 declaration of one bounded PostgreSQL schema mutation
+
+resource_bindings:
+  production_primary:
+    kind: database
+    provider: postgresql
+    namespace:
+      authority: dns:example.org
+      organization: example
+      tenant: platform
+      environment: production
+      account: primary
+
+effect_definitions:
+  production_schema_migration:
+    kind: database_schema_mutation
+    action: apply_migration_set
+    resource:
+      engine: postgresql
+      target_ref: production_primary
+      schema: public
+    bounds:
+      migration_set:
+        root: migrations
+        content_identity: sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      start_state: any_within_set
+
+tasks:
+  db:migrate:
+    description: Apply the reviewed production migration set
+    command:
+      exe: ./scripts/migrate
+    effects:
+      declared:
+        - production_schema_migration
+      network: true
+      network_kind: integration_test
+      external_state:
+        - postgres
+
+agent:
+  default_task: db:migrate
+  safe_tasks: []
+  verify_after_changes: []
+  writable_paths:
+    - migrations
+  protected_paths:
+    - ota.yaml
