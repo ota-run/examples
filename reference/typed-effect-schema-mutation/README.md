@@ -24,13 +24,20 @@
 
 # Typed Schema-Mutation Effect
 
-This reference shows the first V12 typed-effect authoring shape, available from Ota v1.6.27. It
-separates the real resource namespace, reusable consequence definition, and exact task attachment.
+This reference shows the first V12 typed schema-mutation adapter, available from Ota v1.6.27. It
+separates the real resource namespace, reusable consequence definition, exact task attachment, and
+the typed `action.kind: database_schema_mutation` body.
 
-The declaration is review truth, not execution authority. Ota validates this shape and assigns its
-canonical identities, but this foundation does not verify the migration bytes, contact PostgreSQL,
-evaluate effect policy, or establish positive refusal assurance. The task therefore remains
-outside `agent.safe_tasks`.
+The adapter captures the declared `migrations/` tree with bounded entry and byte limits on Unix
+through retained no-follow handles; non-Unix execution refuses. It verifies
+the ordered manifest against `migration_set.content_identity` and derives one exact
+selected-task-bound application plan. Dry-run publishes the non-secret plan. Selected execution
+re-observes source truth and verifies the exact retained bytes at its typed executor boundary, then
+refuses before task conditions, required services, dependencies, PostgreSQL, or another provider is
+started. Mode and OS-variant overlays may refine non-execution inputs, but cannot replace this typed
+action with another executable body. This is local plan-to-executor continuity, not a
+successful migration, effect-policy decision, agent-safe classification, receipt, archive, or
+positive assurance claim. The task therefore remains outside `agent.safe_tasks`.
 
 Replace the example namespace and expected migration-set identity with non-secret canonical truth
 owned by your repository and operator. Never place credentials or secret-derived identifiers in a

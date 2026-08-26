@@ -28,7 +28,7 @@ metadata:
 
 project:
   name: typed-effect-schema-mutation
-  description: Review-only V12 declaration of one bounded PostgreSQL schema mutation
+  description: Execution-disabled V12 typed PostgreSQL schema-mutation plan reference
 
 resource_bindings:
   production_primary:
@@ -52,14 +52,15 @@ effect_definitions:
     bounds:
       migration_set:
         root: migrations
-        content_identity: sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+        content_identity: sha256:f6f991588b53ed1a90f5dd87eba5538929bb66465486397dd462b8152d1971d9
       start_state: any_within_set
 
 tasks:
   db:migrate:
-    description: Apply the reviewed production migration set
-    command:
-      exe: ./scripts/migrate
+    description: Derive the exact reviewed production migration plan without provider execution
+    action:
+      kind: database_schema_mutation
+      effect: production_schema_migration
     effects:
       declared:
         - production_schema_migration
