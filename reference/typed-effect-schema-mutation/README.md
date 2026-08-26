@@ -28,16 +28,22 @@ This reference shows the first V12 typed schema-mutation adapter, available from
 separates the real resource namespace, reusable consequence definition, exact task attachment, and
 the typed `action.kind: database_schema_mutation` body.
 
-The adapter captures the declared `migrations/` tree with bounded entry and byte limits on Unix
-through retained no-follow handles; non-Unix execution refuses. It verifies
-the ordered manifest against `migration_set.content_identity` and derives one exact
-selected-task-bound application plan. Dry-run publishes the non-secret plan. Selected execution
-re-observes source truth and verifies the exact retained bytes at its typed executor boundary, then
-refuses before task conditions, required services, dependencies, PostgreSQL, or another provider is
+The adapter captures the declared `migrations/` tree with bounded entry and byte limits on Unix by
+opening every effective-cwd and migration-root component relative to a retained repository
+descriptor without following symlinks; non-Unix execution refuses. It verifies the ordered manifest
+against `migration_set.content_identity` and derives one exact selected-task-bound application plan
+that also binds the contract invocation origin and repository-relative effective working directory.
+Dry-run publishes the non-secret plan. Repo-level `ota run` and non-dry-run repo-level `ota up`
+perform one closure-wide typed preflight
+before command-scoped replay-input policy loading, agent/crossing/sandbox admission,
+workflow-environment artifact rendering, durable-log preparation, task conditions, required
+services, dependencies, PostgreSQL, or another provider is
 started. Mode and OS-variant overlays may refine non-execution inputs, but cannot replace this typed
-action with another executable body. This is local plan-to-executor continuity, not a
-successful migration, effect-policy decision, agent-safe classification, receipt, archive, or
-positive assurance claim. The task therefore remains outside `agent.safe_tasks`.
+action with another executable body. Non-dry-run `ota up` preserves its generic blocked readiness
+receipt with `execution_attempted: false`. This is local plan-to-executor continuity, not a
+successful migration, effect-policy decision, agent-safe classification, positive effect or
+execution receipt, archive, or positive assurance claim. The task therefore remains outside
+`agent.safe_tasks`.
 
 Replace the example namespace and expected migration-set identity with non-secret canonical truth
 owned by your repository and operator. Never place credentials or secret-derived identifiers in a
