@@ -47,8 +47,17 @@ execution receipt, archive, or positive assurance claim. The task therefore rema
 
 The accompanying `.ota/org-policy.yaml` demonstrates one exact typed denial. Dry-run exposes the
 content-addressed decision and repository-controlled authority posture; real `run` or `up` returns
-`OTA_EFFECT_POLICY_DENIED` before side effects. That refusal is operational enforcement, not proof
-of PostgreSQL mutation, a canary result, receipt/archive evidence, or positive assurance.
+`OTA_EFFECT_POLICY_DENIED` before side effects. The contract also declares
+`production_schema_refusal`, an exact task-lane effect-refusal canary. Exercise it without starting
+the task:
+
+```bash
+ota run --agent --expect-effect-refusal production_schema_refusal --json db:migrate
+```
+
+The canary exits `0` only when the exact eligible realization is denied by the explicit matching
+typed rule. Generic or fallback-only refusal cannot satisfy it. This is bounded negative-control
+evidence, not proof of PostgreSQL mutation, a positive receipt/archive, or positive assurance.
 
 Replace the example namespace and expected migration-set identity with non-secret canonical truth
 owned by your repository and operator. Never place credentials or secret-derived identifiers in a
