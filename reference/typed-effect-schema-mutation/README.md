@@ -41,9 +41,14 @@ services, dependencies, PostgreSQL, or another provider is
 started. Mode and OS-variant overlays may refine non-execution inputs, but cannot replace this typed
 action with another executable body. Non-dry-run `ota up` preserves its generic blocked readiness
 receipt with `execution_attempted: false`. This is local plan-to-executor continuity, not a
-successful migration, effect-policy decision, agent-safe classification, positive effect or
+successful migration, agent-safe classification, positive effect or
 execution receipt, archive, or positive assurance claim. The task therefore remains outside
 `agent.safe_tasks`.
+
+The accompanying `.ota/org-policy.yaml` demonstrates one exact typed denial. Dry-run exposes the
+content-addressed decision and repository-controlled authority posture; real `run` or `up` returns
+`OTA_EFFECT_POLICY_DENIED` before side effects. That refusal is operational enforcement, not proof
+of PostgreSQL mutation, a canary result, receipt/archive evidence, or positive assurance.
 
 Replace the example namespace and expected migration-set identity with non-secret canonical truth
 owned by your repository and operator. Never place credentials or secret-derived identifiers in a
