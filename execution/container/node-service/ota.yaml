@@ -24,16 +24,19 @@
 version: 1
 metadata:
   ota:
-    minimum_version: "1.6.23"
+    minimum_version: "1.6.28"
 
 project:
   name: node-service-container
   description: Node service template with Ota container mode for setup, dev, and test
 toolchains:
   node:
-    version: "22"
+    version: ">=22"
     package_managers:
       pnpm: "10.0.0"
+    fulfillment:
+      source: corepack
+      mode: run
 execution:
   default_context: app
   contexts:
@@ -54,8 +57,27 @@ execution:
         isolated_paths:
           - node_modules
 tasks:
+  setup:host:local:
+    description: Create a host-only local preparation marker when native execution is selected.
+    category: setup
+    execution:
+      default_mode: native
+    action:
+      kind: copy_if_missing
+      from: native-ready.example
+      to: .local/native-ready
+    safe_for_agent: true
+    internal: true
   setup:
-    context: app
+    execution:
+      default_mode: container
+      modes:
+        native:
+          context: host
+          depends_on:
+            - setup:host:local
+        container:
+          context: app
     prepare:
       kind: dependency_hydration
       medium: package_dependencies
@@ -85,7 +107,10 @@ tasks:
             HOSTNAME: 127.0.0.1
             PORT: "3000"
             METRICS_PORT: "9090"
-          run: pnpm dev
+          launch:
+            kind: command
+            exe: pnpm
+            args: [dev]
         container:
           context: app
           lifecycle: persistent
@@ -93,7 +118,10 @@ tasks:
             HOSTNAME: 0.0.0.0
             PORT: "3000"
             METRICS_PORT: "9090"
-          run: pnpm dev
+          launch:
+            kind: command
+            exe: pnpm
+            args: [dev]
           runtime:
             kind: service
             listeners:
@@ -134,7 +162,10 @@ tasks:
             HOSTNAME: 127.0.0.1
             PORT: "3000"
             METRICS_PORT: "9090"
-          run: pnpm dev
+          launch:
+            kind: command
+            exe: pnpm
+            args: [dev]
         container:
           context: app
           lifecycle: ephemeral
@@ -142,7 +173,10 @@ tasks:
             HOSTNAME: 0.0.0.0
             PORT: "3000"
             METRICS_PORT: "9090"
-          run: pnpm dev
+          launch:
+            kind: command
+            exe: pnpm
+            args: [dev]
           runtime:
             kind: service
             listeners:
@@ -179,7 +213,13 @@ tasks:
       Use `ota run clean:start` when you want an ephemeral container lifecycle.
       Ota injects `OTA_PUBLIC_URL` before the process starts and prints the same URL after startup.
   test:
-    context: app
+    execution:
+      default_mode: container
+      modes:
+        native:
+          context: host
+        container:
+          context: app
     command:
       exe: pnpm
       args:
@@ -191,17 +231,26 @@ tasks:
         - node
     notes: |
       Example: `ota run test` before merging from the container context.
+  verify:
+    description: Run the complete verification closure in one selected execution mode.
+    aggregate:
+      tasks:
+        - test
+    safe_for_agent: true
 agent:
   entrypoint: setup
-  default_task: test
+  default_task: verify
   safe_tasks:
+    - setup:host:local
     - setup
     - start
     - clean:start
     - test
+    - verify
   verify_after_changes:
-    - test
+    - verify
   writable_paths:
+    - .local
     - node_modules
     - src
     - tests
@@ -213,7 +262,7 @@ agent:
       note: Only install ota if it is missing and installation is approved.
       source:
         kind: version
-        version: v1.6.23
+        version: v1.6.28
   notes: |
     Use Ota first for setup, validation, and task execution.
     Treat Ota as the default workflow when the repo runs inside a container.
