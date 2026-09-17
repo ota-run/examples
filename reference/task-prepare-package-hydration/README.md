@@ -33,7 +33,9 @@ This example shows the shipped node package-manager `tasks.<name>.prepare` slice
 - `source.kind: node_package_manager`
 - `source.manager: yarn`
 - `source.mode: install`
-- `source.frozen_lockfile: true` for strict `yarn install --immutable`
+- `source.frozen_lockfile: true` for strict modern Yarn `yarn install --immutable`; starting with
+  the Ota 1.6.28 implementation, a Yarn 1 contract can also declare
+  `source.yarn_release: classic` for `yarn install --frozen-lockfile`
 - explicit `requirements.toolchains: [node]`
 - explicit `effects.writes`
 - explicit `effects.network_kind: dependency_hydration`
