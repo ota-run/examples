@@ -38,6 +38,7 @@ Use this theme when ota should run repo tasks through a backend boundary instead
 - how to keep container execution explicit
 - how to keep remote execution explicit
 - how to preserve one repo contract across multiple execution locations
+- how mode-specific dependencies keep host-only preparation out of container execution
 
 ## Folders
 
@@ -55,7 +56,7 @@ Use this theme when ota should run repo tasks through a backend boundary instead
 5. `local-topology/shared-local-backend-fulfillment/README.md`
 6. `local-topology/shared-local-backend-environment/README.md`
 7. `container/template/README.md`
-8. `container/node-service/README.md`
+8. `container/node-service/README.md` for mode-specific dependency and selected-graph behavior
 9. `remote/README.md`
 10. `remote/template/README.md`
 11. `remote/ssh-node-service/README.md`

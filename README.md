@@ -127,9 +127,9 @@ Use these as starting points when you want:
 - `reference/` - canonical, production-adjacent repo examples
 
 Every example contract declares `metadata.ota.minimum_version`. That floor is the oldest Ota
-version the example is intended to run with; examples using the current v1.6.26 authority and
-execution surfaces require Ota v1.6.26 or later. Ota refuses a contract whose minimum exceeds the
-installed binary before validation, setup, or task execution.
+version the example is intended to run with, so use each contract's declared floor rather than
+assuming one repository-wide version. Ota refuses a contract whose minimum exceeds the installed
+binary before validation, setup, or task execution.
 
 ## Choose by problem
 
@@ -158,6 +158,7 @@ Use the public reference for the governing model, then copy the nearest example:
 | Adopt Ota in an existing repo | [`reference/adoption-flow`](reference/adoption-flow) | Flagship Java/Maven adoption with services, task prerequisites, docs, and release companions. |
 | Model a production-shaped team repo | [`reference/canonical-team-repo`](reference/canonical-team-repo) | Env policy, reusable surfaces, probe-backed readiness, and release-only requirements. |
 | Add CI, container, or remote execution | [`ci`](ci) or [`execution`](execution) | Provider patterns and execution-boundary examples. |
+| Keep host-only setup out of container CI | [`execution/container/node-service`](execution/container/node-service) | Uses `execution.modes.native.depends_on` so aggregate verification follows only the selected backend graph. |
 | Bootstrap several repositories together | [`workspace/adoption-flow`](workspace/adoption-flow) | First-week workspace adoption and multi-repo readiness. |
 
 ### Setup, toolchains, and hydration

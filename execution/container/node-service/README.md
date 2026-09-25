@@ -31,8 +31,10 @@ A copyable starting point for a Node service that runs in a container context, k
 - keeps local and CI runtime behavior aligned
 - makes the execution boundary obvious
 - gives `ota doctor` and `ota run` a stable path
-- keeps `run: pnpm dev` simple while ota owns host URL resolution
+- keeps the structured `pnpm dev` launch explicit while ota owns host URL resolution
 - keeps one canonical task intent (`start`) while still supporting `--mode native` and mode-specific lifecycle
+- keeps native-only local preparation out of the container verification graph through
+  `execution.modes.native.depends_on`
 - helps a team standardize Node setup without turning the README into a shell-script graveyard
 
 ## Use when
@@ -54,6 +56,8 @@ ota run setup
 ota run start
 # open the URL ota prints (same value as OTA_PUBLIC_URL)
 ota run start --mode native
+ota run verify --agent
+ota run verify --mode native --agent
 ```
 
 ## Projection contract
@@ -70,6 +74,14 @@ ota run start --mode native
 
 Ota binds the repo source into the container as usual, but overlays `node_modules` with an engine-managed named volume under the execution context so platform-specific binaries stay compatible with the container image.
 
+`tasks.setup`, `tasks.test`, and the aggregate `tasks.verify` show the selected dependency
+boundary. Container verification selects `setup -> test -> verify`; native verification selects
+`setup:host:local -> setup -> test -> verify`. The native-only local preparation does not make
+the container aggregate unavailable and does not enter its selected graph identity. In a real
+repository that prerequisite may materialize `.env.local`, a host tool shim, or another
+host-specific input; the dependency belongs only on the mode that consumes it, and container
+execution does not read or report an optional env source owned only by that native branch.
+
 ## Included app
 
 This folder includes a minimal runnable app:
@@ -77,7 +89,9 @@ This folder includes a minimal runnable app:
 - `package.json` with `dev` and `test` scripts
 - `src/server.mjs` that serves `http` and `metrics`, and prints `OTA_PUBLIC_URL` plus `OTA_PUBLIC_URL_METRICS`
 
-Run `ota run test` if you want to verify the example task chain without starting the long-running dev server.
+Run `ota run verify --agent` if you want to exercise the complete container task chain without
+starting the long-running dev server. Use `ota run verify --mode native --agent` to exercise the
+host-specific preparation path.
 Run `ota run clean:start` if you want the same app intent with container `lifecycle: ephemeral`.
 
 ## Reset Ota-managed state
